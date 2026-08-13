@@ -1,0 +1,15 @@
+# Xcode
+xcuserdata/
+DerivedData/
+*.xcuserstate
+
+# Secrets — never commit API keys
+Config/Local.xcconfig
+*.local.xcconfig
+
+# macOS
+.DS_Store
+
+# Swift Package Manager (if ever used)
+.build/
+.swiftpm/
