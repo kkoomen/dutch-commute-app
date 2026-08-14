@@ -118,16 +118,15 @@ struct SetupView: View {
                 }
             }
 
-        }
-        .safeAreaInset(edge: .bottom) {
-            Button(prefill == nil ? String(localized: "Add journey") : String(localized: "Save changes")) {
-                save()
+            Section {
+                Button(prefill == nil ? String(localized: "Add journey") : String(localized: "Save changes")) {
+                    save()
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                .disabled(!routeSet || days.isEmpty || departMinutes == nil || returnMinutes == nil)
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 12, leading: 0, bottom: 12, trailing: 0))
             }
-            .buttonStyle(PrimaryButtonStyle())
-            .disabled(!routeSet || days.isEmpty || departMinutes == nil || returnMinutes == nil)
-            .padding(.horizontal)
-            .padding(.bottom, 8)
-            .background(Palette.background)
         }
         .navigationTitle(prefill == nil ? String(localized: "New journey") : String(localized: "Edit journey"))
         .scrollContentBackground(.hidden)
