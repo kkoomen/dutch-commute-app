@@ -52,7 +52,7 @@ struct JourneyListView: View {
                         }
                     }
                     } header: {
-                        Text("Swipe right on a journey to make it active, swipe left to delete it, or tap a journey for its live status. The active journey will be visible on the home screen widget.")
+                        Text("Swipe right on a journey to make it active, swipe left to delete it, or tap a journey for its live status. The active journey will be visible on the lock screen widget.")
                             .font(.caption)
                             .foregroundStyle(Palette.textSecondary)
                             .padding(.bottom, 2)
