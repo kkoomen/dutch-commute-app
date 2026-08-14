@@ -79,11 +79,11 @@
 "+%lld min" = "+%lld min";
 "Cancelled" = "Cancelled";
 "Unknown" = "Unknown";
-"Train" = "Train";
-"Bus" = "Bus";
-"Metro" = "Metro";
-"Tram" = "Tram";
-"Ferry" = "Ferry";
+"Train station" = "Train station";
+"Bus station" = "Bus station";
+"Metro station" = "Metro station";
+"Tram station" = "Tram station";
+"Ferry station" = "Ferry station";
 "Mon" = "Mon";
 "Tue" = "Tue";
 "Wed" = "Wed";

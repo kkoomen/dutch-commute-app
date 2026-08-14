@@ -4,14 +4,14 @@ import Foundation
 enum TransportMode: Equatable {
     case train, bus, metro, tram, ferry
 
-    /// Display name, e.g. "Train".
+    /// Display name, e.g. "Train station".
     var label: String {
         switch self {
-        case .train: String(localized: "Train")
-        case .bus: String(localized: "Bus")
-        case .metro: String(localized: "Metro")
-        case .tram: String(localized: "Tram")
-        case .ferry: String(localized: "Ferry")
+        case .train: String(localized: "Train station")
+        case .bus: String(localized: "Bus station")
+        case .metro: String(localized: "Metro station")
+        case .tram: String(localized: "Tram station")
+        case .ferry: String(localized: "Ferry station")
         }
     }
 
