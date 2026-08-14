@@ -145,13 +145,6 @@ struct SetupView: View {
         .sheet(isPresented: $showTravelOptions) {
             TravelOptionsSheet(transportModes: $transportModes, via: $via)
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Cancel") {
-                    dismiss()
-                }
-            }
-        }
     }
 
     /// The via station only counts when it differs from both endpoints.
