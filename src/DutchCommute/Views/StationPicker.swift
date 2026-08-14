@@ -22,7 +22,7 @@ struct RouteStationRow: View {
                         .frame(width: 2)
                         .frame(maxHeight: .infinity)
                         .padding(.top, -4)
-                        .padding(.bottom, -9)
+                        .padding(.bottom, -18)
                 }
             }
             Button {
