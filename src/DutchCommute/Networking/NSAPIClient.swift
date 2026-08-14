@@ -11,17 +11,17 @@ enum NSAPIError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingAPIKey:
-            return "NS_API_KEY is not configured. Add it to src/.env and rebuild."
+            return String(localized: "NS_API_KEY is not configured. Add it to src/.env and rebuild.")
         case .invalidURL:
-            return "Invalid request URL."
+            return String(localized: "Invalid request URL.")
         case .httpStatus(let code):
-            return "NS API returned HTTP \(code)."
+            return String(localized: "NS API returned HTTP \(code).")
         case .decoding:
-            return "Couldn't parse the NS API response."
+            return String(localized: "Couldn't parse the NS API response.")
         case .noTrips:
-            return "No trains found for this journey."
+            return String(localized: "No trains found for this journey.")
         case .network:
-            return "Network request failed."
+            return String(localized: "Network request failed.")
         }
     }
 }

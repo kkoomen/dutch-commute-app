@@ -94,7 +94,7 @@ struct JourneyWidgetEntryView: View {
                 .font(.caption)
                 StatusLine(status: leg.status)
             } else if entry.config == nil {
-                Text("Set up your journey in the Travel Screen app")
+                Text("Set up your journey in the Dutch Commute app")
                     .font(.caption)
             } else {
                 Text("No train right now")
@@ -117,7 +117,7 @@ struct JourneyWidgetEntryView: View {
                     .foregroundStyle(.secondary)
                 StatusLine(status: leg.status, font: .subheadline.weight(.semibold))
             } else if entry.config == nil {
-                Text("Set up your journey in the Travel Screen app")
+                Text("Set up your journey in the Dutch Commute app")
                     .font(.caption)
             } else {
                 Text("No train right now")
@@ -149,7 +149,7 @@ struct JourneyWidgetEntryView: View {
         if let leg = entry.leg {
             Text("🚆 \(destinationName) · \(legKindLabel) \(NSDateParser.timeString(leg.displayedDeparture)) · \(leg.status.label)")
         } else {
-            Text("🚆 Travel Screen")
+            Text("🚆 Dutch Commute")
         }
     }
 
@@ -159,7 +159,7 @@ struct JourneyWidgetEntryView: View {
     }
 
     private var legKindLabel: String {
-        entry.legKind == .outbound ? "Outbound" : "Return"
+        entry.legKind == .outbound ? String(localized: "Outbound") : String(localized: "Return")
     }
 }
 

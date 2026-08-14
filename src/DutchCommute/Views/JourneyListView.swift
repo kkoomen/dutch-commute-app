@@ -94,7 +94,7 @@ private struct JourneyCard: View {
     /// "Mon–Fri" for a contiguous run, otherwise "Mon, Wed, Fri".
     private static func daysLabel(_ days: Set<Weekday>) -> String {
         let ordered = Weekday.allCases.filter { days.contains($0) }
-        guard !ordered.isEmpty else { return "No days" }
+        guard !ordered.isEmpty else { return String(localized: "No days") }
         let isContiguous = ordered.count == ordered.last!.rawValue - ordered.first!.rawValue + 1
         if isContiguous {
             return "\(ordered.first!.shortName)–\(ordered.last!.shortName)"
@@ -102,10 +102,11 @@ private struct JourneyCard: View {
         return ordered.map(\.shortName).joined(separator: ", ")
     }
 
-    /// Absolute creation time, e.g. "14 Aug 2026, 02:30" (Europe/Amsterdam).
+    /// Absolute creation time, e.g. "14 Aug 2026, 02:30" (Europe/Amsterdam);
+    /// month names follow the device language.
     private static func createdString(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.timeZone = JourneySchedule.calendar.timeZone
         formatter.dateFormat = "d MMM yyyy, HH:mm"
         return formatter.string(from: date)

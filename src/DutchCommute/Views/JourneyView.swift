@@ -148,9 +148,9 @@ private struct LockScreenHelpView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
-                step("1", "Press and hold the Lock Screen, then tap Customize.")
-                step("2", "Tap Add Widget and search for \"Travel Screen\".")
-                step("3", "Add the \"My journey\" widget — it shows your next train and its live status.")
+                step("1", String(localized: "Press and hold the Lock Screen, then tap Customize."))
+                step("2", String(localized: "Tap Add Widget and search for \"Dutch Commute\"."))
+                step("3", String(localized: "Add the \"My journey\" widget — it shows your next train and its live status."))
                 Spacer()
             }
             .padding()

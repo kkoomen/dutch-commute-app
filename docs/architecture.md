@@ -19,6 +19,11 @@ The app and widget share the App Group `group.com.dutchcommute.app`
 Widget-only: `DutchCommuteWidgetBundle`, `JourneyWidget` (TimelineProvider +
 views). App-only: app state, views, tests.
 
+`Localizable.strings` (in `DutchCommute/en.lproj/`) is bundled into **both**
+targets, since each is a separate process with its own `Bundle.main`.
+UI copy is localized there; API data (station names, train names) is always
+shown verbatim. See `docs/localization.md`.
+
 ## Layers
 
 ```

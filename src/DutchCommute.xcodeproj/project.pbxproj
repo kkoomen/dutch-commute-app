@@ -51,6 +51,8 @@
 		A100000000000000000000BC /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002B /* ConfigStore.swift */; };
 		A100000000000000000000BF /* ../.env in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000032 /* ../.env */; };
 		A100000000000000000000C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000C4 /* Assets.xcassets */; };
+		A100000000000000000000C6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000C7 /* Localizable.strings */; };
+		A100000000000000000000C8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000C7 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +118,8 @@
 		A1000000000000000000004E /* trips-multiple.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-multiple.json"; sourceTree = "<group>"; };
 		A1000000000000000000005A /* TripsSearchCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsSearchCache.swift; sourceTree = "<group>"; };
 		A100000000000000000000C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A100000000000000000000C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A100000000000000000000CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +180,7 @@
 				A10000000000000000000032 /* ../.env */,
 				A10000000000000000000049 /* DutchCommute.entitlements */,
 				A100000000000000000000C4 /* Assets.xcassets */,
+				A100000000000000000000C7 /* Localizable.strings */,
 			);
 			path = DutchCommute;
 			sourceTree = "<group>";
@@ -367,6 +372,7 @@
 			knownRegions = (
 				en,
 				Base,
+				nl,
 			);
 			mainGroup = A10000000000000000000002;
 			productRefGroup = A10000000000000000000003 /* Products */;
@@ -387,6 +393,7 @@
 			files = (
 				A10000000000000000000099 /* ../.env in Resources */,
 				A100000000000000000000C3 /* Assets.xcassets in Resources */,
+				A100000000000000000000C6 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A100000000000000000000BF /* ../.env in Resources */,
+				A100000000000000000000C8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +486,18 @@
 			targetProxy = A10000000000000000000098 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A100000000000000000000C7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A100000000000000000000C9 /* en */,
+				A100000000000000000000CA /* nl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A100000000000000000000A0 /* Debug */ = {
@@ -634,6 +654,7 @@
 				DEVELOPMENT_TEAM = 4985P7739M;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = DutchCommuteWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dutch Commute";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -659,6 +680,7 @@
 				DEVELOPMENT_TEAM = 4985P7739M;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = DutchCommuteWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dutch Commute";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

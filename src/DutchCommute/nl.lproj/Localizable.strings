@@ -1,0 +1,88 @@
+/* Dutch Commute — Nederlands */
+
+/* App UI — SetupView */
+"NS_API_KEY not configured — add it to src/.env and rebuild." = "NS_API_KEY niet geconfigureerd — voeg het toe aan src/.env en bouw opnieuw.";
+"Route" = "Route";
+"From" = "Van";
+"Via" = "Via";
+"To" = "Naar";
+"Travel options" = "Reisopties";
+"Select a from and to station first." = "Selecteer eerst een vertrek- en aankomststation.";
+"Depart" = "Vertrek";
+"Return" = "Terug";
+"Tap to set" = "Tik om in te stellen";
+"Times" = "Tijden";
+"Days" = "Dagen";
+"Add journey" = "Reis toevoegen";
+"Save changes" = "Wijzigingen opslaan";
+"New journey" = "Nieuwe reis";
+"Edit journey" = "Reis bewerken";
+"Cancel" = "Annuleren";
+
+/* App UI — time picker sheet */
+"Preferred time" = "Gewenste tijd";
+"Finding trains…" = "Treinen zoeken…";
+"Retry" = "Opnieuw proberen";
+"Departures" = "Vertrekken";
+"No trains found at %@." = "Geen treinen gevonden om %@.";
+"Manual time" = "Handmatige tijd";
+"Set" = "Instellen";
+
+/* App UI — travel options sheet */
+"Transport" = "Vervoer";
+"At least one mode is required." = "Selecteer ten minste één vervoerswijze.";
+"Via station (optional)" = "Via-station (optioneel)";
+"Done" = "Klaar";
+"Selected" = "Geselecteerd";
+"Not selected" = "Niet geselecteerd";
+
+/* App UI — JourneyView */
+"Outbound" = "Heen";
+"No travel days configured." = "Geen reisdagen ingesteld.";
+"Showing scheduled times only when available." = "Toont geplande tijden alleen wanneer beschikbaar.";
+"Add to lock screen" = "Toevoegen aan vergrendelscherm";
+"My journey" = "Mijn reis";
+"Edit" = "Bewerken";
+"Press and hold the Lock Screen, then tap Customize." = "Houd het vergrendelscherm ingedrukt en tik op “Aanpassen”.";
+"Tap Add Widget and search for \"Dutch Commute\"." = "Tik op “Widget toevoegen” en zoek naar \"Dutch Commute\".";
+"Add the \"My journey\" widget — it shows your next train and its live status." = "Voeg de widget “Mijn reis” toe — deze toont je volgende trein en de actuele status.";
+
+/* App UI — JourneyListView */
+"No journeys yet" = "Nog geen reizen";
+"Add your first journey to see train status on the go." = "Voeg je eerste reis toe om onderweg de treinstatus te zien.";
+"My journeys" = "Mijn reizen";
+"Drag to reorder" = "Sleep om te herschikken";
+"No days" = "Geen dagen";
+"Created %@" = "Aangemaakt %@";
+
+/* Widget UI */
+"Set up your journey in the Dutch Commute app" = "Stel je reis in in de Dutch Commute app";
+"No train right now" = "Nu geen trein";
+"🚆 Dutch Commute" = "🚆 Dutch Commute";
+"Your next train and whether it's on time." = "Je volgende trein en of deze op tijd is.";
+
+/* Shared domain labels */
+"On time" = "Op tijd";
+"+%lld min" = "+%lld min";
+"Cancelled" = "Geannuleerd";
+"Unknown" = "Onbekend";
+"Train" = "Trein";
+"Bus" = "Bus";
+"Metro" = "Metro";
+"Tram" = "Tram";
+"Ferry" = "Veerboot";
+"Mon" = "Ma";
+"Tue" = "Di";
+"Wed" = "Wo";
+"Thu" = "Do";
+"Fri" = "Vr";
+"Sat" = "Za";
+"Sun" = "Zo";
+
+/* Networking errors */
+"NS_API_KEY is not configured. Add it to src/.env and rebuild." = "NS_API_KEY is niet geconfigureerd. Voeg het toe aan src/.env en bouw opnieuw.";
+"Invalid request URL." = "Ongeldige verzoek-URL.";
+"NS API returned HTTP %lld." = "NS API gaf HTTP %lld terug.";
+"Couldn't parse the NS API response." = "Kon het NS API-antwoord niet verwerken.";
+"No trains found for this journey." = "Geen treinen gevonden voor deze reis.";
+"Network request failed." = "Netwerkverzoek mislukt.";

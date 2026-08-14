@@ -7,7 +7,15 @@ enum Weekday: Int, CaseIterable, Identifiable, Codable {
     var id: Int { rawValue }
 
     var shortName: String {
-        ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][rawValue - 1]
+        switch self {
+        case .monday: String(localized: "Mon")
+        case .tuesday: String(localized: "Tue")
+        case .wednesday: String(localized: "Wed")
+        case .thursday: String(localized: "Thu")
+        case .friday: String(localized: "Fri")
+        case .saturday: String(localized: "Sat")
+        case .sunday: String(localized: "Sun")
+        }
     }
 
     /// Gregorian calendar weekday number (Sunday = 1 ... Saturday = 7).
@@ -27,7 +35,15 @@ enum TransportMode: String, CaseIterable, Identifiable, Codable {
     var id: String { rawValue }
 
     /// Display name, e.g. "Train".
-    var label: String { rawValue.capitalized }
+    var label: String {
+        switch self {
+        case .train: String(localized: "Train")
+        case .bus: String(localized: "Bus")
+        case .metro: String(localized: "Metro")
+        case .tram: String(localized: "Tram")
+        case .ferry: String(localized: "Ferry")
+        }
+    }
 
     /// SF Symbol for the mode tile.
     var icon: String {

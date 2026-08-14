@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Autocompleting station picker backed by the NS stations API.
 struct StationField: View {
-    let label: String
+    let label: LocalizedStringKey
     @Binding var station: Station?
 
     @Environment(AppState.self) private var state
@@ -11,7 +11,7 @@ struct StationField: View {
     @State private var suggestions: [Station] = []
     @State private var searchTask: Task<Void, Never>?
 
-    init(label: String, station: Binding<Station?>) {
+    init(label: LocalizedStringKey, station: Binding<Station?>) {
         self.label = label
         _station = station
         // Seed the text field from the bound station (e.g. when editing a

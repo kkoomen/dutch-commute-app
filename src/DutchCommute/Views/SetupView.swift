@@ -91,7 +91,7 @@ struct SetupView: View {
                         HStack {
                             Text("Depart")
                             Spacer()
-                            Text(departMinutes.map { Self.timeString($0) } ?? "Tap to set")
+                            Text(departMinutes.map { Self.timeString($0) } ?? String(localized: "Tap to set"))
                                 .foregroundStyle(departMinutes == nil ? .tertiary : .secondary)
                         }
                     }
@@ -101,7 +101,7 @@ struct SetupView: View {
                         HStack {
                             Text("Return")
                             Spacer()
-                            Text(returnMinutes.map { Self.timeString($0) } ?? "Tap to set")
+                            Text(returnMinutes.map { Self.timeString($0) } ?? String(localized: "Tap to set"))
                                 .foregroundStyle(returnMinutes == nil ? .tertiary : .secondary)
                         }
                     }
@@ -119,14 +119,14 @@ struct SetupView: View {
             }
 
             Section {
-                Button(prefill == nil ? "Add journey" : "Save changes") {
+                Button(prefill == nil ? String(localized: "Add journey") : String(localized: "Save changes")) {
                     save()
                 }
                 .frame(maxWidth: .infinity)
                 .disabled(!routeSet || days.isEmpty || departMinutes == nil || returnMinutes == nil)
             }
         }
-        .navigationTitle(prefill == nil ? "New journey" : "Edit journey")
+        .navigationTitle(prefill == nil ? String(localized: "New journey") : String(localized: "Edit journey"))
         .sheet(item: $timePickerTarget) { target in
             if let from, let to {
                 TimePickerSheet(
@@ -224,7 +224,7 @@ private enum TimePickerTarget: Identifiable {
 /// shows whatever comes back (~5 times). Picking one sets the journey time;
 /// the preferred time itself is never stored.
 private struct TimePickerSheet: View {
-    let title: String
+    let title: LocalizedStringKey
     let from: Station
     let to: Station
     let via: Station?
@@ -241,7 +241,7 @@ private struct TimePickerSheet: View {
     @State private var searchTask: Task<Void, Never>?
     @State private var manualDate = SetupView.date(todayAt: 8 * 60)
 
-    init(title: String, from: Station, to: Station, via: Station?, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
+    init(title: LocalizedStringKey, from: Station, to: Station, via: Station?, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
         self.title = title
         self.from = from
         self.to = to

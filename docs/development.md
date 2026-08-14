@@ -17,6 +17,7 @@ src/
   DutchCommute.xcodeproj
   DutchCommute/            app target
     App/, Views/, Models/, Networking/, Domain/, Store/
+    en.lproj/              Localizable.strings (development language)
   DutchCommuteTests/       unit tests
     Fixtures/              JSON fixtures
   .env                     git-ignored, holds NS_API_KEY (bundled as resource)
@@ -26,6 +27,11 @@ src/
 A widget extension target (`DutchCommuteWidget`) exists with the app and
 shares the App Group `group.com.dutchcommute.app` (entitlements in both
 targets). Bundle id: `com.dutchcommute.app.widget`.
+
+## Localization
+
+All UI copy is translatable; see `docs/localization.md` for how strings are
+organized and how to add a language.
 
 ## `NS_API_KEY` configuration
 

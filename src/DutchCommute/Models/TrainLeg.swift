@@ -9,10 +9,10 @@ enum TrainStatus: Equatable {
 
     var label: String {
         switch self {
-        case .onTime: "On time"
-        case .delayed(let minutes): "+\(minutes) min"
-        case .cancelled: "Cancelled"
-        case .unknown: "Unknown"
+        case .onTime: String(localized: "On time")
+        case .delayed(let minutes): String(localized: "+\(minutes) min")
+        case .cancelled: String(localized: "Cancelled")
+        case .unknown: String(localized: "Unknown")
         }
     }
 }
@@ -32,7 +32,7 @@ struct TrainLeg: Identifiable, Equatable {
     init?(dto: LegDTO) {
         guard let planned = dto.origin?.plannedDateTime.flatMap(NSDateParser.parse) else { return nil }
         let actual = dto.origin?.actualDateTime.flatMap(NSDateParser.parse)
-        name = dto.name ?? Self.productName(dto.product) ?? "Train"
+        name = dto.name ?? Self.productName(dto.product) ?? String(localized: "Train")
         direction = dto.direction ?? ""
         plannedDeparture = planned
         actualDeparture = actual

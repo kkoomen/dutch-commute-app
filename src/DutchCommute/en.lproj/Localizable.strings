@@ -1,0 +1,88 @@
+/* Dutch Commute — English (development language) */
+
+/* App UI — SetupView */
+"NS_API_KEY not configured — add it to src/.env and rebuild." = "NS_API_KEY not configured — add it to src/.env and rebuild.";
+"Route" = "Route";
+"From" = "From";
+"Via" = "Via";
+"To" = "To";
+"Travel options" = "Travel options";
+"Select a from and to station first." = "Select a from and to station first.";
+"Depart" = "Depart";
+"Return" = "Return";
+"Tap to set" = "Tap to set";
+"Times" = "Times";
+"Days" = "Days";
+"Add journey" = "Add journey";
+"Save changes" = "Save changes";
+"New journey" = "New journey";
+"Edit journey" = "Edit journey";
+"Cancel" = "Cancel";
+
+/* App UI — time picker sheet */
+"Preferred time" = "Preferred time";
+"Finding trains…" = "Finding trains…";
+"Retry" = "Retry";
+"Departures" = "Departures";
+"No trains found at %@." = "No trains found at %@.";
+"Manual time" = "Manual time";
+"Set" = "Set";
+
+/* App UI — travel options sheet */
+"Transport" = "Transport";
+"At least one mode is required." = "At least one mode is required.";
+"Via station (optional)" = "Via station (optional)";
+"Done" = "Done";
+"Selected" = "Selected";
+"Not selected" = "Not selected";
+
+/* App UI — JourneyView */
+"Outbound" = "Outbound";
+"No travel days configured." = "No travel days configured.";
+"Showing scheduled times only when available." = "Showing scheduled times only when available.";
+"Add to lock screen" = "Add to lock screen";
+"My journey" = "My journey";
+"Edit" = "Edit";
+"Press and hold the Lock Screen, then tap Customize." = "Press and hold the Lock Screen, then tap Customize.";
+"Tap Add Widget and search for \"Dutch Commute\"." = "Tap Add Widget and search for \"Dutch Commute\".";
+"Add the \"My journey\" widget — it shows your next train and its live status." = "Add the \"My journey\" widget — it shows your next train and its live status.";
+
+/* App UI — JourneyListView */
+"No journeys yet" = "No journeys yet";
+"Add your first journey to see train status on the go." = "Add your first journey to see train status on the go.";
+"My journeys" = "My journeys";
+"Drag to reorder" = "Drag to reorder";
+"No days" = "No days";
+"Created %@" = "Created %@";
+
+/* Widget UI */
+"Set up your journey in the Dutch Commute app" = "Set up your journey in the Dutch Commute app";
+"No train right now" = "No train right now";
+"🚆 Dutch Commute" = "🚆 Dutch Commute";
+"Your next train and whether it's on time." = "Your next train and whether it's on time.";
+
+/* Shared domain labels */
+"On time" = "On time";
+"+%lld min" = "+%lld min";
+"Cancelled" = "Cancelled";
+"Unknown" = "Unknown";
+"Train" = "Train";
+"Bus" = "Bus";
+"Metro" = "Metro";
+"Tram" = "Tram";
+"Ferry" = "Ferry";
+"Mon" = "Mon";
+"Tue" = "Tue";
+"Wed" = "Wed";
+"Thu" = "Thu";
+"Fri" = "Fri";
+"Sat" = "Sat";
+"Sun" = "Sun";
+
+/* Networking errors */
+"NS_API_KEY is not configured. Add it to src/.env and rebuild." = "NS_API_KEY is not configured. Add it to src/.env and rebuild.";
+"Invalid request URL." = "Invalid request URL.";
+"NS API returned HTTP %lld." = "NS API returned HTTP %lld.";
+"Couldn't parse the NS API response." = "Couldn't parse the NS API response.";
+"No trains found for this journey." = "No trains found for this journey.";
+"Network request failed." = "Network request failed.";
