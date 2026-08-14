@@ -79,19 +79,21 @@ struct JourneyWidgetEntryView: View {
         }
     }
 
-    /// Line 1: train + destination; line 2: leg + time; line 3: status.
+    /// Wide 2x1 Lock Screen widget: destination, leg, then time + status on
+    /// the last line, colored by status.
     private var rectangular: some View {
         VStack(alignment: .leading, spacing: 2) {
             if let leg = entry.leg {
-                Text("🚆 \(destinationName)")
+                Text(destinationName)
                     .font(.headline)
-                HStack(spacing: 4) {
-                    Text(legKindLabel)
-                    Text(NSDateParser.timeString(leg.displayedDeparture))
-                        .font(.body.monospacedDigit())
-                }
-                .font(.caption)
-                StatusLine(status: leg.status)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                Text(legKindLabel)
+                    .font(.caption)
+                Text("\(NSDateParser.timeString(leg.displayedDeparture)) · \(leg.status.label)")
+                    .font(.caption)
+                    .monospacedDigit()
+                    .foregroundStyle(statusColor(leg.status))
             } else if entry.config == nil {
                 Text("Set up your journey in the Dutch Commute app")
                     .font(.caption)
@@ -132,24 +134,26 @@ struct JourneyWidgetEntryView: View {
         .containerBackground(Palette.background, for: .widget)
     }
 
-    /// Square 1x1 Lock Screen widget: destination on top, time + status on
-    /// the last line, colored by status.
+    /// Square 1x1 Lock Screen widget: leg, time, status.
     private var circular: some View {
         VStack(spacing: 2) {
-            Text(destinationName)
+            Text(legKindLabel)
                 .font(.caption2)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
             if let leg = entry.leg {
-                Text("\(NSDateParser.timeString(leg.displayedDeparture)) · \(leg.status.label)")
+                Text(NSDateParser.timeString(leg.displayedDeparture))
+                    .font(.caption2)
+                    .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                Text(leg.status.label)
                     .font(.caption2)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                    .foregroundStyle(statusColor(leg.status))
             } else {
                 Text("—")
                     .font(.caption2)
-                    .foregroundStyle(Palette.textSecondary)
             }
         }
         .containerBackground(.fill.tertiary, for: .widget)
@@ -178,7 +182,8 @@ struct JourneyWidgetEntryView: View {
     }
 
     private var legKindLabel: String {
-        entry.legKind == .outbound ? String(localized: "Outbound") : String(localized: "Return")
+        guard let legKind = entry.legKind else { return "—" }
+        return legKind == .outbound ? String(localized: "Outbound") : String(localized: "Return")
     }
 }
 
