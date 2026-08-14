@@ -46,14 +46,14 @@
 
 ## How to run
 
-From Xcode: `Cmd+U` (Test) on the `TravelScreen` scheme.
+From Xcode: `Cmd+U` (Test) on the `DutchCommuteWidget` scheme.
 
 From the terminal (project/scheme names from the Xcode project):
 
 ```sh
 xcodebuild test \
-  -project TravelScreen.xcodeproj \
-  -scheme TravelScreen \
+  -project DutchCommuteWidget.xcodeproj \
+  -scheme DutchCommuteWidget \
   -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 

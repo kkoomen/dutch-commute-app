@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct TravelScreenApp: App {
+struct DutchCommuteWidgetApp: App {
     @State private var state = AppState()
 
     var body: some Scene {

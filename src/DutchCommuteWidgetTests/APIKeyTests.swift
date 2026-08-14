@@ -1,5 +1,5 @@
 import XCTest
-@testable import TravelScreen
+@testable import DutchCommuteWidget
 
 final class APIKeyTests: XCTestCase {
     func testParsesQuotedValue() {

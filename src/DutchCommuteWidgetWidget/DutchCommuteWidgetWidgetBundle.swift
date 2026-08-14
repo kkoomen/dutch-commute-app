@@ -2,7 +2,7 @@ import SwiftUI
 import WidgetKit
 
 @main
-struct TravelScreenWidgetBundle: WidgetBundle {
+struct DutchDutchCommuteWidgetWidgetBundle: WidgetBundle {
     var body: some Widget {
         JourneyWidget()
     }

@@ -14,18 +14,18 @@ All code lives under `src/`:
 
 ```
 src/
-  TravelScreen.xcodeproj
-  TravelScreen/            app target
+  DutchCommuteWidget.xcodeproj
+  DutchCommuteWidget/            app target
     App/, Views/, Models/, Networking/, Domain/, Store/
-  TravelScreenTests/       unit tests
+  DutchCommuteWidgetTests/       unit tests
     Fixtures/              JSON fixtures
   .env                     git-ignored, holds NS_API_KEY (bundled as resource)
   .env.example             committed template
 ```
 
-A widget extension target (`TravelScreenWidget`) exists with the app and
-shares the App Group `group.com.travelscreen.app` (entitlements in both
-targets). Bundle id: `com.travelscreen.app.widget`.
+A widget extension target (`DutchCommuteWidgetWidget`) exists with the app and
+shares the App Group `group.com.dutchcommutewidget.app` (entitlements in both
+targets). Bundle id: `com.dutchcommutewidget.app.widget`.
 
 ## `NS_API_KEY` configuration
 
@@ -37,7 +37,7 @@ The key lives only in the git-ignored `src/.env` — no build scripts involved:
    ```
 2. Xcode copies `src/.env` into the app bundle as a resource (file
    reference `../.env` in the app target's Copy Bundle Resources phase).
-3. At runtime, `APIKey.ns` (in `TravelScreen/Networking/APIKey.swift`) parses
+3. At runtime, `APIKey.ns` (in `DutchCommuteWidget/Networking/APIKey.swift`) parses
    `NS_API_KEY` from the bundled `.env` and hands it to `NSAPIClient`.
 
 Rebuild the app after changing the key. `.gitignore` excludes `src/.env`.
@@ -46,7 +46,7 @@ Verify with `git status` that no key ever appears in a diff.
 ## Build & run
 
 ```sh
-open src/TravelScreen.xcodeproj
+open src/DutchCommuteWidget.xcodeproj
 ```
 
 Run the app scheme from Xcode.
@@ -57,8 +57,8 @@ See `docs/testing.md`:
 
 ```sh
 xcodebuild test \
-  -project src/TravelScreen.xcodeproj \
-  -scheme TravelScreen \
+  -project src/DutchCommuteWidget.xcodeproj \
+  -scheme DutchCommuteWidget \
   -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 

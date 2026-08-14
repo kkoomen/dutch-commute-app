@@ -97,7 +97,7 @@ Notes:
   in the response but are not used for status yet — only `leg.cancelled` is.
 
 Only fields needed for display and status derivation are decoded (`TripDTO`,
-`LegDTO` in `TravelScreen/Models/NSDTOs.swift`). Unknown fields are ignored —
+`LegDTO` in `DutchCommuteWidget/Models/NSDTOs.swift`). Unknown fields are ignored —
 no full client library.
 
 Domain models: `JourneyConfig`, `TrainLeg`, `TrainStatus`.

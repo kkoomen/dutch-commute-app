@@ -324,7 +324,7 @@ private struct TimePickerSheet: View {
                 }
             }
         }
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.large])
         .task { scheduleSearch(at: preferredDate) }
     }
 

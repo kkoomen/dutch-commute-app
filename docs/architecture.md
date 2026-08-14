@@ -2,21 +2,21 @@
 
 ## Targets
 
-- **TravelScreen** — the app. Configures the journey, writes it to the shared
+- **DutchCommuteWidget** — the app. Configures the journey, writes it to the shared
   container, and triggers widget reloads.
-- **TravelScreenWidget** — the WidgetKit extension. Reads the journey
+- **DutchCommuteWidgetWidget** — the WidgetKit extension. Reads the journey
   configuration, fetches live data, and renders the Lock Screen widget
   (accessoryRectangular + accessoryInline).
-- **TravelScreenTests** — unit tests.
+- **DutchCommuteWidgetTests** — unit tests.
 
-The app and widget share the App Group `group.com.travelscreen.app`
-(entitlements: `TravelScreen/TravelScreen.entitlements`,
-`TravelScreenWidget/TravelScreenWidget.entitlements`).
+The app and widget share the App Group `group.com.dutchcommutewidget.app`
+(entitlements: `DutchCommuteWidget/DutchCommuteWidget.entitlements`,
+`DutchCommuteWidgetWidget/DutchCommuteWidgetWidget.entitlements`).
 
 **Shared sources** (compiled into both the app and the widget target):
 `Station`, `JourneyConfig`, `TrainLeg`, `NSDTOs`, `TrainStatusMapping`,
 `JourneySchedule`, `NSDateParsing`, `NSAPIClient`, `APIKey`, `ConfigStore`.
-Widget-only: `TravelScreenWidgetBundle`, `JourneyWidget` (TimelineProvider +
+Widget-only: `DutchCommuteWidgetWidgetBundle`, `JourneyWidget` (TimelineProvider +
 views). App-only: app state, views, tests.
 
 ## Layers
@@ -57,7 +57,7 @@ views). App-only: app state, views, tests.
     cancelled from planned vs. actual times and cancellation flags.
 - **Persistence**: all `JourneyConfig`s (with `id` + `createdAt`) stored via
   `ConfigStore` in the shared App Group UserDefaults
-  (`group.com.travelscreen.app`), readable by both the app and the widget.
+  (`group.com.dutchcommutewidget.app`), readable by both the app and the widget.
   The app triggers `WidgetCenter.shared.reloadAllTimelines()` on
   add/update/delete.
 - **Widget** (`JourneyWidget`): TimelineProvider reads the config from the

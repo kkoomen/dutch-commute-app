@@ -1,8 +1,8 @@
-# AGENTS.md — TravelScreen
+# AGENTS.md — Dutch Commute Widget
 
 ## Project context
 
-TravelScreen is a native iOS app (Swift / SwiftUI / WidgetKit) that answers one
+Dutch Commute Widget is a native iOS app (Swift / SwiftUI / WidgetKit) that answers one
 question at a glance from the Lock Screen: **"Does my train run, and is it
 delayed?"**
 
@@ -49,8 +49,8 @@ unofficial sources.
 
 ## Architecture
 
-- Two targets: the app (`TravelScreen`) and a widget extension
-  (`TravelScreenWidget`).
+- Two targets: the app (`DutchCommuteWidget`) and a widget extension
+  (`DutchCommuteWidgetWidget`).
 - Layers: networking (`NSAPIClient`), models (Codable DTOs + small domain
   models), app state + persistence (App Group shared container), widget
   (TimelineProvider).

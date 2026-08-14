@@ -2,7 +2,7 @@ import Foundation
 
 /// App Group shared by the app and the widget extension.
 enum AppGroup {
-    static let identifier = "group.com.travelscreen.app"
+    static let identifier = "group.com.dutchcommutewidget.app"
 }
 
 /// Persists all journeys in shared UserDefaults

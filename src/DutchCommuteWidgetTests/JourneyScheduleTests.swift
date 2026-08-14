@@ -1,5 +1,5 @@
 import XCTest
-@testable import TravelScreen
+@testable import DutchCommuteWidget
 
 final class JourneyScheduleTests: XCTestCase {
     private let calendar = JourneySchedule.calendar
