@@ -21,6 +21,31 @@ final class DecodingTests: XCTestCase {
         XCTAssertEqual(NSDateParser.timeString(minutes: 0), "00:00")
     }
 
+    /// Legacy configs without `isActive` decode as inactive.
+    func testJourneyConfigDefaultsInactive() throws {
+        let json = """
+        {"id":"11111111-1111-1111-1111-111111111111","createdAt":0,
+        "from":{"name":"Utrecht Centraal","code":"UT"},
+        "to":{"name":"Amsterdam Centraal","code":"ASD"},
+        "departMinutes":492,"returnMinutes":1080,
+        "days":[1,2,3,4,5],"transportModes":["train"]}
+        """
+        let config = try JSONDecoder().decode(JourneyConfig.self, from: Data(json.utf8))
+        XCTAssertFalse(config.isActive)
+    }
+
+    func testJourneyConfigDecodesActive() throws {
+        let json = """
+        {"id":"11111111-1111-1111-1111-111111111111","createdAt":0,
+        "from":{"name":"Utrecht Centraal","code":"UT"},
+        "to":{"name":"Amsterdam Centraal","code":"ASD"},
+        "departMinutes":492,"returnMinutes":1080,
+        "days":[1,2,3,4,5],"transportModes":["train"],"isActive":true}
+        """
+        let config = try JSONDecoder().decode(JourneyConfig.self, from: Data(json.utf8))
+        XCTAssertTrue(config.isActive)
+    }
+
     func testOnTimeFixture() throws {
         let leg = try XCTUnwrap(firstLeg(fromFixture: "trips-on-time"))
         XCTAssertEqual(leg.name, "IC 1234")

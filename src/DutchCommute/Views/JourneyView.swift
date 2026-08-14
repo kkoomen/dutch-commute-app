@@ -52,10 +52,16 @@ struct JourneyView: View {
                     }
                 }
                 Section {
+                    Toggle("Show on lockscreen", isOn: Binding(
+                        get: { state.journeys.first(where: { $0.id == config.id })?.isActive ?? false },
+                        set: { state.setJourneyActive(config.id, active: $0) }
+                    ))
                     Button {
                         showLockScreenHelp = true
                     } label: {
-                        Label("Add to lock screen", systemImage: "lock.iphone")
+                        Text("Read here how to add this widget to your lockscreen.")
+                            .font(.caption)
+                            .foregroundStyle(Palette.primary)
                     }
                 }
             }
@@ -167,7 +173,6 @@ private struct LockScreenHelpView: View {
                 Spacer()
             }
             .padding()
-            .background(Palette.surface)
             .navigationTitle("Add widget")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -176,14 +181,15 @@ private struct LockScreenHelpView: View {
                 }
             }
         }
+        .background(Palette.teal)
+        .preferredColorScheme(.light)
     }
 
     private func step(_ number: String, _ text: String) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Text(number)
                 .font(.caption.bold())
-                .frame(width: 22, height: 22)
-                .background(Palette.primary.opacity(0.15), in: Circle())
+                .frame(width: 22)
                 .foregroundStyle(Palette.textPrimary)
             Text(text)
                 .fixedSize(horizontal: false, vertical: true)

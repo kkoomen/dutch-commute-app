@@ -33,6 +33,9 @@ enum Palette {
     // Semantic status
     static let statusOnTime = adaptive(light: 0x5AA58B, dark: 0x6CB87A)
 
+    /// Brand teal, e.g. the lock screen help window background.
+    static let teal = Color(hex: 0x4CC9C0)
+
     // Launch screen (brand splash, always the teal gradient)
     static let splashDark = Color(hex: 0x083B4C)
     static let splashLight = Color(hex: 0x4CC9C0)

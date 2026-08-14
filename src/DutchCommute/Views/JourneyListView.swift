@@ -99,10 +99,23 @@ private struct JourneyCard: View {
 
             StationRouteView(stations: stationNames, leading: leadingTimes)
 
-            Text(Self.daysLabel(journey.days))
-                .font(.subheadline)
-                .foregroundStyle(Palette.textSecondary)
-                .padding(.top, 1)
+            VStack(alignment: .trailing, spacing: 4) {
+                Text(Self.daysLabel(journey.days))
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.textSecondary)
+                if journey.isActive {
+                    Spacer(minLength: 4)
+                    Text("Active")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Palette.primary)
+                }
+            }
+        }
+        .overlay {
+            if journey.isActive {
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(Palette.primary, lineWidth: 2)
+            }
         }
         .padding(.vertical, 2)
     }

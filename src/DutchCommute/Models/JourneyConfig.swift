@@ -86,6 +86,9 @@ struct JourneyConfig: Codable, Equatable, Identifiable {
     /// How the user travels; all modes selected by default, at least one
     /// required.
     var transportModes: Set<TransportMode> = Set(TransportMode.allCases)
+    /// Whether this journey is the one shown on the Lock Screen widget;
+    /// at most one journey is active.
+    var isActive: Bool = false
 
     /// Absolute time of `minutes` on the given day, in the Amsterdam calendar.
     func time(of minutes: Int, on date: Date, calendar: Calendar) -> Date {
@@ -96,7 +99,7 @@ struct JourneyConfig: Codable, Equatable, Identifiable {
 
 extension JourneyConfig {
     private enum CodingKeys: String, CodingKey {
-        case id, createdAt, from, via, to, departMinutes, returnMinutes, days, transportModes
+        case id, createdAt, from, via, to, departMinutes, returnMinutes, days, transportModes, isActive
     }
 
     /// Legacy key: configs saved when a single `transportMode` was stored.
@@ -123,5 +126,6 @@ extension JourneyConfig {
         } else {
             transportModes = Set(TransportMode.allCases)
         }
+        isActive = try c.decodeIfPresent(Bool.self, forKey: .isActive) ?? false
     }
 }

@@ -39,10 +39,11 @@
 "Outbound" = "Heenreis";
 "No travel days configured." = "Geen reisdagen ingesteld.";
 "Showing scheduled times only when available." = "Toont geplande tijden alleen wanneer beschikbaar.";
-"Add to lock screen" = "Toevoegen aan vergrendelscherm";
-"Add widget" = "Widget toevoegen";
 "My journey" = "Mijn reis";
 "Edit" = "Bewerken";
+"Show on lockscreen" = "Tonen op vergrendelscherm";
+"Read here how to add this widget to your lockscreen." = "Lees hier hoe je dit widget aan je vergrendelscherm toevoegt.";
+"Add widget" = "Widget toevoegen";
 "Press and hold the Lock Screen, then tap Customize." = "Houd het vergrendelscherm ingedrukt en tik op “Aanpassen”.";
 "Tap Add Widget and search for \"Dutch Commute\"." = "Tik op “Widget toevoegen” en zoek naar \"Dutch Commute\".";
 "Add the \"My journey\" widget — it shows your next train and its live status." = "Voeg de widget “Mijn reis” toe — deze toont je volgende trein en de actuele status.";
@@ -53,6 +54,7 @@
 "My journeys" = "Mijn reizen";
 "Drag to reorder" = "Sleep om te herschikken";
 "No days" = "Geen dagen";
+"Active" = "Actief";
 
 /* Appearance */
 "System" = "Systeem";

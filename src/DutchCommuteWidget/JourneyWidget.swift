@@ -34,10 +34,11 @@ struct JourneyTimelineProvider: TimelineProvider {
     }
 
     /// Reads the shared journeys and fetches the next upcoming leg of the
-    /// first (top-most) journey.
+    /// active journey (or the first one when none is marked active).
     private func makeEntry() async -> JourneyEntry {
         let now = Date()
-        guard let config = ConfigStore().load().first else {
+        let journeys = ConfigStore().load()
+        guard let config = journeys.first(where: \.isActive) ?? journeys.first else {
             return JourneyEntry(date: now, config: nil, journeyDate: nil, leg: nil, legKind: nil)
         }
         guard let journeyDate = JourneySchedule.nextJourneyDate(now: now, config: config) else {

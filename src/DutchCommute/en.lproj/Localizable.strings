@@ -39,10 +39,11 @@
 "Outbound" = "Outbound";
 "No travel days configured." = "No travel days configured.";
 "Showing scheduled times only when available." = "Showing scheduled times only when available.";
-"Add to lock screen" = "Add to lock screen";
-"Add widget" = "Add widget";
 "My journey" = "My journey";
 "Edit" = "Edit";
+"Show on lockscreen" = "Show on lockscreen";
+"Read here how to add this widget to your lockscreen." = "Read here how to add this widget to your lockscreen.";
+"Add widget" = "Add widget";
 "Press and hold the Lock Screen, then tap Customize." = "Press and hold the Lock Screen, then tap Customize.";
 "Tap Add Widget and search for \"Dutch Commute\"." = "Tap Add Widget and search for \"Dutch Commute\".";
 "Add the \"My journey\" widget — it shows your next train and its live status." = "Add the \"My journey\" widget — it shows your next train and its live status.";
@@ -53,6 +54,7 @@
 "My journeys" = "My journeys";
 "Drag to reorder" = "Drag to reorder";
 "No days" = "No days";
+"Active" = "Active";
 
 /* Appearance */
 "System" = "System";

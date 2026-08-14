@@ -44,9 +44,16 @@ nice-to-have, not required.
 
 ## Widget display
 
-The widget (`JourneyWidget`) shows the **next upcoming leg** of the active
-journey (outbound leg before the departure time, return leg after it) with
-this fixed three-line structure:
+The widget (`JourneyWidget`) shows the **next upcoming leg** of the **active**
+journey (outbound leg before the departure time, return leg after it). At
+most one journey is active: the journey page has a "Show on lockscreen"
+toggle, and turning one on deactivates the others. When no journey is marked
+active, the widget falls back to the first journey in the list.
+
+The active journey's card on the home screen gets a primary-colored border
+and an "Active" label below the days.
+
+Fixed three-line structure:
 
 ```
 🚆 Utrecht Centraal

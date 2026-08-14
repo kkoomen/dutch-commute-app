@@ -43,6 +43,22 @@ final class AppState {
         persistAndReloadWidgets()
     }
 
+    /// Marks one journey as active — the one shown on the Lock Screen.
+    /// Only one journey can be active, so activating one deactivates all
+    /// others; `active: false` just deactivates it.
+    func setJourneyActive(_ id: UUID, active: Bool) {
+        if active {
+            journeys = journeys.map { journey in
+                var copy = journey
+                copy.isActive = journey.id == id
+                return copy
+            }
+        } else if let index = journeys.firstIndex(where: { $0.id == id }) {
+            journeys[index].isActive = false
+        }
+        persistAndReloadWidgets()
+    }
+
     /// Persists the current order (e.g. after manual drag reordering).
     func persistOrder() {
         store.save(journeys)
