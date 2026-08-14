@@ -225,7 +225,7 @@ private struct StationRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: mode?.icon ?? "clock")
-                .font(.system(size: 30))
+                .font(.system(size: 27))
                 .foregroundStyle(Palette.textSecondary)
                 .frame(width: 40)
             VStack(alignment: .leading, spacing: 1) {
