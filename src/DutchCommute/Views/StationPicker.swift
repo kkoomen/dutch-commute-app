@@ -129,13 +129,10 @@ struct StationPickerSheet: View {
                         Button {
                             select(station)
                         } label: {
-                            HStack(spacing: 10) {
-                                Image(systemName: "clock")
-                                    .font(.caption)
-                                    .foregroundStyle(Palette.textTertiary)
-                                Text(station.name)
-                                    .foregroundStyle(Palette.textPrimary)
-                            }
+                            StationRow(
+                                name: station.name,
+                                mode: state.stationChoices.first { $0.id == station.code }?.mode
+                            )
                         }
                     }
                 }
@@ -152,7 +149,7 @@ struct StationPickerSheet: View {
                     Button {
                         select(choice)
                     } label: {
-                        StationChoiceRow(choice: choice)
+                        StationRow(name: choice.name, mode: choice.mode)
                     }
                 }
                 if suggestions.isEmpty && hasSearched {
@@ -218,26 +215,28 @@ struct StationPickerSheet: View {
 
 /// One autocomplete row: mode icon + station name, with the mode label
 /// (icon + train/bus/metro/tram) below.
-private struct StationChoiceRow: View {
-    let choice: StationChoice
+/// One picker row: big mode icon + station name, with the mode type below.
+/// History rows fall back to a clock icon (and no type line) when the
+/// stop's mode is no longer known.
+private struct StationRow: View {
+    let name: String
+    let mode: TransportMode?
 
     var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: choice.mode.icon)
-                .font(.subheadline)
+        HStack(spacing: 12) {
+            Image(systemName: mode?.icon ?? "clock")
+                .font(.system(size: 30))
                 .foregroundStyle(Palette.textSecondary)
-                .frame(width: 26)
+                .frame(width: 40)
             VStack(alignment: .leading, spacing: 1) {
-                Text(choice.name)
+                Text(name)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Palette.textPrimary)
-                HStack(spacing: 4) {
-                    Image(systemName: choice.mode.icon)
+                if let mode {
+                    Text(mode.label)
                         .font(.caption2)
-                    Text(choice.mode.label)
-                        .font(.caption2)
+                        .foregroundStyle(Palette.textSecondary)
                 }
-                .foregroundStyle(Palette.textSecondary)
             }
         }
     }
