@@ -1,0 +1,146 @@
+import SwiftUI
+import UniformTypeIdentifiers
+
+/// Home screen: all journeys, newest first, reorderable by dragging the
+/// grip on the left of each card.
+struct JourneyListView: View {
+    @Environment(AppState.self) private var state
+    @State private var draggedJourneyID: UUID?
+
+    var body: some View {
+        @Bindable var state = state
+        Group {
+            if state.journeys.isEmpty {
+                ContentUnavailableView(
+                    "No journeys yet",
+                    systemImage: "train.side.front.car",
+                    description: Text("Add your first journey to see train status on the go.")
+                )
+            } else {
+                List {
+                    ForEach(state.journeys) { journey in
+                        JourneyCard(journey: journey)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                state.path.append(.journey(journey.id))
+                            }
+                            .onDrag {
+                                draggedJourneyID = journey.id
+                                return NSItemProvider(object: journey.id.uuidString as NSString)
+                            }
+                            .onDrop(
+                                of: [UTType.text],
+                                delegate: JourneyDropDelegate(
+                                    destination: journey,
+                                    journeys: $state.journeys,
+                                    draggedID: $draggedJourneyID
+                                )
+                            )
+                    }
+                    .onDelete { offsets in
+                        state.deleteJourneys(at: offsets)
+                    }
+                }
+            }
+        }
+        .navigationTitle("My journeys")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    state.path.append(.setup(nil))
+                } label: {
+                    Image(systemName: "plus")
+                }
+                .accessibilityLabel("Add journey")
+            }
+        }
+        .onChange(of: state.journeys) { _, _ in
+            state.persistOrder()
+        }
+    }
+}
+
+/// One journey card: route, times, days, absolute creation time,
+/// and the drag grip on the left.
+private struct JourneyCard: View {
+    let journey: JourneyConfig
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "line.3.horizontal")
+                .foregroundStyle(.tertiary)
+                .accessibilityLabel("Drag to reorder")
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(journey.from.name) → \(journey.to.name)")
+                    .font(.headline)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                Text("\(Self.timeString(journey.departMinutes)) – \(Self.timeString(journey.returnMinutes)) · \(Self.daysLabel(journey.days))")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                Text("Created \(Self.createdString(journey.createdAt))")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .padding(.vertical, 2)
+    }
+
+    private static func timeString(_ minutes: Int) -> String {
+        String(format: "%02d:%02d", minutes / 60, minutes % 60)
+    }
+
+    /// "Mon–Fri" for a contiguous run, otherwise "Mon, Wed, Fri".
+    private static func daysLabel(_ days: Set<Weekday>) -> String {
+        let ordered = Weekday.allCases.filter { days.contains($0) }
+        guard !ordered.isEmpty else { return "No days" }
+        let isContiguous = ordered.count == ordered.last!.rawValue - ordered.first!.rawValue + 1
+        if isContiguous {
+            return "\(ordered.first!.shortName)–\(ordered.last!.shortName)"
+        }
+        return ordered.map(\.shortName).joined(separator: ", ")
+    }
+
+    /// Absolute creation time, e.g. "14 Aug 2026, 02:30" (Europe/Amsterdam).
+    private static func createdString(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = JourneySchedule.calendar.timeZone
+        formatter.dateFormat = "d MMM yyyy, HH:mm"
+        return formatter.string(from: date)
+    }
+}
+
+/// Moves the dragged journey to this row's position while dragging over it.
+private struct JourneyDropDelegate: DropDelegate {
+    let destination: JourneyConfig
+    @Binding var journeys: [JourneyConfig]
+    @Binding var draggedID: UUID?
+
+    func dropEntered(info: DropInfo) {
+        guard let draggedID, draggedID != destination.id,
+              let from = journeys.firstIndex(where: { $0.id == draggedID }),
+              let to = journeys.firstIndex(where: { $0.id == destination.id })
+        else { return }
+        withAnimation {
+            journeys.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
+        }
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        DropProposal(operation: .move)
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        draggedID = nil
+        return true
+    }
+}
+
+#Preview {
+    NavigationStack {
+        JourneyListView()
+            .environment(AppState())
+    }
+}

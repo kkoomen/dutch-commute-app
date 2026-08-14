@@ -25,6 +25,7 @@
 		A1000000000000000000008C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002D /* SetupView.swift */; };
 		A1000000000000000000008D /* StationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002E /* StationField.swift */; };
 		A1000000000000000000008E /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002F /* JourneyView.swift */; };
+		A1000000000000000000009C /* JourneyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004D /* JourneyListView.swift */; };
 		A10000000000000000000090 /* StatusMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000040 /* StatusMappingTests.swift */; };
 		A10000000000000000000091 /* JourneyScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000041 /* JourneyScheduleTests.swift */; };
 		A10000000000000000000092 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000042 /* DecodingTests.swift */; };
@@ -32,6 +33,9 @@
 		A10000000000000000000094 /* trips-delayed.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000044 /* trips-delayed.json */; };
 		A10000000000000000000095 /* trips-cancelled.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000045 /* trips-cancelled.json */; };
 		A10000000000000000000096 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000046 /* stations.json */; };
+		A1000000000000000000009D /* TripsSearchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000005A /* TripsSearchCache.swift */; };
+		A1000000000000000000009E /* TripsSearchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000005A /* TripsSearchCache.swift */; };
+		A10000000000000000000097 /* trips-multiple.json in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004E /* trips-multiple.json */; };
 		A10000000000000000000099 /* ../.env in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000032 /* ../.env */; };
 		A1000000000000000000009A /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000033 /* APIKey.swift */; };
 		A1000000000000000000009B /* APIKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000047 /* APIKeyTests.swift */; };
@@ -92,6 +96,7 @@
 		A1000000000000000000002D /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		A1000000000000000000002E /* StationField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationField.swift; sourceTree = "<group>"; };
 		A1000000000000000000002F /* JourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyView.swift; sourceTree = "<group>"; };
+		A1000000000000000000004D /* JourneyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyListView.swift; sourceTree = "<group>"; };
 		A10000000000000000000032 /* ../.env */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../.env; sourceTree = "<group>"; };
 		A10000000000000000000033 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		A10000000000000000000040 /* StatusMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMappingTests.swift; sourceTree = "<group>"; };
@@ -101,6 +106,8 @@
 		A10000000000000000000044 /* trips-delayed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-delayed.json"; sourceTree = "<group>"; };
 		A10000000000000000000045 /* trips-cancelled.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-cancelled.json"; sourceTree = "<group>"; };
 		A10000000000000000000046 /* stations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
+		A1000000000000000000004E /* trips-multiple.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-multiple.json"; sourceTree = "<group>"; };
+		A1000000000000000000005A /* TripsSearchCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsSearchCache.swift; sourceTree = "<group>"; };
 		A10000000000000000000047 /* APIKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyTests.swift; sourceTree = "<group>"; };
 		A10000000000000000000048 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000000000000000000049 /* TravelScreen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelScreen.entitlements; sourceTree = "<group>"; };
@@ -187,6 +194,7 @@
 				A10000000000000000000027 /* NSAPIClient.swift */,
 				A10000000000000000000028 /* NSDateParsing.swift */,
 				A10000000000000000000033 /* APIKey.swift */,
+				A1000000000000000000005A /* TripsSearchCache.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -215,6 +223,7 @@
 				A1000000000000000000002D /* SetupView.swift */,
 				A1000000000000000000002E /* StationField.swift */,
 				A1000000000000000000002F /* JourneyView.swift */,
+				A1000000000000000000004D /* JourneyListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -247,6 +256,7 @@
 				A10000000000000000000044 /* trips-delayed.json */,
 				A10000000000000000000045 /* trips-cancelled.json */,
 				A10000000000000000000046 /* stations.json */,
+				A1000000000000000000004E /* trips-multiple.json */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -384,6 +394,7 @@
 				A10000000000000000000094 /* trips-delayed.json in Resources */,
 				A10000000000000000000095 /* trips-cancelled.json in Resources */,
 				A10000000000000000000096 /* stations.json in Resources */,
+				A10000000000000000000097 /* trips-multiple.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +429,8 @@
 				A1000000000000000000008C /* SetupView.swift in Sources */,
 				A1000000000000000000008D /* StationField.swift in Sources */,
 				A1000000000000000000008E /* JourneyView.swift in Sources */,
+				A1000000000000000000009C /* JourneyListView.swift in Sources */,
+				A1000000000000000000009D /* TripsSearchCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +461,7 @@
 				A100000000000000000000BA /* NSAPIClient.swift in Sources */,
 				A100000000000000000000BB /* APIKey.swift in Sources */,
 				A100000000000000000000BC /* ConfigStore.swift in Sources */,
+				A1000000000000000000009E /* TripsSearchCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

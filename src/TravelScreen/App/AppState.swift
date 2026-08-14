@@ -2,14 +2,21 @@ import Foundation
 import Observation
 import WidgetKit
 
-/// Shared app state: journey config, station list, API client.
+/// Navigation routes pushed on the root NavigationStack.
+enum JourneyRoute: Hashable {
+    case journey(UUID)
+    case setup(UUID?) // nil = new journey
+}
+
+/// Shared app state: journeys, navigation, station list, API client.
 @Observable
 final class AppState {
     let client: NSAPIClient
     private let store: ConfigStore
 
-    var config: JourneyConfig?
-    var isEditing = false
+    /// User-ordered journeys (newest-first until manually reordered).
+    var journeys: [JourneyConfig] = []
+    var path: [JourneyRoute] = []
     var stations: [Station] = []
     private(set) var stationsLoaded = false
     var stationsErrorMessage: String?
@@ -17,22 +24,33 @@ final class AppState {
     init(client: NSAPIClient = NSAPIClient(apiKey: APIKey.ns), store: ConfigStore = ConfigStore()) {
         self.client = client
         self.store = store
-        self.config = store.load()
+        self.journeys = store.load()
     }
 
-    func save(_ config: JourneyConfig) {
-        store.save(config)
-        self.config = config
-        isEditing = false
+    func addJourney(_ journey: JourneyConfig) {
+        journeys.insert(journey, at: 0)
+        persistAndReloadWidgets()
+    }
+
+    func updateJourney(_ journey: JourneyConfig) {
+        guard let index = journeys.firstIndex(where: { $0.id == journey.id }) else { return }
+        journeys[index] = journey
+        persistAndReloadWidgets()
+    }
+
+    func deleteJourneys(at offsets: IndexSet) {
+        journeys.remove(atOffsets: offsets)
+        persistAndReloadWidgets()
+    }
+
+    /// Persists the current order (e.g. after manual drag reordering).
+    func persistOrder() {
+        store.save(journeys)
+    }
+
+    private func persistAndReloadWidgets() {
+        store.save(journeys)
         WidgetCenter.shared.reloadAllTimelines()
-    }
-
-    func startEditing() {
-        isEditing = true
-    }
-
-    func cancelEditing() {
-        isEditing = false
     }
 
     /// Loads the station list once for autocomplete.

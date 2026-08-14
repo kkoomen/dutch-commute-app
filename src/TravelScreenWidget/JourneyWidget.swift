@@ -33,10 +33,11 @@ struct JourneyTimelineProvider: TimelineProvider {
         }
     }
 
-    /// Reads the shared journey config and fetches the next upcoming leg.
+    /// Reads the shared journeys and fetches the next upcoming leg of the
+    /// first (top-most) journey.
     private func makeEntry() async -> JourneyEntry {
         let now = Date()
-        guard let config = ConfigStore().load() else {
+        guard let config = ConfigStore().load().first else {
             return JourneyEntry(date: now, config: nil, journeyDate: nil, leg: nil, legKind: nil)
         }
         guard let journeyDate = JourneySchedule.nextJourneyDate(now: now, config: config) else {
@@ -50,7 +51,7 @@ struct JourneyTimelineProvider: TimelineProvider {
 
         let leg: TrainLeg?
         do {
-            let trip = try await NSAPIClient(apiKey: APIKey.ns).fetchTrip(from: from, to: to, at: departureTime)
+            let trip = try await NSAPIClient(apiKey: APIKey.ns).fetchTrip(from: from, to: to, at: departureTime, via: config.via, transportModes: config.transportModes)
             leg = trip.firstLeg.flatMap(TrainLeg.init)
         } catch {
             leg = nil

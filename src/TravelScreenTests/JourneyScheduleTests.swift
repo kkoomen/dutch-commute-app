@@ -11,6 +11,8 @@ final class JourneyScheduleTests: XCTestCase {
 
     private func config(days: Set<Weekday> = [.monday, .tuesday, .wednesday, .thursday, .friday]) -> JourneyConfig {
         JourneyConfig(
+            id: UUID(),
+            createdAt: Date(),
             from: Station(code: "ASDZ", name: "Amsterdam Zuid"),
             to: Station(code: "UT", name: "Utrecht Centraal"),
             departMinutes: 8 * 60 + 11,

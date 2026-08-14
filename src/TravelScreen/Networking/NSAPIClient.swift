@@ -32,14 +32,20 @@ struct NSAPIClient {
     let baseURL: URL
     let session: URLSession
 
+    /// Preferred-time trip searches are cached for 2 minutes per
+    /// (from, to, preferred time) triple.
+    let cache: TripsSearchCache
+
     init(
         apiKey: String,
         baseURL: URL = URL(string: "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3")!,
-        session: URLSession = .shared
+        session: URLSession = .shared,
+        cache: TripsSearchCache = TripsSearchCache()
     ) {
         self.apiKey = apiKey
         self.baseURL = baseURL
         self.session = session
+        self.cache = cache
     }
 
     /// All Dutch train stations (for autocomplete).
@@ -53,21 +59,77 @@ struct NSAPIClient {
         return Self.nlStations(response.payload)
     }
 
-    /// The first trip departing at/after `date` on the given route.
-    func fetchTrip(from: Station, to: Station, at date: Date) async throws -> TripDTO {
+    /// The first trip departing at/after `date` on the given route
+    /// (optionally via an intermediate station, in the given modes).
+    func fetchTrip(from: Station, to: Station, at date: Date, via: Station? = nil, transportModes: Set<TransportMode> = Set(TransportMode.allCases)) async throws -> TripDTO {
+        guard let trip = try await fetchTrips(from: from, to: to, at: date, via: via, transportModes: transportModes).first else {
+            throw NSAPIError.noTrips
+        }
+        return trip
+    }
+
+    /// Trips departing at/after `date` on the given route, earliest first.
+    /// Mirrors the verified-working request shape (see docs/api.md):
+    /// station *names* (not codes), `searchForArrival=false` for departure
+    /// search, and a current/recent `dateTime` (old dates like 2000-01-01
+    /// return HTTP 400). Optional `via` and `transportModes` are sent as
+    /// `viaStation` and `disabledTransportModalities` (omitted when all
+    /// modes are selected).
+    func fetchTrips(from: Station, to: Station, at date: Date, via: Station? = nil, transportModes: Set<TransportMode> = Set(TransportMode.allCases)) async throws -> [TripDTO] {
         var components = URLComponents(url: baseURL.appendingPathComponent("trips"), resolvingAgainstBaseURL: false)!
-        components.queryItems = [
-            URLQueryItem(name: "fromStation", value: from.code),
-            URLQueryItem(name: "toStation", value: to.code),
+        var items = [
+            URLQueryItem(name: "fromStation", value: from.name),
+            URLQueryItem(name: "toStation", value: to.name),
             URLQueryItem(name: "dateTime", value: NSDateParser.queryString(date)),
-            URLQueryItem(name: "searchForArrivalDeparture", value: "departure"),
+            URLQueryItem(name: "searchForArrival", value: "false"),
             URLQueryItem(name: "lang", value: "en"),
         ]
+        if let via {
+            items.append(URLQueryItem(name: "viaStation", value: via.name))
+        }
+        let disabled = TransportMode.disabledModalityCodes(keeping: transportModes)
+        if !disabled.isEmpty {
+            items.append(URLQueryItem(name: "disabledTransportModalities", value: disabled))
+        }
+        components.queryItems = items
         guard let url = components.url else { throw NSAPIError.invalidURL }
         let data = try await get(url: url)
         let response = try decode(TripsResponse.self, from: data)
-        guard let trip = response.trips.first else { throw NSAPIError.noTrips }
-        return trip
+        return response.trips
+    }
+
+    /// Distinct departure minutes-of-day (0..<1440, Amsterdam time) of the
+    /// given trips, sorted ascending. Trips sharing the same departure minute
+    /// count once; trips without a planned departure time are skipped.
+    static func departureMinutes(of trips: [TripDTO], calendar: Calendar) -> [Int] {
+        var seen = Set<Int>()
+        var minutes: [Int] = []
+        for trip in trips {
+            guard let iso = trip.firstLeg?.origin?.plannedDateTime,
+                  let date = NSDateParser.parse(iso)
+            else { continue }
+            let minute = calendar.component(.hour, from: date) * 60 + calendar.component(.minute, from: date)
+            if seen.insert(minute).inserted {
+                minutes.append(minute)
+            }
+        }
+        return minutes.sorted()
+    }
+
+    /// Distinct departure minutes-of-day for a route at a preferred time,
+    /// cached for 2 minutes per (from, to, via, modes, minute) tuple.
+    func departureMinutes(from: Station, to: Station, via: Station? = nil, transportModes: Set<TransportMode> = Set(TransportMode.allCases), at preferred: Date) async throws -> [Int] {
+        let calendar = JourneySchedule.calendar
+        let minute = calendar.component(.hour, from: preferred) * 60 + calendar.component(.minute, from: preferred)
+        let modesKey = transportModes.map(\.rawValue).sorted().joined(separator: "+")
+        let key = "\(from.code)-\(to.code)-\(via?.code ?? "none")-\(modesKey)-\(minute)"
+        if let cached = await cache.value(for: key) {
+            return cached
+        }
+        let trips = try await fetchTrips(from: from, to: to, at: preferred, via: via, transportModes: transportModes)
+        let minutes = Self.departureMinutes(of: trips, calendar: calendar)
+        await cache.store(minutes, for: key)
+        return minutes
     }
 
     /// Maps station DTOs to domain stations, keeping only Dutch stations.

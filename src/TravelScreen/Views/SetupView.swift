@@ -1,114 +1,178 @@
 import SwiftUI
 
-/// Configures the journey: route (with autocomplete), times, and days.
+/// Configures a journey: route (with autocomplete), times, and days.
+/// Pushed with `prefill` when editing an existing journey.
 struct SetupView: View {
     @Environment(AppState.self) private var state
+    @Environment(\.dismiss) private var dismiss
 
-    /// The existing journey when editing; nil on first setup.
+    /// The existing journey when editing; nil when creating a new one.
     let prefill: JourneyConfig?
 
     @State private var from: Station?
     @State private var to: Station?
-    @State private var departDate: Date = SetupView.referenceDate.addingTimeInterval(8 * 3600)
-    @State private var returnDate: Date = SetupView.referenceDate.addingTimeInterval(18 * 3600)
+    @State private var via: Station?
+    @State private var transportModes: Set<TransportMode> = Set(TransportMode.allCases)
+    @State private var showTravelOptions = false
+    /// nil until the user picks a real departure time (rows show "Tap to set").
+    @State private var departMinutes: Int?
+    @State private var returnMinutes: Int?
     @State private var days: Set<Weekday> = [.monday, .tuesday, .wednesday, .thursday, .friday]
+    @State private var timePickerTarget: TimePickerTarget?
 
     init(prefill: JourneyConfig? = nil) {
         self.prefill = prefill
         if let prefill {
             _from = State(initialValue: prefill.from)
             _to = State(initialValue: prefill.to)
-            _departDate = State(initialValue: Self.referenceDate.addingTimeInterval(TimeInterval(prefill.departMinutes * 60)))
-            _returnDate = State(initialValue: Self.referenceDate.addingTimeInterval(TimeInterval(prefill.returnMinutes * 60)))
+            _via = State(initialValue: prefill.via)
+            _transportModes = State(initialValue: prefill.transportModes)
+            _departMinutes = State(initialValue: prefill.departMinutes)
+            _returnMinutes = State(initialValue: prefill.returnMinutes)
             _days = State(initialValue: prefill.days)
         }
     }
 
-    /// Fixed reference day for the time pickers (2000-01-01, Amsterdam).
-    private static let referenceDate = JourneySchedule.calendar.startOfDay(
-        for: Date(timeIntervalSince1970: 946_684_800) // 2000-01-01 00:00 UTC
-    )
-
     private var routeSet: Bool { from != nil && to != nil && from != to }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                if APIKey.ns.isEmpty {
-                    Section {
-                        Label(
-                            "NS_API_KEY not configured — add it to src/.env and rebuild.",
-                            systemImage: "key.slash"
-                        )
-                        .font(.caption)
-                        .foregroundStyle(.orange)
-                    }
-                }
-
-                Section("Route") {
-                    StationField(label: "From", station: $from)
-                    StationField(label: "To", station: $to)
-                    Button("Swap") {
-                        let oldFrom = from
-                        from = to
-                        to = oldFrom
-                    }
-                    .disabled(!routeSet)
-                }
-
+        Form {
+            if APIKey.ns.isEmpty {
                 Section {
-                    DatePicker(
-                        "Depart",
-                        selection: $departDate,
-                        displayedComponents: .hourAndMinute
+                    Label(
+                        "NS_API_KEY not configured — add it to src/.env and rebuild.",
+                        systemImage: "key.slash"
                     )
-                    .disabled(!routeSet)
-
-                    DatePicker(
-                        "Return",
-                        selection: $returnDate,
-                        displayedComponents: .hourAndMinute
-                    )
-                    .disabled(!routeSet)
-
-                    if !routeSet {
-                        Text("Select a from and to station first.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                } header: {
-                    Text("Times")
-                } footer: {
-                    Text("The journey is shown while the current time is at or before the return time; after that, the next configured day is shown.")
-                }
-
-                Section("Days") {
-                    HStack(spacing: 8) {
-                        ForEach(Weekday.allCases) { day in
-                            DayToggle(day: day, isOn: days.contains(day)) { toggle(day) }
-                        }
-                    }
-                }
-
-                Section {
-                    Button(prefill == nil ? "Show my journey" : "Save changes") {
-                        save()
-                    }
-                    .frame(maxWidth: .infinity)
-                    .disabled(!routeSet || days.isEmpty)
+                    .font(.caption)
+                    .foregroundStyle(.orange)
                 }
             }
-            .navigationTitle("TravelScreen")
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    if prefill != nil {
-                        Button("Cancel") {
-                            state.cancelEditing()
+
+            Section("Route") {
+                StationField(label: "From", station: $from)
+                if let via {
+                    Button {
+                        showTravelOptions = true
+                    } label: {
+                        HStack {
+                            Text("Via")
+                            Spacer()
+                            Text(via.name)
+                                .foregroundStyle(.secondary)
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
                         }
                     }
+                }
+                StationField(label: "To", station: $to)
+                Button {
+                    showTravelOptions = true
+                } label: {
+                    HStack {
+                        Text("Travel options")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+            }
+
+            Section {
+                if !routeSet {
+                    Text("Select a from and to station first.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Button {
+                        timePickerTarget = .depart
+                    } label: {
+                        HStack {
+                            Text("Depart")
+                            Spacer()
+                            Text(departMinutes.map { Self.timeString($0) } ?? "Tap to set")
+                                .foregroundStyle(departMinutes == nil ? .tertiary : .secondary)
+                        }
+                    }
+                    Button {
+                        timePickerTarget = .return
+                    } label: {
+                        HStack {
+                            Text("Return")
+                            Spacer()
+                            Text(returnMinutes.map { Self.timeString($0) } ?? "Tap to set")
+                                .foregroundStyle(returnMinutes == nil ? .tertiary : .secondary)
+                        }
+                    }
+                }
+            } header: {
+                Text("Times")
+            }
+
+            Section("Days") {
+                HStack(spacing: 8) {
+                    ForEach(Weekday.allCases) { day in
+                        DayToggle(day: day, isOn: days.contains(day)) { toggle(day) }
+                    }
+                }
+            }
+
+            Section {
+                Button(prefill == nil ? "Add journey" : "Save changes") {
+                    save()
+                }
+                .frame(maxWidth: .infinity)
+                .disabled(!routeSet || days.isEmpty || departMinutes == nil || returnMinutes == nil)
+            }
+        }
+        .navigationTitle(prefill == nil ? "New journey" : "Edit journey")
+        .sheet(item: $timePickerTarget) { target in
+            if let from, let to {
+                TimePickerSheet(
+                    title: target == .depart ? "Depart" : "Return",
+                    from: target == .depart ? from : to,
+                    to: target == .depart ? to : from,
+                    via: effectiveVia,
+                    transportModes: transportModes,
+                    client: state.client,
+                    selection: target == .depart ? $departMinutes : $returnMinutes
+                )
+            }
+        }
+        .sheet(isPresented: $showTravelOptions) {
+            TravelOptionsSheet(transportModes: $transportModes, via: $via)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button("Cancel") {
+                    dismiss()
                 }
             }
         }
+    }
+
+    /// The via station only counts when it differs from both endpoints.
+    private var effectiveVia: Station? {
+        guard let via, via != from, via != to else { return nil }
+        return via
+    }
+
+    fileprivate static func timeString(_ minutes: Int) -> String {
+        String(format: "%02d:%02d", minutes / 60, minutes % 60)
+    }
+
+    fileprivate static func minutes(of date: Date) -> Int {
+        let calendar = JourneySchedule.calendar
+        return calendar.component(.hour, from: date) * 60 + calendar.component(.minute, from: date)
+    }
+
+    /// Today (Amsterdam) at the given minute-of-day — the date used for the
+    /// single trips request.
+    fileprivate static func date(todayAt minutes: Int) -> Date {
+        let calendar = JourneySchedule.calendar
+        let start = calendar.startOfDay(for: Date())
+        return calendar.date(byAdding: .minute, value: minutes, to: start)!
     }
 
     private func toggle(_ day: Weekday) {
@@ -120,20 +184,287 @@ struct SetupView: View {
     }
 
     private func save() {
-        guard let from, let to, !days.isEmpty else { return }
-        let calendar = JourneySchedule.calendar
-        let config = JourneyConfig(
-            from: from,
-            to: to,
-            departMinutes: minutes(of: departDate, calendar: calendar),
-            returnMinutes: minutes(of: returnDate, calendar: calendar),
-            days: days
+        guard let from, let to, let departMinutes, let returnMinutes, !days.isEmpty else { return }
+        if var existing = prefill {
+            existing.from = from
+            existing.to = to
+            existing.via = effectiveVia
+            existing.transportModes = transportModes
+            existing.departMinutes = departMinutes
+            existing.returnMinutes = returnMinutes
+            existing.days = days
+            state.updateJourney(existing)
+        } else {
+            state.addJourney(JourneyConfig(
+                id: UUID(),
+                createdAt: Date(),
+                from: from,
+                via: effectiveVia,
+                to: to,
+                departMinutes: departMinutes,
+                returnMinutes: returnMinutes,
+                days: days,
+                transportModes: transportModes
+            ))
+        }
+        dismiss()
+    }
+}
+
+/// Which time is being picked in the modal.
+private enum TimePickerTarget: Identifiable {
+    case depart
+    case `return`
+
+    var id: Self { self }
+}
+
+/// Bottom sheet: a wheel sets the preferred time; every change triggers one
+/// `/v3/trips` request (today at that time, cached 2 minutes) and the sheet
+/// shows whatever comes back (~5 times). Picking one sets the journey time;
+/// the preferred time itself is never stored.
+private struct TimePickerSheet: View {
+    let title: String
+    let from: Station
+    let to: Station
+    let via: Station?
+    let transportModes: Set<TransportMode>
+    let client: NSAPIClient
+    @Binding var selection: Int?
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var preferredDate: Date
+    @State private var results: [Int] = []
+    @State private var hasSearched = false
+    @State private var isLoading = false
+    @State private var errorMessage: String?
+    @State private var searchTask: Task<Void, Never>?
+    @State private var manualDate = SetupView.date(todayAt: 8 * 60)
+
+    init(title: String, from: Station, to: Station, via: Station?, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
+        self.title = title
+        self.from = from
+        self.to = to
+        self.via = via
+        self.transportModes = transportModes
+        self.client = client
+        _selection = selection
+        // Start the wheel at the current value when editing, else 08:00.
+        _preferredDate = State(
+            initialValue: selection.wrappedValue.map { SetupView.date(todayAt: $0) }
+                ?? SetupView.date(todayAt: 8 * 60)
         )
-        state.save(config)
     }
 
-    private func minutes(of date: Date, calendar: Calendar) -> Int {
-        calendar.component(.hour, from: date) * 60 + calendar.component(.minute, from: date)
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("Preferred time") {
+                    DatePicker(
+                        "Preferred time",
+                        selection: $preferredDate,
+                        displayedComponents: .hourAndMinute
+                    )
+                    .datePickerStyle(.wheel)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity)
+                    .onChange(of: preferredDate) { _, newValue in
+                        scheduleSearch(at: newValue)
+                    }
+                }
+
+                if isLoading {
+                    HStack(spacing: 8) {
+                        ProgressView()
+                        Text("Finding trains…")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } else if let errorMessage {
+                    Section {
+                        Label(errorMessage, systemImage: "exclamationmark.triangle")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                        Button("Retry") { scheduleSearch(at: preferredDate) }
+                    }
+                    manualFallback
+                } else if !results.isEmpty {
+                    Section("Departures") {
+                        ForEach(results, id: \.self) { minute in
+                            Button {
+                                selection = minute
+                                dismiss()
+                            } label: {
+                                HStack {
+                                    Text(SetupView.timeString(minute))
+                                    Spacer()
+                                    if minute == selection {
+                                        Image(systemName: "checkmark")
+                                            .foregroundStyle(.tint)
+                                    }
+                                }
+                                .contentShape(Rectangle())
+                            }
+                        }
+                    }
+                } else if hasSearched {
+                    Section {
+                        Text("No trains found at \(SetupView.timeString(SetupView.minutes(of: preferredDate))).")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    manualFallback
+                }
+            }
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .task { scheduleSearch(at: preferredDate) }
+    }
+
+    /// Manual picker so a time can still be set without the API.
+    private var manualFallback: some View {
+        Section {
+            HStack {
+                DatePicker("Manual time", selection: $manualDate, displayedComponents: .hourAndMinute)
+                Button("Set") {
+                    selection = SetupView.minutes(of: manualDate)
+                    dismiss()
+                }
+            }
+        }
+    }
+
+    /// Debounced search: wheel changes fire often, so wait until the value
+    /// settles, then run one cached trips request for today at that time.
+    private func scheduleSearch(at date: Date) {
+        searchTask?.cancel()
+        let snapshot = date
+        isLoading = true
+        errorMessage = nil
+        searchTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(350))
+            guard !Task.isCancelled else { return }
+            hasSearched = true
+            do {
+                let minutes = try await client.departureMinutes(from: from, to: to, via: via, transportModes: transportModes, at: snapshot)
+                guard !Task.isCancelled else { return }
+                results = minutes
+                isLoading = false
+            } catch {
+                guard !Task.isCancelled else { return }
+                errorMessage = error.localizedDescription
+                isLoading = false
+            }
+        }
+    }
+}
+
+/// Full-height modal with the transport mode multi-select (all selected by
+/// default, at least one required) and the optional via station. The blue
+/// checkmark closes it; changes apply to the form immediately.
+private struct TravelOptionsSheet: View {
+    @Binding var transportModes: Set<TransportMode>
+    @Binding var via: Station?
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("Transport") {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                        ForEach(TransportMode.allCases) { mode in
+                            TransportModeTile(mode: mode, isSelected: transportModes.contains(mode)) {
+                                toggle(mode)
+                            }
+                        }
+                    }
+                    .padding(.vertical, 4)
+                    Text("At least one mode is required.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Section("Via station (optional)") {
+                    StationField(label: "Via", station: $via)
+                }
+            }
+            .navigationTitle("Travel options")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.tint)
+                    }
+                    .accessibilityLabel("Done")
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.large])
+    }
+
+    /// Toggles a mode, refusing to remove the last selected one.
+    private func toggle(_ mode: TransportMode) {
+        if transportModes.contains(mode) {
+            guard transportModes.count > 1 else { return }
+            transportModes.remove(mode)
+        } else {
+            transportModes.insert(mode)
+        }
+    }
+}
+
+/// One selectable transport mode tile: icon with the name below it.
+private struct TransportModeTile: View {
+    let mode: TransportMode
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: mode.icon)
+                    .font(.title2)
+                    .frame(height: 26)
+                Text(mode.label)
+                    .font(.caption.weight(.medium))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .foregroundStyle(isSelected ? Color.accentColor : .primary)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isSelected ? Color.accentColor.opacity(0.15) : Color(.secondarySystemBackground))
+            )
+            .overlay {
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(isSelected ? Color.accentColor : .clear, lineWidth: 1.5)
+            }
+            .overlay(alignment: .topTrailing) {
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.caption)
+                        .foregroundStyle(Color.accentColor)
+                        .background(Circle().fill(Color(.systemBackground)))
+                        .padding(4)
+                }
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(mode.label)
+        .accessibilityValue(isSelected ? "Selected" : "Not selected")
     }
 }
 

@@ -14,20 +14,9 @@ struct JourneyView: View {
     private let autoRefresh = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        NavigationStack {
-            List {
-                if let date = journeyDate {
-                    Section {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(dateTitle(for: date))
-                                .font(.title3.bold())
-                            Text("\(config.from.name) → \(config.to.name)")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-
-                    Section("Departure") {
+        List {
+                if journeyDate != nil {
+                    Section("Outbound") {
                         LegCard(
                             title: "\(config.from.name) → \(config.to.name)",
                             leg: legs[.outbound],
@@ -74,7 +63,7 @@ struct JourneyView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Edit") {
-                        state.startEditing()
+                        state.path.append(.setup(config.id))
                     }
                 }
             }
@@ -83,25 +72,6 @@ struct JourneyView: View {
             .onReceive(autoRefresh) { _ in
                 Task { await reload() }
             }
-        }
-    }
-
-    private func dateTitle(for date: Date) -> String {
-        let calendar = JourneySchedule.calendar
-        let prefix: String
-        if calendar.isDateInToday(date) {
-            prefix = "Today"
-        } else if calendar.isDateInTomorrow(date) {
-            prefix = "Tomorrow"
-        } else {
-            prefix = ""
-        }
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = calendar.timeZone
-        formatter.dateFormat = "EEE d MMM"
-        let short = formatter.string(from: date)
-        return prefix.isEmpty ? short : "\(prefix) · \(short)"
     }
 
     private func reload() async {
@@ -117,8 +87,8 @@ struct JourneyView: View {
 
         let times = JourneySchedule.legTimes(on: date, config: config)
         do {
-            async let outboundTrip = state.client.fetchTrip(from: config.from, to: config.to, at: times.outbound)
-            async let returnTrip = state.client.fetchTrip(from: config.to, to: config.from, at: times.return)
+            async let outboundTrip = state.client.fetchTrip(from: config.from, to: config.to, at: times.outbound, via: config.via, transportModes: config.transportModes)
+            async let returnTrip = state.client.fetchTrip(from: config.to, to: config.from, at: times.return, via: config.via, transportModes: config.transportModes)
             let (outbound, returnLeg) = try await (outboundTrip, returnTrip)
             legs[.outbound] = outbound.firstLeg.flatMap(TrainLeg.init)
             legs[.returnLeg] = returnLeg.firstLeg.flatMap(TrainLeg.init)
@@ -137,13 +107,13 @@ private struct LegCard: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.headline)
+                    .foregroundStyle(.primary)
                 if let leg {
                     Text("🚆 \(leg.name)")
-                        .font(.headline)
+                        .font(.subheadline)
                     if !leg.direction.isEmpty {
                         Text("→ \(leg.direction)")
                             .font(.subheadline)

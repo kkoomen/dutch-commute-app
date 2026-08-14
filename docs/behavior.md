@@ -1,11 +1,41 @@
 # Behavior
 
+## My journeys (home)
+
+1. The home screen lists all journeys as cards: route, times, days, and the
+   **absolute creation time** (e.g. "Created 14 Aug 2026, 02:30").
+2. Default order: **most recently created first**. The user can reorder by
+   dragging the grip on the left of each card; the manual order is persisted
+   and wins over the creation-time sort.
+3. "+" adds a new journey; tapping a card opens that journey; swipe deletes.
+4. Editing a journey keeps its `id` and `createdAt`; only route/times/days
+   change.
+
 ## Configuration flow (app)
 
-1. User opens the app.
-2. Picks **origin** and **destination** stations (NS station codes under the hood).
+1. User taps "+" on My journeys.
+2. Picks **origin** and **destination** stations (NS station codes under the
+   hood) and opens **Travel options** (a full-height modal): a **multi-
+   select** of transport modes — Train, Bus, Metro, Tram, Ferry — shown as
+   icon tiles, **all selected by default** (at least one is required), plus
+   an optional **via station**. A blue checkmark closes it; the selected
+   modes are shown on the "Travel options" row and the via station appears
+   as a **readonly row between From and To** (tapping either reopens the
+   modal). Autocomplete kicks in after **2 non-whitespace characters** and
+   queries the station list only after the user **hasn't typed for
+   500 ms**; the station list itself is fetched at most once per app
+   session.
 3. Picks **days of the week** (e.g. Mon–Fri).
-4. Sets an **approximate departure time** (e.g. 08:15).
+4. Sets **departure and return times**: tapping the Depart or Return row
+   opens a bottom sheet with a **wheel picker** for the preferred time.
+   Every wheel change (debounced ~350 ms) makes one cached `trips` request
+   for that leg at today's preferred time and the ~5 returned departures
+   are shown as-is; picking one sets the journey time (the preferred time
+   itself is never stored; results are cached 2 minutes per
+   from-to-time key) — see `docs/api.md`. Until a time is picked the row
+   shows **"Tap to set"**
+   (no default). Saving requires both times to be set. On error or empty
+   results the sheet offers Retry and a manual DatePicker fallback.
 5. Saves. The config is stored in the shared container and widget timelines
    are reloaded.
 

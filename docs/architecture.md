@@ -55,10 +55,11 @@ views). App-only: app state, views, tests.
     the configured weekdays and approximate departure time.
   - `status(of:trip:) -> TrainStatus` — derives on time / delayed (+N min) /
     cancelled from planned vs. actual times and cancellation flags.
-- **Persistence**: `JourneyConfig` stored via `ConfigStore` in the shared
-  App Group UserDefaults (`group.com.travelscreen.app`), readable by
-  both the app and the widget. The app triggers
-  `WidgetCenter.shared.reloadAllTimelines()` on save.
+- **Persistence**: all `JourneyConfig`s (with `id` + `createdAt`) stored via
+  `ConfigStore` in the shared App Group UserDefaults
+  (`group.com.travelscreen.app`), readable by both the app and the widget.
+  The app triggers `WidgetCenter.shared.reloadAllTimelines()` on
+  add/update/delete.
 - **Widget** (`JourneyWidget`): TimelineProvider reads the config from the
   shared container, computes the active journey day and the next upcoming
   leg (`JourneySchedule`), fetches that one trip via `NSAPIClient`, and
@@ -78,8 +79,9 @@ views). App-only: app state, views, tests.
 
 ## Key decisions
 
-- **One widget, one journey.** The widget shows the single configured journey.
-  Supporting multiple journeys is an explicit future decision, not a design goal.
+- **One widget, first journey.** The app supports multiple journeys; the
+  widget shows the first (top-most) journey on the user's list. Picking a
+  specific journey for the widget is future work.
 - **Widget fetches live data itself.** The timeline provider performs the
   network request so status is fresh without opening the app.
 - **Time zone.** NS times are in `Europe/Amsterdam`. Times are displayed in

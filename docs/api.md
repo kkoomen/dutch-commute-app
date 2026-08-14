@@ -3,17 +3,20 @@
 ## Source of truth
 
 The **trips operation** of the official NS Reisinformatie API
-(`gateway.apiportal.ns.nl`). The official portal documentation is saved as
-`docs/trips-api.html`. This is the **only** API surface used by the app.
+(`gateway.apiportal.ns.nl`) — `docs/trips-api.html` has the official portal
+documentation. This is the only endpoint used for departure times and live
+status; the v2 stations operation (`/v2/stations`) provides the autocomplete
+station list.
 
 ```
 GET /reisinformatie-api/api/v3/trips
+GET /reisinformatie-api/api/v2/stations (station list, autocomplete only)
 ```
 
-Note (verified live 2026-08-14): other routes on this subscription —
-`/v3/stations`, `/v3/departures`, and all non-trips paths — return
-`404 {"statusCode":404,"message":"Resource not found"}`. Everything the app
-needs comes from `trips`.
+Note (verified live 2026-08-14): the v3 reisinformatie routes other than
+`trips` — `/v3/stations`, `/v3/departures` — return
+`404 {"statusCode":404,"message":"Resource not found"}` on this
+subscription.
 
 ## Authentication
 
@@ -24,15 +27,50 @@ needs comes from `trips`.
 - **Never hard-code the key. Never commit it.** It must not appear in source,
   git history, or generated files.
 
-## Request parameters (verified live)
+## Request parameters (verified working, live example 2026-08-14)
 
 | Parameter | Value used by the app | Notes |
 |-----------|----------------------|-------|
-| `fromStation` | origin station code, e.g. `ASDZ` | Accepts NS codes or names |
-| `toStation` | destination station code, e.g. `UT` | Same |
-| `dateTime` | ISO-8601 with offset, e.g. `2026-08-14T08:11:00+02:00` | Europe/Amsterdam; past and future dates both accepted |
-| `searchForArrivalDeparture` | `departure` | `arrival` also valid |
+| `fromStation` | station **name**, e.g. `Hoogkarspel` | Names verified working via curl; codes also accepted per the docs |
+| `toStation` | station **name**, e.g. `Amsterdam Centraal` | Same |
+| `dateTime` | ISO-8601 with offset, e.g. `2026-08-14T17:00:00+02:00` | Must be a **current/recent date** — old dates (e.g. 2000-01-01) return HTTP 400 |
+| `searchForArrival` | `false` | Explicit departure search (matches the verified curl) |
+| `viaStation` | station **name** | Only when a via station is configured |
+| `disabledTransportModalities` | e.g. `BUS,FERRY,TRAM,METRO` | All modes except the selected ones; **omitted entirely when all modes are selected** |
 | `lang` | `en` | Response text language |
+
+Notes from `docs/trips-api.html`:
+
+- `searchForArrivalDeparture` (a v2 parameter name) is **not** valid on v3
+  and a request containing it returns HTTP 400; the v3 equivalents are
+  `searchForArrival` / `departure`.
+- `maxJourneys` is **not** a trips parameter and must not be sent — a
+  request with it returns HTTP 400.
+
+## Departure-time options (setup screen)
+
+The setup screen's time rows (**Depart** / **Return**) are buttons that open
+a bottom sheet (`TimePickerSheet`) with a **wheel picker** for the
+**preferred time** (starts at the current value when editing, else 08:00):
+
+- **Every wheel change** (debounced ~350 ms) triggers **one regular
+  `trips` request** for that leg (`from → to` for depart, `to → from` for
+  return) with `dateTime` = **today at the preferred time**
+  (Europe/Amsterdam), `fromStation`/`toStation` = names,
+  `searchForArrival=false`, `lang=en`, plus `viaStation` and
+  `disabledTransportModalities` when configured.
+- Results are **cached for 2 minutes** keyed by
+  `<fromCode>-<toCode>-<viaCode|none>-<modes>-<preferredMinute>`
+  (`TripsSearchCache`, held by `NSAPIClient`), so scrolling back and forth
+  or reopening the sheet within 2 minutes never re-queries the API.
+- The response (~5 trips around the requested time) is shown **as-is**:
+  the distinct departure minutes-of-day (`leg.origin.plannedDateTime`,
+  `NSAPIClient.departureMinutes(of:calendar:)`) are listed, duplicates
+  removed, nothing filtered.
+- Picking one of the listed departures sets the journey time. The
+  preferred time itself is **never stored** — it only seeds the search.
+- On error or an empty result the sheet offers Retry plus a manual
+  DatePicker fallback, so a journey can still be saved without the API.
 
 ## Response keys (verified against a live response)
 

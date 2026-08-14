@@ -4,10 +4,21 @@ struct RootView: View {
     @Environment(AppState.self) private var state
 
     var body: some View {
-        if let config = state.config, !state.isEditing {
-            JourneyView(config: config)
-        } else {
-            SetupView(prefill: state.config)
+        @Bindable var state = state
+        NavigationStack(path: $state.path) {
+            JourneyListView()
+                .navigationDestination(for: JourneyRoute.self) { route in
+                    switch route {
+                    case .journey(let id):
+                        if let journey = state.journeys.first(where: { $0.id == id }) {
+                            JourneyView(config: journey)
+                        }
+                    case .setup(let id):
+                        SetupView(prefill: id.flatMap { id in
+                            state.journeys.first(where: { $0.id == id })
+                        })
+                    }
+                }
         }
     }
 }
