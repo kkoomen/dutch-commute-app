@@ -1,5 +1,4 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 /// Home screen: all journeys, newest first, reorderable by dragging the
 /// grip on the left of each card.
@@ -7,7 +6,6 @@ struct JourneyListView: View {
     @Environment(AppState.self) private var state
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("appearance") private var appearance = Appearance.system.rawValue
-    @State private var draggedJourneyID: UUID?
     /// Set when the user swipes to delete; shown in a confirmation dialog.
     @State private var journeyPendingDeletion: JourneyConfig?
 
@@ -34,18 +32,6 @@ struct JourneyListView: View {
                             .onTapGesture {
                                 state.path.append(.journey(journey.id))
                             }
-                            .onDrag {
-                                draggedJourneyID = journey.id
-                                return NSItemProvider(object: journey.id.uuidString as NSString)
-                            }
-                            .onDrop(
-                                of: [UTType.text],
-                                delegate: JourneyDropDelegate(
-                                    destination: journey,
-                                    journeys: $state.journeys,
-                                    draggedID: $draggedJourneyID
-                                )
-                            )
                             .swipeActions(edge: .leading) {
                                 Button {
                                     state.setJourneyActive(journey.id, active: true)
@@ -54,6 +40,11 @@ struct JourneyListView: View {
                                 }
                                 .tint(Palette.primary)
                             }
+                    }
+                    .onMove { source, destination in
+                        var updated = state.journeys
+                        updated.move(fromOffsets: source, toOffset: destination)
+                        state.journeys = updated
                     }
                     .onDelete { offsets in
                         if let index = offsets.first, state.journeys.indices.contains(index) {
@@ -175,32 +166,6 @@ private struct JourneyCard: View {
             return "\(ordered.first!.shortName)–\(ordered.last!.shortName)"
         }
         return ordered.map(\.shortName).joined(separator: ", ")
-    }
-}
-
-/// Moves the dragged journey to this row's position while dragging over it.
-private struct JourneyDropDelegate: DropDelegate {
-    let destination: JourneyConfig
-    @Binding var journeys: [JourneyConfig]
-    @Binding var draggedID: UUID?
-
-    func dropEntered(info: DropInfo) {
-        guard let draggedID, draggedID != destination.id,
-              let from = journeys.firstIndex(where: { $0.id == draggedID }),
-              let to = journeys.firstIndex(where: { $0.id == destination.id })
-        else { return }
-        withAnimation {
-            journeys.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
-        }
-    }
-
-    func dropUpdated(info: DropInfo) -> DropProposal? {
-        DropProposal(operation: .move)
-    }
-
-    func performDrop(info: DropInfo) -> Bool {
-        draggedID = nil
-        return true
     }
 }
 
