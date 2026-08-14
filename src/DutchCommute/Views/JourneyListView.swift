@@ -93,20 +93,12 @@ private struct JourneyCard: View {
                 .foregroundStyle(.tertiary)
                 .accessibilityLabel("Drag to reorder")
 
-            VStack(alignment: .leading, spacing: 2) {
-                StationRouteView(stations: stationNames)
-                Text(Self.daysLabel(journey.days))
-                    .font(.subheadline)
-                    .foregroundStyle(Palette.textSecondary)
-                    .padding(.top, 2)
-            }
+            StationRouteView(stations: stationNames, trailing: trailingTimes)
 
-            Spacer()
-
-            Text("\(Self.timeString(journey.departMinutes)) – \(Self.timeString(journey.returnMinutes))")
+            Text(Self.daysLabel(journey.days))
                 .font(.subheadline)
-                .monospacedDigit()
                 .foregroundStyle(Palette.textSecondary)
+                .padding(.top, 1)
         }
         .padding(.vertical, 2)
     }
@@ -114,6 +106,14 @@ private struct JourneyCard: View {
     /// "[from, via?, to]" — the route shown as the dot diagram.
     private var stationNames: [String] {
         [journey.from.name] + (journey.via.map { [$0.name] } ?? []) + [journey.to.name]
+    }
+
+    /// Outbound time next to the from station, return time next to the to
+    /// station (via gets none).
+    private var trailingTimes: [String?] {
+        let depart = Self.timeString(journey.departMinutes)
+        let returnTime = Self.timeString(journey.returnMinutes)
+        return [depart] + (journey.via.map { _ in [nil] } ?? []) + [returnTime]
     }
 
     private static func timeString(_ minutes: Int) -> String {

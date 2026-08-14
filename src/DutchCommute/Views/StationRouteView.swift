@@ -10,6 +10,8 @@ struct StationRouteView: View {
     /// Optional caption per station (e.g. "Spoor 6"); missing entries
     /// render nothing.
     var captions: [String?] = []
+    /// Optional right-aligned text per station (e.g. the departure time).
+    var trailing: [String?] = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -44,6 +46,13 @@ struct StationRouteView: View {
                             Spacer(minLength: 10)
                         }
                     }
+                    Spacer(minLength: 8)
+                    if let trailingText = trailing(at: index) {
+                        Text(trailingText)
+                            .font(.subheadline)
+                            .monospacedDigit()
+                            .foregroundStyle(Palette.textSecondary)
+                    }
                 }
             }
         }
@@ -51,5 +60,9 @@ struct StationRouteView: View {
 
     private func caption(at index: Int) -> String? {
         captions.indices.contains(index) ? captions[index] : nil
+    }
+
+    private func trailing(at index: Int) -> String? {
+        trailing.indices.contains(index) ? trailing[index] : nil
     }
 }
