@@ -20,6 +20,7 @@ struct StationRouteView: View {
                 HStack(alignment: .top, spacing: 9) {
                     // Dot column: dot on top, flexible line below it so the
                     // line always reaches the next dot, however tall the row.
+                    // The line overlaps a few points into both dots.
                     VStack(spacing: 0) {
                         Circle()
                             .fill(Palette.primary)
@@ -30,6 +31,7 @@ struct StationRouteView: View {
                                 .fill(Palette.primary.opacity(0.35))
                                 .frame(width: 2)
                                 .frame(maxHeight: .infinity)
+                                .padding(.vertical, -5)
                         }
                     }
                     // Text column: leading label, station name, caption, and
