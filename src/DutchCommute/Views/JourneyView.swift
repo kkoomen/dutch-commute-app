@@ -39,6 +39,15 @@ struct JourneyView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                Section("Days") {
+                    HStack(spacing: 8) {
+                        ForEach(Weekday.allCases) { day in
+                            DayTile(day: day, isOn: config.days.contains(day))
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+
                 if let errorMessage {
                     Section {
                         VStack(alignment: .leading, spacing: 4) {

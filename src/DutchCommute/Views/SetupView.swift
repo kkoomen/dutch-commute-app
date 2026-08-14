@@ -484,16 +484,27 @@ private struct DayToggle: View {
 
     var body: some View {
         Button(action: action) {
-            Text(day.shortName)
-                .font(.caption.weight(.semibold))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-                .background(isOn ? Palette.primary : Palette.surfaceSecondary, in: RoundedRectangle(cornerRadius: 8))
-                .foregroundStyle(isOn ? Palette.onAccent : Palette.textPrimary)
+            DayTile(day: day, isOn: isOn)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(day.shortName)
         .accessibilityValue(isOn ? "Selected" : "Not selected")
+    }
+}
+
+/// The day box visual (selected = primary fill); shown read-only on the
+/// journey detail page and tappable in the setup form.
+struct DayTile: View {
+    let day: Weekday
+    let isOn: Bool
+
+    var body: some View {
+        Text(day.shortName)
+            .font(.caption.weight(.semibold))
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
+            .background(isOn ? Palette.primary : Palette.surfaceSecondary, in: RoundedRectangle(cornerRadius: 8))
+            .foregroundStyle(isOn ? Palette.onAccent : Palette.textPrimary)
     }
 }
 
