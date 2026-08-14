@@ -132,20 +132,35 @@ struct JourneyWidgetEntryView: View {
         .containerBackground(Palette.background, for: .widget)
     }
 
-    /// Square 1x1 Lock Screen widget: train + status.
+    /// Square 1x1 Lock Screen widget: destination on top, time + status on
+    /// the last line, colored by status.
     private var circular: some View {
         VStack(spacing: 2) {
-            Text("🚆")
-                .font(.title2)
+            Text(destinationName)
+                .font(.caption2)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
             if let leg = entry.leg {
-                Text(leg.status.label)
+                Text("\(NSDateParser.timeString(leg.displayedDeparture)) · \(leg.status.label)")
                     .font(.caption2)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
+                    .foregroundStyle(statusColor(leg.status))
             } else {
                 Text("—")
                     .font(.caption2)
+                    .foregroundStyle(Palette.textSecondary)
             }
+        }
+        .containerBackground(.fill.tertiary, for: .widget)
+    }
+
+    private func statusColor(_ status: TrainStatus) -> Color {
+        switch status {
+        case .onTime: Palette.statusOnTime
+        case .delayed: .orange
+        case .cancelled: .red
+        case .unknown: .secondary
         }
     }
 
