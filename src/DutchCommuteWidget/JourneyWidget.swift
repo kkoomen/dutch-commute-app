@@ -80,7 +80,7 @@ struct JourneyWidgetEntryView: View {
     }
 
     /// Wide 2x1 Lock Screen widget: destination, leg, then time + status on
-    /// the last line, colored by status.
+    /// the last line.
     private var rectangular: some View {
         VStack(alignment: .leading, spacing: 2) {
             if let leg = entry.leg {
@@ -97,10 +97,9 @@ struct JourneyWidgetEntryView: View {
                     }
                 }
                 .font(.caption)
-                Text("\(NSDateParser.timeString(leg.displayedDeparture)) · \(leg.status.label)")
+                Text("\(NSDateParser.timeString(leg.displayedDeparture)) · \(widgetStatusText(leg.status))")
                     .font(.caption)
                     .monospacedDigit()
-                    .foregroundStyle(statusColor(leg.status))
             } else if entry.config == nil {
                 Text("Set up your journey in the Dutch Commute app")
                     .font(.caption)
@@ -154,11 +153,10 @@ struct JourneyWidgetEntryView: View {
                     .monospacedDigit()
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                Text(leg.status.label)
+                Text(widgetStatusText(leg.status))
                     .font(.caption2)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                    .foregroundStyle(statusColor(leg.status))
             } else {
                 Text("—")
                     .font(.caption2)
@@ -167,18 +165,9 @@ struct JourneyWidgetEntryView: View {
         .containerBackground(.fill.tertiary, for: .widget)
     }
 
-    private func statusColor(_ status: TrainStatus) -> Color {
-        switch status {
-        case .onTime: Palette.statusOnTime
-        case .delayed: .orange
-        case .cancelled: .red
-        case .unknown: .secondary
-        }
-    }
-
     private var inline: some View {
         if let leg = entry.leg {
-            Text("🚆 \(destinationName) · \(legKindLabel) \(NSDateParser.timeString(leg.displayedDeparture)) · \(leg.status.label)")
+            Text("🚆 \(destinationName) · \(legKindLabel) \(NSDateParser.timeString(leg.displayedDeparture)) · \(widgetStatusText(leg.status))")
         } else {
             Text("🚆 Dutch Commute")
         }
@@ -195,23 +184,25 @@ struct JourneyWidgetEntryView: View {
     }
 }
 
+/// Status label with an emoji: ⚠️ when delayed, ❗ when cancelled.
+/// (Lock Screen accessory widgets cannot show custom colors, so status is
+/// conveyed with emoji instead.)
+fileprivate func widgetStatusText(_ status: TrainStatus) -> String {
+    switch status {
+    case .onTime: status.label
+    case .delayed: "⚠️ \(status.label)"
+    case .cancelled: "❗ \(status.label)"
+    case .unknown: status.label
+    }
+}
+
 private struct StatusLine: View {
     let status: TrainStatus
     var font: Font = .caption
 
     var body: some View {
-        Text(status.label)
+        Text(widgetStatusText(status))
             .font(font)
-            .foregroundStyle(color)
-    }
-
-    private var color: Color {
-        switch status {
-        case .onTime: Palette.statusOnTime
-        case .delayed: .orange
-        case .cancelled: .red
-        case .unknown: .secondary
-        }
     }
 }
 
