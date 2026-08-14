@@ -89,7 +89,7 @@ struct SetupView: View {
                         timePickerTarget = .depart
                     } label: {
                         HStack {
-                            Text("Depart")
+                            Text("Outbound")
                             Spacer()
                             Text(departMinutes.map { Self.timeString($0) } ?? String(localized: "Tap to set"))
                                 .foregroundStyle(departMinutes == nil ? .tertiary : .secondary)
@@ -132,7 +132,7 @@ struct SetupView: View {
         .sheet(item: $timePickerTarget) { target in
             if let from, let to {
                 TimePickerSheet(
-                    title: target == .depart ? "Depart" : "Return",
+                    title: target == .depart ? "Outbound" : "Return",
                     from: target == .depart ? from : to,
                     to: target == .depart ? to : from,
                     via: effectiveVia,

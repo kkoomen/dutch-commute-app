@@ -8,8 +8,7 @@
 "To" = "Naar";
 "Travel options" = "Reisopties";
 "Select a from and to station first." = "Selecteer eerst een vertrek- en aankomststation.";
-"Depart" = "Vertrek";
-"Return" = "Terug";
+"Return" = "Terugreis";
 "Tap to set" = "Tik om in te stellen";
 "Times" = "Tijden";
 "Days" = "Dagen";
@@ -37,7 +36,7 @@
 "Not selected" = "Niet geselecteerd";
 
 /* App UI — JourneyView */
-"Outbound" = "Heen";
+"Outbound" = "Heenreis";
 "No travel days configured." = "Geen reisdagen ingesteld.";
 "Showing scheduled times only when available." = "Toont geplande tijden alleen wanneer beschikbaar.";
 "Add to lock screen" = "Toevoegen aan vergrendelscherm";

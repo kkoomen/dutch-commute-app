@@ -26,6 +26,10 @@ enum Palette {
     /// Text on accent fills.
     static let onAccent = adaptive(light: 0xFFFFFF, dark: 0x0E0F11)
 
+    // Disabled controls
+    static let disabledFill = adaptive(light: 0xE2E5E8, dark: 0x383C40)
+    static let disabledText = adaptive(light: 0x9AA1A6, dark: 0x7C8286)
+
     // Semantic status
     static let statusOnTime = adaptive(light: 0x5AA58B, dark: 0x6CB87A)
 
