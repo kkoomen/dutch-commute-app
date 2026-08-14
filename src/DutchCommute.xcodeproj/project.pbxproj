@@ -53,6 +53,9 @@
 		A100000000000000000000C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000C4 /* Assets.xcassets */; };
 		A100000000000000000000C6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000C7 /* Localizable.strings */; };
 		A100000000000000000000C8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000C7 /* Localizable.strings */; };
+		A100000000000000000000CF /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CB /* Palette.swift */; };
+		A100000000000000000000D0 /* PrimaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CC /* PrimaryButtonStyle.swift */; };
+		A100000000000000000000D1 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CB /* Palette.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +123,8 @@
 		A100000000000000000000C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A100000000000000000000C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A100000000000000000000CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A100000000000000000000CB /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
+		A100000000000000000000CC /* PrimaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +181,7 @@
 				A10000000000000000000053 /* Domain */,
 				A10000000000000000000054 /* Store */,
 				A10000000000000000000055 /* Views */,
+				A100000000000000000000CE /* Design */,
 				A10000000000000000000022 /* Info.plist */,
 				A10000000000000000000032 /* ../.env */,
 				A10000000000000000000049 /* DutchCommute.entitlements */,
@@ -234,6 +240,15 @@
 				A1000000000000000000004D /* JourneyListView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A100000000000000000000CE /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000CB /* Palette.swift */,
+				A100000000000000000000CC /* PrimaryButtonStyle.swift */,
+			);
+			path = Design;
 			sourceTree = "<group>";
 		};
 		A10000000000000000000056 /* App */ = {
@@ -443,6 +458,8 @@
 				A1000000000000000000008E /* JourneyView.swift in Sources */,
 				A1000000000000000000009C /* JourneyListView.swift in Sources */,
 				A1000000000000000000009D /* TripsSearchCache.swift in Sources */,
+				A100000000000000000000CF /* Palette.swift in Sources */,
+				A100000000000000000000D0 /* PrimaryButtonStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +491,7 @@
 				A100000000000000000000BB /* APIKey.swift in Sources */,
 				A100000000000000000000BC /* ConfigStore.swift in Sources */,
 				A1000000000000000000009E /* TripsSearchCache.swift in Sources */,
+				A100000000000000000000D1 /* Palette.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

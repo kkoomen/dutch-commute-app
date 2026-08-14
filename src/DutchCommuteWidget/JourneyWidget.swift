@@ -77,7 +77,6 @@ struct JourneyWidgetEntryView: View {
                 system
             }
         }
-        .containerBackground(.fill.tertiary, for: .widget)
     }
 
     /// Line 1: train + destination; line 2: leg + time; line 3: status.
@@ -101,6 +100,7 @@ struct JourneyWidgetEntryView: View {
                     .font(.caption)
             }
         }
+        .containerBackground(.fill.tertiary, for: .widget)
     }
 
     /// Home screen families (systemSmall / systemMedium / systemLarge /
@@ -112,20 +112,24 @@ struct JourneyWidgetEntryView: View {
                     .font(.headline)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
+                    .foregroundStyle(Palette.white)
                 Text("\(legKindLabel) \(NSDateParser.timeString(leg.displayedDeparture))")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Palette.white.opacity(0.85))
                 StatusLine(status: leg.status, font: .subheadline.weight(.semibold))
             } else if entry.config == nil {
                 Text("Set up your journey in the Dutch Commute app")
                     .font(.caption)
+                    .foregroundStyle(Palette.white.opacity(0.85))
             } else {
                 Text("No train right now")
                     .font(.caption)
+                    .foregroundStyle(Palette.white.opacity(0.85))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
+        .containerBackground(Palette.darkBackground, for: .widget)
     }
 
     /// Square 1x1 Lock Screen widget: train + status.

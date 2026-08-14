@@ -44,6 +44,9 @@ struct JourneyListView: View {
             }
         }
         .navigationTitle("My journeys")
+        .brandedNavigationBar()
+        .scrollContentBackground(.hidden)
+        .background(Palette.lightBackground)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -76,12 +79,13 @@ private struct JourneyCard: View {
                     .font(.headline)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
+                    .foregroundStyle(Palette.darkText)
                 Text("\(Self.timeString(journey.departMinutes)) – \(Self.timeString(journey.returnMinutes)) · \(Self.daysLabel(journey.days))")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Palette.darkText.opacity(0.65))
                 Text("Created \(Self.createdString(journey.createdAt))")
                     .font(.caption2)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Palette.darkText.opacity(0.45))
             }
         }
         .padding(.vertical, 2)

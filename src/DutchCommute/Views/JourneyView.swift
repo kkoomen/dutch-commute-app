@@ -60,6 +60,9 @@ struct JourneyView: View {
                 LockScreenHelpView()
             }
             .navigationTitle("My journey")
+            .brandedNavigationBar()
+            .scrollContentBackground(.hidden)
+            .background(Palette.lightBackground)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Edit") {
@@ -110,14 +113,15 @@ private struct LegCard: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.headline)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(Palette.darkText)
                 if let leg {
                     Text("🚆 \(leg.name)")
                         .font(.subheadline)
+                        .foregroundStyle(Palette.darkText)
                     if !leg.direction.isEmpty {
                         Text("→ \(leg.direction)")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Palette.darkText.opacity(0.65))
                     }
                 }
             }
@@ -126,7 +130,7 @@ private struct LegCard: View {
                 VStack(alignment: .trailing, spacing: 4) {
                     Text(NSDateParser.timeString(leg.displayedDeparture))
                         .font(.title3.monospacedDigit())
-                        .foregroundStyle(leg.status == .cancelled ? .secondary : .primary)
+                        .foregroundStyle(leg.status == .cancelled ? Palette.darkText.opacity(0.5) : Palette.darkText)
                         .strikethrough(leg.status == .cancelled)
                     StatusChip(status: leg.status)
                 }
@@ -134,7 +138,7 @@ private struct LegCard: View {
                 ProgressView()
             } else {
                 Text("—")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Palette.darkText.opacity(0.5))
             }
         }
         .padding(.vertical, 4)
@@ -154,7 +158,9 @@ private struct LockScreenHelpView: View {
                 Spacer()
             }
             .padding()
+            .background(Palette.white)
             .navigationTitle("Add to lock screen")
+            .brandedNavigationBar()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") { dismiss() }
@@ -168,10 +174,11 @@ private struct LockScreenHelpView: View {
             Text(number)
                 .font(.caption.bold())
                 .frame(width: 22, height: 22)
-                .background(Color.accentColor.opacity(0.15), in: Circle())
-                .foregroundStyle(.primary)
+                .background(Palette.primary.opacity(0.15), in: Circle())
+                .foregroundStyle(Palette.darkText)
             Text(text)
                 .fixedSize(horizontal: false, vertical: true)
+                .foregroundStyle(Palette.darkText)
         }
     }
 }

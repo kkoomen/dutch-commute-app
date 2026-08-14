@@ -15,9 +15,12 @@ The app and widget share the App Group `group.com.dutchcommute.app`
 
 **Shared sources** (compiled into both the app and the widget target):
 `Station`, `JourneyConfig`, `TrainLeg`, `NSDTOs`, `TrainStatusMapping`,
-`JourneySchedule`, `NSDateParsing`, `NSAPIClient`, `APIKey`, `ConfigStore`.
+`JourneySchedule`, `NSDateParsing`, `NSAPIClient`, `APIKey`, `ConfigStore`,
+`Palette` (`Design/Palette.swift`).
 Widget-only: `DutchCommuteWidgetBundle`, `JourneyWidget` (TimelineProvider +
-views). App-only: app state, views, tests.
+views). App-only: app state, views, tests, `PrimaryButtonStyle`.
+
+Design tokens: `docs/design.md`.
 
 `Localizable.strings` (in `DutchCommute/en.lproj/`) is bundled into **both**
 targets, since each is a separate process with its own `Bundle.main`.
