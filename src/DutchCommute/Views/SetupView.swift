@@ -136,6 +136,7 @@ struct SetupView: View {
             if let from, let to {
                 TimePickerSheet(
                     title: target == .depart ? "Outbound" : "Return",
+                    defaultHour: target == .depart ? 8 : 18,
                     from: target == .depart ? from : to,
                     to: target == .depart ? to : from,
                     via: effectiveVia,
@@ -223,6 +224,9 @@ private enum TimePickerTarget: Identifiable {
 /// the preferred time itself is never stored.
 private struct TimePickerSheet: View {
     let title: LocalizedStringKey
+    /// Hour the wheel starts at when nothing is picked yet (08:00 outbound,
+    /// 18:00 return).
+    let defaultHour: Int
     let from: Station
     let to: Station
     let via: Station?
@@ -237,21 +241,24 @@ private struct TimePickerSheet: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var searchTask: Task<Void, Never>?
-    @State private var manualDate = SetupView.date(todayAt: 8 * 60)
+    @State private var manualDate: Date
 
-    init(title: LocalizedStringKey, from: Station, to: Station, via: Station?, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
+    init(title: LocalizedStringKey, defaultHour: Int, from: Station, to: Station, via: Station?, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
         self.title = title
+        self.defaultHour = defaultHour
         self.from = from
         self.to = to
         self.via = via
         self.transportModes = transportModes
         self.client = client
         _selection = selection
-        // Start the wheel at the current value when editing, else 08:00.
+        // Start the wheel at the current value when editing, else the default
+        // hour for this leg (08:00 outbound, 18:00 return).
         _preferredDate = State(
             initialValue: selection.wrappedValue.map { SetupView.date(todayAt: $0) }
-                ?? SetupView.date(todayAt: 8 * 60)
+                ?? SetupView.date(todayAt: defaultHour * 60)
         )
+        _manualDate = State(initialValue: SetupView.date(todayAt: defaultHour * 60))
     }
 
     var body: some View {
