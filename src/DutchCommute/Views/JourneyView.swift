@@ -19,6 +19,7 @@ struct JourneyView: View {
                     Section("Outbound") {
                         LegCard(
                             fromName: config.from.name,
+                            viaName: config.via?.name,
                             toName: config.to.name,
                             leg: legs[.outbound],
                             isLoading: isLoading
@@ -28,6 +29,7 @@ struct JourneyView: View {
                     Section("Return") {
                         LegCard(
                             fromName: config.to.name,
+                            viaName: config.via?.name,
                             toName: config.from.name,
                             leg: legs[.returnLeg],
                             isLoading: isLoading
@@ -103,19 +105,17 @@ struct JourneyView: View {
     }
 }
 
-/// One train leg card: stations with tracks, time, and status.
+/// One train leg card: route diagram (stations with tracks), time, status.
 private struct LegCard: View {
     let fromName: String
+    let viaName: String?
     let toName: String
     let leg: TrainLeg?
     let isLoading: Bool
 
     var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
-                stationLine(name: fromName, track: leg?.departureTrack)
-                stationLine(name: toName, track: leg?.arrivalTrack)
-            }
+        HStack(alignment: .top, spacing: 12) {
+            StationRouteView(stations: stationNames, captions: trackCaptions)
             Spacer()
             if let leg {
                 VStack(alignment: .trailing, spacing: 4) {
@@ -135,23 +135,21 @@ private struct LegCard: View {
         .padding(.vertical, 4)
     }
 
-    /// "• Station" with the track (grey, indented) below it.
-    private func stationLine(name: String, track: String?) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 5) {
-                Text("•")
-                    .font(.subheadline.weight(.semibold))
-                Text(name)
-                    .font(.subheadline.weight(.medium))
-            }
-            .foregroundStyle(Palette.textPrimary)
-            if let track {
-                Text(String(localized: "Track \(track)"))
-                    .font(.caption2)
-                    .foregroundStyle(Palette.textSecondary)
-                    .padding(.leading, 14)
-            }
+    private var stationNames: [String] {
+        [fromName] + (viaName.map { [$0] } ?? []) + [toName]
+    }
+
+    /// "Spoor X" under each station; with a via station the trip's first
+    /// leg ends there, so the arrival track belongs to the via stop and the
+    /// final station's track is not available.
+    private var trackCaptions: [String?] {
+        guard let leg else { return [] }
+        let fromTrack = leg.departureTrack.map { String(localized: "Track \($0)") }
+        let arrivalTrack = leg.arrivalTrack.map { String(localized: "Track \($0)") }
+        if viaName != nil {
+            return [fromTrack, arrivalTrack, nil]
         }
+        return [fromTrack, arrivalTrack]
     }
 }
 

@@ -94,20 +94,22 @@ private struct JourneyCard: View {
                 .accessibilityLabel("Drag to reorder")
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("\(journey.from.name) → \(journey.to.name)")
-                    .font(.headline)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-                    .foregroundStyle(Palette.textPrimary)
+                StationRouteView(stations: stationNames)
                 Text("\(Self.timeString(journey.departMinutes)) – \(Self.timeString(journey.returnMinutes)) · \(Self.daysLabel(journey.days))")
                     .font(.subheadline)
                     .foregroundStyle(Palette.textSecondary)
+                    .padding(.top, 2)
                 Text("Created \(Self.createdString(journey.createdAt))")
                     .font(.caption2)
                     .foregroundStyle(Palette.textTertiary)
             }
         }
         .padding(.vertical, 2)
+    }
+
+    /// "[from, via?, to]" — the route shown as the dot diagram.
+    private var stationNames: [String] {
+        [journey.from.name] + (journey.via.map { [$0.name] } ?? []) + [journey.to.name]
     }
 
     private static func timeString(_ minutes: Int) -> String {

@@ -30,6 +30,9 @@ Every role adapts to the current color scheme (light / dark):
   button: `onAccent` label on `primary` (white in light mode, near-black in
   dark mode), `primaryPressed` while pressed, gray fill + gray text when
   disabled.
+- `src/DutchCommute/Views/StationRouteView.swift` — vertical route diagram
+  (dot per station with connecting lines, optional track captions); used on
+  the journey cards and the journey detail cards.
 
 ## Appearance toggle
 
