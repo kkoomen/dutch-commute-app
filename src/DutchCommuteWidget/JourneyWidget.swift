@@ -100,6 +100,7 @@ struct JourneyWidgetEntryView: View {
                 Text("\(NSDateParser.timeString(leg.displayedDeparture)) · \(widgetStatusText(leg.status))")
                     .font(.caption)
                     .monospacedDigit()
+                    .foregroundStyle(Palette.textSecondary)
             } else if entry.config == nil {
                 Text("Set up your journey in the Dutch Commute app")
                     .font(.caption)
