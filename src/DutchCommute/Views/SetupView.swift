@@ -44,8 +44,10 @@ struct SetupView: View {
             }
 
             Section("Route") {
-                RouteStationRow(label: "From", station: $from, showsLine: true)
-                RouteStationRow(label: "To", station: $to, showsLine: false)
+                VStack(spacing: 0) {
+                    RouteStationRow(label: "From", station: $from, showsLine: true)
+                    RouteStationRow(label: "To", station: $to, showsLine: false)
+                }
             }
 
             Section {

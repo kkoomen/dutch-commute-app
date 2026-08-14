@@ -21,21 +21,17 @@ struct RouteStationRow: View {
                         .fill(Palette.primary.opacity(0.35))
                         .frame(width: 2)
                         .frame(maxHeight: .infinity)
-                        .padding(.vertical, -4)
+                        .padding(.top, -4)
+                        .padding(.bottom, -9)
                 }
             }
             Button {
                 showPicker = true
             } label: {
                 HStack {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(station?.name ?? String(localized: "Select station"))
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(station == nil ? Palette.textTertiary : Palette.textPrimary)
-                        Text(label)
-                            .font(.caption2)
-                            .foregroundStyle(Palette.textSecondary)
-                    }
+                    Text(station?.name ?? String(localized: "Select station"))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(station == nil ? Palette.textTertiary : Palette.textPrimary)
                     Spacer()
                     Image(systemName: "chevron.right")
                         .font(.caption)
