@@ -5,11 +5,19 @@
 - **TravelScreen** — the app. Configures the journey, writes it to the shared
   container, and triggers widget reloads.
 - **TravelScreenWidget** — the WidgetKit extension. Reads the journey
-  configuration, fetches live data, and renders the Lock Screen widget.
+  configuration, fetches live data, and renders the Lock Screen widget
+  (accessoryRectangular + accessoryInline).
+- **TravelScreenTests** — unit tests.
 
-Both targets share an App Group so configuration can flow from app to widget.
-(Exact group identifier, e.g. `group.<bundle-id>.travelscreen`, is decided
-when the Xcode project is created.)
+The app and widget share the App Group `group.com.travelscreen.app`
+(entitlements: `TravelScreen/TravelScreen.entitlements`,
+`TravelScreenWidget/TravelScreenWidget.entitlements`).
+
+**Shared sources** (compiled into both the app and the widget target):
+`Station`, `JourneyConfig`, `TrainLeg`, `NSDTOs`, `TrainStatusMapping`,
+`JourneySchedule`, `NSDateParsing`, `NSAPIClient`, `APIKey`, `ConfigStore`.
+Widget-only: `TravelScreenWidgetBundle`, `JourneyWidget` (TimelineProvider +
+views). App-only: app state, views, tests.
 
 ## Layers
 
@@ -47,13 +55,16 @@ when the Xcode project is created.)
     the configured weekdays and approximate departure time.
   - `status(of:trip:) -> TrainStatus` — derives on time / delayed (+N min) /
     cancelled from planned vs. actual times and cancellation flags.
-- **Persistence**: `JourneyConfig` (origin, destination, weekdays, approximate
-  departure time) stored in the App Group shared container (UserDefaults or a
-  small JSON file — decided during development). The app triggers
-  `WidgetCenter.shared.reloadAllTimelines()` whenever config changes.
-- **Widget**: TimelineProvider fetches live data in `getTimeline`, builds one
-  entry per relevant train, and schedules the next refresh after the train's
-  departure. Entries carry the rendered data so views stay dumb.
+- **Persistence**: `JourneyConfig` stored via `ConfigStore` in the shared
+  App Group UserDefaults (`group.com.travelscreen.app`), readable by
+  both the app and the widget. The app triggers
+  `WidgetCenter.shared.reloadAllTimelines()` on save.
+- **Widget** (`JourneyWidget`): TimelineProvider reads the config from the
+  shared container, computes the active journey day and the next upcoming
+  leg (`JourneySchedule`), fetches that one trip via `NSAPIClient`, and
+  renders one entry with the leg + status. Timeline policy refreshes shortly
+  after the shown train departs so the next leg takes over. Families:
+  accessoryRectangular, accessoryInline.
 
 ## Data flow
 
@@ -77,8 +88,9 @@ when the Xcode project is created.)
 
 ## Open decisions (resolve during development)
 
-- Exact NS endpoint for the widget lookup (`/trips` vs. `/departures` — see
-  `api.md`).
+- Widget lookup strategy on the trips endpoint (one request for the next
+  relevant train vs. today's journey shape; see `api.md`).
 - Shared container format (UserDefaults vs. JSON file).
 - How the API key reaches the widget process (see `development.md`).
-- Which station picker: curated list vs. search over the NS stations endpoint.
+- Which station picker: curated list vs. the NS station list (loaded via
+  `v2/stations` — only endpoint that serves it on this subscription).

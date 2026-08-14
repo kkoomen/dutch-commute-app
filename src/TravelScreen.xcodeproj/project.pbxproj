@@ -1,0 +1,695 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000078 /* TravelScreenWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* TravelScreenWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A10000000000000000000079 /* TravelScreenWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004B /* TravelScreenWidgetBundle.swift */; };
+		A1000000000000000000007A /* JourneyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004C /* JourneyWidget.swift */; };
+		A10000000000000000000080 /* TravelScreenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* TravelScreenApp.swift */; };
+		A10000000000000000000081 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000021 /* AppState.swift */; };
+		A10000000000000000000082 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000023 /* Station.swift */; };
+		A10000000000000000000083 /* JourneyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000024 /* JourneyConfig.swift */; };
+		A10000000000000000000084 /* TrainLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000025 /* TrainLeg.swift */; };
+		A10000000000000000000085 /* NSDTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000026 /* NSDTOs.swift */; };
+		A10000000000000000000086 /* NSAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000027 /* NSAPIClient.swift */; };
+		A10000000000000000000087 /* NSDateParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000028 /* NSDateParsing.swift */; };
+		A10000000000000000000088 /* TrainStatusMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000029 /* TrainStatusMapping.swift */; };
+		A10000000000000000000089 /* JourneySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002A /* JourneySchedule.swift */; };
+		A1000000000000000000008A /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002B /* ConfigStore.swift */; };
+		A1000000000000000000008B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002C /* RootView.swift */; };
+		A1000000000000000000008C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002D /* SetupView.swift */; };
+		A1000000000000000000008D /* StationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002E /* StationField.swift */; };
+		A1000000000000000000008E /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002F /* JourneyView.swift */; };
+		A10000000000000000000090 /* StatusMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000040 /* StatusMappingTests.swift */; };
+		A10000000000000000000091 /* JourneyScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000041 /* JourneyScheduleTests.swift */; };
+		A10000000000000000000092 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000042 /* DecodingTests.swift */; };
+		A10000000000000000000093 /* trips-on-time.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000043 /* trips-on-time.json */; };
+		A10000000000000000000094 /* trips-delayed.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000044 /* trips-delayed.json */; };
+		A10000000000000000000095 /* trips-cancelled.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000045 /* trips-cancelled.json */; };
+		A10000000000000000000096 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000046 /* stations.json */; };
+		A10000000000000000000099 /* ../.env in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000032 /* ../.env */; };
+		A1000000000000000000009A /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000033 /* APIKey.swift */; };
+		A1000000000000000000009B /* APIKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000047 /* APIKeyTests.swift */; };
+		A100000000000000000000B3 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000023 /* Station.swift */; };
+		A100000000000000000000B4 /* JourneyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000024 /* JourneyConfig.swift */; };
+		A100000000000000000000B5 /* TrainLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000025 /* TrainLeg.swift */; };
+		A100000000000000000000B6 /* NSDTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000026 /* NSDTOs.swift */; };
+		A100000000000000000000B7 /* TrainStatusMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000029 /* TrainStatusMapping.swift */; };
+		A100000000000000000000B8 /* JourneySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002A /* JourneySchedule.swift */; };
+		A100000000000000000000B9 /* NSDateParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000028 /* NSDateParsing.swift */; };
+		A100000000000000000000BA /* NSAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000027 /* NSAPIClient.swift */; };
+		A100000000000000000000BB /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000033 /* APIKey.swift */; };
+		A100000000000000000000BC /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002B /* ConfigStore.swift */; };
+		A100000000000000000000BF /* ../.env in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000032 /* ../.env */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A10000000000000000000098 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A10000000000000000000010;
+			remoteInfo = TravelScreen;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A10000000000000000000077 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A10000000000000000000078 /* TravelScreenWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A10000000000000000000012 /* TravelScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000013 /* TravelScreenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TravelScreenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000015 /* TravelScreenWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TravelScreenWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000020 /* TravelScreenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScreenApp.swift; sourceTree = "<group>"; };
+		A10000000000000000000021 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		A10000000000000000000022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A10000000000000000000023 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		A10000000000000000000024 /* JourneyConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyConfig.swift; sourceTree = "<group>"; };
+		A10000000000000000000025 /* TrainLeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainLeg.swift; sourceTree = "<group>"; };
+		A10000000000000000000026 /* NSDTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDTOs.swift; sourceTree = "<group>"; };
+		A10000000000000000000027 /* NSAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAPIClient.swift; sourceTree = "<group>"; };
+		A10000000000000000000028 /* NSDateParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDateParsing.swift; sourceTree = "<group>"; };
+		A10000000000000000000029 /* TrainStatusMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainStatusMapping.swift; sourceTree = "<group>"; };
+		A1000000000000000000002A /* JourneySchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneySchedule.swift; sourceTree = "<group>"; };
+		A1000000000000000000002B /* ConfigStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStore.swift; sourceTree = "<group>"; };
+		A1000000000000000000002C /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		A1000000000000000000002D /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
+		A1000000000000000000002E /* StationField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationField.swift; sourceTree = "<group>"; };
+		A1000000000000000000002F /* JourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyView.swift; sourceTree = "<group>"; };
+		A10000000000000000000032 /* ../.env */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../.env; sourceTree = "<group>"; };
+		A10000000000000000000033 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		A10000000000000000000040 /* StatusMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMappingTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000041 /* JourneyScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyScheduleTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000042 /* DecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000043 /* trips-on-time.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-on-time.json"; sourceTree = "<group>"; };
+		A10000000000000000000044 /* trips-delayed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-delayed.json"; sourceTree = "<group>"; };
+		A10000000000000000000045 /* trips-cancelled.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-cancelled.json"; sourceTree = "<group>"; };
+		A10000000000000000000046 /* stations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
+		A10000000000000000000047 /* APIKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000048 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A10000000000000000000049 /* TravelScreen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelScreen.entitlements; sourceTree = "<group>"; };
+		A1000000000000000000004A /* TravelScreenWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelScreenWidget.entitlements; sourceTree = "<group>"; };
+		A1000000000000000000004B /* TravelScreenWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScreenWidgetBundle.swift; sourceTree = "<group>"; };
+		A1000000000000000000004C /* JourneyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyWidget.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10000000000000000000062 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000071 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000075 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000050 /* TravelScreen */,
+				A10000000000000000000058 /* TravelScreenTests */,
+				A1000000000000000000005B /* TravelScreenWidget */,
+				A10000000000000000000003 /* Products */,
+				AFBA8AD1302E98A800CB810A /* Recovered References */,
+			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000012 /* TravelScreen.app */,
+				A10000000000000000000013 /* TravelScreenTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000050 /* TravelScreen */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000056 /* App */,
+				A10000000000000000000051 /* Models */,
+				A10000000000000000000052 /* Networking */,
+				A10000000000000000000053 /* Domain */,
+				A10000000000000000000054 /* Store */,
+				A10000000000000000000055 /* Views */,
+				A10000000000000000000022 /* Info.plist */,
+				A10000000000000000000032 /* ../.env */,
+				A10000000000000000000049 /* TravelScreen.entitlements */,
+			);
+			path = TravelScreen;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000051 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000023 /* Station.swift */,
+				A10000000000000000000024 /* JourneyConfig.swift */,
+				A10000000000000000000025 /* TrainLeg.swift */,
+				A10000000000000000000026 /* NSDTOs.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000052 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000027 /* NSAPIClient.swift */,
+				A10000000000000000000028 /* NSDateParsing.swift */,
+				A10000000000000000000033 /* APIKey.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000053 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000029 /* TrainStatusMapping.swift */,
+				A1000000000000000000002A /* JourneySchedule.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000054 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000002B /* ConfigStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000055 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000002C /* RootView.swift */,
+				A1000000000000000000002D /* SetupView.swift */,
+				A1000000000000000000002E /* StationField.swift */,
+				A1000000000000000000002F /* JourneyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000056 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000020 /* TravelScreenApp.swift */,
+				A10000000000000000000021 /* AppState.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000058 /* TravelScreenTests */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000040 /* StatusMappingTests.swift */,
+				A10000000000000000000041 /* JourneyScheduleTests.swift */,
+				A10000000000000000000042 /* DecodingTests.swift */,
+				A10000000000000000000047 /* APIKeyTests.swift */,
+				A10000000000000000000059 /* Fixtures */,
+			);
+			path = TravelScreenTests;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000059 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000043 /* trips-on-time.json */,
+				A10000000000000000000044 /* trips-delayed.json */,
+				A10000000000000000000045 /* trips-cancelled.json */,
+				A10000000000000000000046 /* stations.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		A1000000000000000000005B /* TravelScreenWidget */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000004B /* TravelScreenWidgetBundle.swift */,
+				A1000000000000000000004C /* JourneyWidget.swift */,
+				A10000000000000000000048 /* Info.plist */,
+				A1000000000000000000004A /* TravelScreenWidget.entitlements */,
+			);
+			path = TravelScreenWidget;
+			sourceTree = "<group>";
+		};
+		AFBA8AD1302E98A800CB810A /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000015 /* TravelScreenWidget.appex */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10000000000000000000010 /* TravelScreen */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000000000000000000B1 /* Build configuration list for PBXNativeTarget "TravelScreen" */;
+			buildPhases = (
+				A10000000000000000000061 /* Sources */,
+				A10000000000000000000062 /* Frameworks */,
+				A10000000000000000000063 /* Resources */,
+				A10000000000000000000077 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TravelScreen;
+			productName = TravelScreen;
+			productReference = A10000000000000000000012 /* TravelScreen.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A10000000000000000000011 /* TravelScreenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000000000000000000B2 /* Build configuration list for PBXNativeTarget "TravelScreenTests" */;
+			buildPhases = (
+				A10000000000000000000070 /* Sources */,
+				A10000000000000000000071 /* Frameworks */,
+				A10000000000000000000072 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A10000000000000000000073 /* PBXTargetDependency */,
+			);
+			name = TravelScreenTests;
+			productName = TravelScreenTests;
+			productReference = A10000000000000000000013 /* TravelScreenTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A10000000000000000000014 /* TravelScreenWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000000000000000000C2 /* Build configuration list for PBXNativeTarget "TravelScreenWidget" */;
+			buildPhases = (
+				A10000000000000000000074 /* Sources */,
+				A10000000000000000000075 /* Frameworks */,
+				A10000000000000000000076 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TravelScreenWidget;
+			productName = TravelScreenWidget;
+			productReference = A10000000000000000000015 /* TravelScreenWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A10000000000000000000010 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					A10000000000000000000011 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = A10000000000000000000010;
+					};
+					A10000000000000000000014 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A100000000000000000000B0 /* Build configuration list for PBXProject "TravelScreen" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10000000000000000000002;
+			productRefGroup = A10000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000010 /* TravelScreen */,
+				A10000000000000000000011 /* TravelScreenTests */,
+				A10000000000000000000014 /* TravelScreenWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000000000000000000063 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000099 /* ../.env in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000072 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000093 /* trips-on-time.json in Resources */,
+				A10000000000000000000094 /* trips-delayed.json in Resources */,
+				A10000000000000000000095 /* trips-cancelled.json in Resources */,
+				A10000000000000000000096 /* stations.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000076 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000000000000000000BF /* ../.env in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10000000000000000000061 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000080 /* TravelScreenApp.swift in Sources */,
+				A10000000000000000000081 /* AppState.swift in Sources */,
+				A10000000000000000000082 /* Station.swift in Sources */,
+				A10000000000000000000083 /* JourneyConfig.swift in Sources */,
+				A10000000000000000000084 /* TrainLeg.swift in Sources */,
+				A10000000000000000000085 /* NSDTOs.swift in Sources */,
+				A10000000000000000000086 /* NSAPIClient.swift in Sources */,
+				A10000000000000000000087 /* NSDateParsing.swift in Sources */,
+				A1000000000000000000009A /* APIKey.swift in Sources */,
+				A10000000000000000000088 /* TrainStatusMapping.swift in Sources */,
+				A10000000000000000000089 /* JourneySchedule.swift in Sources */,
+				A1000000000000000000008A /* ConfigStore.swift in Sources */,
+				A1000000000000000000008B /* RootView.swift in Sources */,
+				A1000000000000000000008C /* SetupView.swift in Sources */,
+				A1000000000000000000008D /* StationField.swift in Sources */,
+				A1000000000000000000008E /* JourneyView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000070 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000090 /* StatusMappingTests.swift in Sources */,
+				A10000000000000000000091 /* JourneyScheduleTests.swift in Sources */,
+				A10000000000000000000092 /* DecodingTests.swift in Sources */,
+				A1000000000000000000009B /* APIKeyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000074 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000079 /* TravelScreenWidgetBundle.swift in Sources */,
+				A1000000000000000000007A /* JourneyWidget.swift in Sources */,
+				A100000000000000000000B3 /* Station.swift in Sources */,
+				A100000000000000000000B4 /* JourneyConfig.swift in Sources */,
+				A100000000000000000000B5 /* TrainLeg.swift in Sources */,
+				A100000000000000000000B6 /* NSDTOs.swift in Sources */,
+				A100000000000000000000B7 /* TrainStatusMapping.swift in Sources */,
+				A100000000000000000000B8 /* JourneySchedule.swift in Sources */,
+				A100000000000000000000B9 /* NSDateParsing.swift in Sources */,
+				A100000000000000000000BA /* NSAPIClient.swift in Sources */,
+				A100000000000000000000BB /* APIKey.swift in Sources */,
+				A100000000000000000000BC /* ConfigStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A10000000000000000000073 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A10000000000000000000010 /* TravelScreen */;
+			targetProxy = A10000000000000000000098 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A100000000000000000000A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A100000000000000000000A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A100000000000000000000A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TravelScreen/TravelScreen.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4985P7739M;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TravelScreen/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travelscreen.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A100000000000000000000A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TravelScreen/TravelScreen.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4985P7739M;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TravelScreen/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travelscreen.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A100000000000000000000A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.travelscreen.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelScreen.app/TravelScreen";
+			};
+			name = Debug;
+		};
+		A100000000000000000000A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.travelscreen.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelScreen.app/TravelScreen";
+			};
+			name = Release;
+		};
+		A100000000000000000000C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = TravelScreenWidget/TravelScreenWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4985P7739M;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TravelScreenWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travelscreen.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A100000000000000000000C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = TravelScreenWidget/TravelScreenWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4985P7739M;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TravelScreenWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.travelscreen.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A100000000000000000000B0 /* Build configuration list for PBXProject "TravelScreen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000000000000000000A0 /* Debug */,
+				A100000000000000000000A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A100000000000000000000B1 /* Build configuration list for PBXNativeTarget "TravelScreen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000000000000000000A2 /* Debug */,
+				A100000000000000000000A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A100000000000000000000B2 /* Build configuration list for PBXNativeTarget "TravelScreenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000000000000000000A4 /* Debug */,
+				A100000000000000000000A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A100000000000000000000C2 /* Build configuration list for PBXNativeTarget "TravelScreenWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000000000000000000C0 /* Debug */,
+				A100000000000000000000C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A10000000000000000000001 /* Project object */;
+}

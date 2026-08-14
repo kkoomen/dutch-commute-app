@@ -3,9 +3,13 @@ xcuserdata/
 DerivedData/
 *.xcuserstate
 
+# graphify knowledge graph (generated output)
+graphify-out/
+
 # Secrets — never commit API keys
 Config/Local.xcconfig
 *.local.xcconfig
+src/.env
 
 # macOS
 .DS_Store

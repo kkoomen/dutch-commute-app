@@ -1,0 +1,40 @@
+{
+  "payload": [
+    {
+      "code": "ASDZ",
+      "namen": {
+        "lang": "Amsterdam Zuid",
+        "middel": "Amsterdam Zuid",
+        "kort": "Amsterdam Zuid"
+      },
+      "land": "NL",
+      "lat": 52.3388,
+      "lng": 4.8725,
+      "stationType": "KNOOPPUNT_INTERCITY_STATION"
+    },
+    {
+      "code": "UT",
+      "namen": {
+        "lang": "Utrecht Centraal",
+        "middel": "Utrecht Centraal",
+        "kort": "Utrecht Centraal"
+      },
+      "land": "NL",
+      "lat": 52.0894,
+      "lng": 5.1102,
+      "stationType": "MEGA_STATION"
+    },
+    {
+      "code": "BRU",
+      "namen": {
+        "lang": "Brussel-Zuid",
+        "middel": "Brussel Zuid",
+        "kort": "Brussel"
+      },
+      "land": "BE",
+      "lat": 50.8455,
+      "lng": 4.3555,
+      "stationType": "INTERCITY_STATION"
+    }
+  ]
+}

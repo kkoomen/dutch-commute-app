@@ -8,63 +8,48 @@
   provides an API key.
 - No package dependencies: Foundation, SwiftUI, WidgetKit, XCTest only.
 
-## Project setup (one-time)
+## Project setup (already done — current layout)
 
-1. Create the Xcode project `TravelScreen.xcodeproj` (app target
-   `TravelScreen`, iOS 17+ deployment target).
-2. Add the widget extension target `TravelScreenWidget` (WidgetKit extension,
-   Lock Screen widget).
-3. Enable the App Group capability on both targets and use a shared group,
-   e.g. `group.<your-bundle-id>.travelscreen`.
-4. Add a unit test target `TravelScreenTests`.
-5. Copy this directory's `docs/` and `AGENTS.md` into the repo root if not
-   already there.
-
-### Proposed structure
+All code lives under `src/`:
 
 ```
-TravelScreen.xcodeproj
-TravelScreen/            app target
-  App/, Views/, Models/, Networking/, Domain/, Store/
-TravelScreenWidget/      widget extension
-  Widget/, Timeline/
-TravelScreenTests/       unit tests
-  Fixtures/              JSON fixtures
-docs/                    this documentation
-Config/Local.xcconfig    git-ignored, holds NS_API_KEY
+src/
+  TravelScreen.xcodeproj
+  TravelScreen/            app target
+    App/, Views/, Models/, Networking/, Domain/, Store/
+  TravelScreenTests/       unit tests
+    Fixtures/              JSON fixtures
+  .env                     git-ignored, holds NS_API_KEY (bundled as resource)
+  .env.example             committed template
 ```
+
+A widget extension target (`TravelScreenWidget`) exists with the app and
+shares the App Group `group.com.travelscreen.app` (entitlements in both
+targets). Bundle id: `com.travelscreen.app.widget`.
 
 ## `NS_API_KEY` configuration
 
-The key is read from the `NS_API_KEY` environment variable. Recommended
-plumbing:
+The key lives only in the git-ignored `src/.env` — no build scripts involved:
 
-1. Create `Config/Local.xcconfig` (git-ignored):
+1. Create `src/.env` (copy from `src/.env.example`):
    ```
-   NS_API_KEY = <your-key>
+   NS_API_KEY="<your-key>"
    ```
-2. Reference it from the project; add a scheme environment variable
-   `NS_API_KEY = $(NS_API_KEY)` to the Run and Test actions so the app
-   process (and tests, if ever needed) see it via
-   `ProcessInfo.processInfo.environment["NS_API_KEY"]`.
-3. For the widget extension process: write the key into the shared App Group
-   container from the app at launch (or embed via the same xcconfig + Info.plist
-   build-setting pattern). Exact mechanism decided during development — the
-   hard rule: **never commit the key**.
-4. CI/team members: copy `Config/Local.xcconfig.example` (a placeholder file
-   that is committed) to `Config/Local.xcconfig` and fill in the key.
+2. Xcode copies `src/.env` into the app bundle as a resource (file
+   reference `../.env` in the app target's Copy Bundle Resources phase).
+3. At runtime, `APIKey.ns` (in `TravelScreen/Networking/APIKey.swift`) parses
+   `NS_API_KEY` from the bundled `.env` and hands it to `NSAPIClient`.
 
-`.gitignore` already excludes `Config/Local.xcconfig` and `*.local.xcconfig`.
+Rebuild the app after changing the key. `.gitignore` excludes `src/.env`.
 Verify with `git status` that no key ever appears in a diff.
 
 ## Build & run
 
 ```sh
-open TravelScreen.xcodeproj
+open src/TravelScreen.xcodeproj
 ```
 
-Run the app scheme from Xcode. The widget appears in the simulator/device
-Lock Screen gallery under the app's name.
+Run the app scheme from Xcode.
 
 ## Tests
 
@@ -72,7 +57,7 @@ See `docs/testing.md`:
 
 ```sh
 xcodebuild test \
-  -project TravelScreen.xcodeproj \
+  -project src/TravelScreen.xcodeproj \
   -scheme TravelScreen \
   -destination 'platform=iOS Simulator,name=iPhone 16'
 ```

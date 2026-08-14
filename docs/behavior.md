@@ -14,20 +14,35 @@ nice-to-have, not required.
 
 ## Widget display
 
-The Lock Screen widget shows, for the selected journey:
+The widget (`JourneyWidget`) shows the **next upcoming leg** of the active
+journey (outbound leg before the departure time, return leg after it) with
+this fixed three-line structure:
 
 ```
-🚆 IC 1234
-Utrecht → Amsterdam
-18:42 · On time
+🚆 Utrecht Centraal
+Outbound 08:11
+On time
 ```
 
-- **Line 1**: train category + number (e.g. `IC 1234`), with a small emoji
-  indicator (🚆 on time, ⚠️ delayed, ✖️ cancelled).
-- **Line 2**: route in the direction of travel (destination first if the train
-  runs the reverse of the user's configured direction).
-- **Line 3**: departure time + status.
+- **Line 1**: train icon + destination name (the configured destination of
+  the leg: `to` for Outbound, `from` for Return).
+- **Line 2**: leg kind (`Outbound` / `Return`) + departure time (actual when
+  delayed, else planned).
+- **Line 3**: status — `On time` / `+X min` / `Cancelled`.
 
+## Widget sizes
+
+The widget supports these families with the same three-line structure:
+
+- `systemSmall` (2×2 grid cells)
+- `systemMedium` (4×2)
+- `systemLarge` (4×4)
+- `systemExtraLarge` (iPad, 4×4)
+- `accessoryRectangular` (Lock Screen, three lines)
+- `accessoryCircular` (Lock Screen square 1×1: train icon + status)
+- `accessoryInline` (Lock Screen, condensed single line)
+
+`accessoryCorner` is watchOS-only and not supported.
 Status strings:
 
 | State     | Display              |
@@ -69,6 +84,14 @@ Given the config and the API response, pick the train to show:
    after the last configured departure is *not* shown — show "no train"
    instead (the commute window is over). *(Exact rule confirmed during
    development — the key requirement is determinism and tests.)*
+
+## Adding the widget
+
+The "Add to lock screen" button at the bottom of "My journey" opens a sheet
+with instructions (press and hold the Lock Screen → Customize → Add Widget →
+Travel Screen). There is no public API to add a widget programmatically, so
+the app guides the user instead. The widget appears in the gallery after the
+app has run once.
 
 ## Refresh behavior
 

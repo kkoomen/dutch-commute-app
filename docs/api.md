@@ -2,96 +2,86 @@
 
 ## Source of truth
 
-The official **NS Reisinformatie API** (NS "Reisinformatie" portal,
-`gateway.apiportal.ns.nl`). This is the only allowed data source. Scraping NS
-websites or apps is forbidden.
+The **trips operation** of the official NS Reisinformatie API
+(`gateway.apiportal.ns.nl`). The official portal documentation is saved as
+`docs/trips-api.html`. This is the **only** API surface used by the app.
 
-Relevant endpoints (v3):
+```
+GET /reisinformatie-api/api/v3/trips
+```
 
-- `GET /reisinformatie-api/api/v3/trips` — journey advice between two stations;
-  returns trips with legs, planned/actual times, and cancellation info.
-- `GET /reisinformatie-api/api/v3/departures` — live departures from one
-  station; returns trains with category/number, route, planned/actual times,
-  and cancellation info.
-- `GET /reisinformatie-api/api/v3/stations` — station list (for a station
-  picker/search, optional).
-
-**Endpoint choice is an open decision** for the widget lookup:
-
-- `trips` matches the user's origin → destination directly, but returns
-  journeys (possibly with transfers) rather than a single train.
-- `departures` gives raw trains at the origin station; the route must be
-  matched to the destination, but it's closer to "what train do I take".
-
-Primary recommendation: `trips`, matching the user's exact configured journey.
-Finalize during development; the networking layer must make swapping easy.
+Note (verified live 2026-08-14): other routes on this subscription —
+`/v3/stations`, `/v3/departures`, and all non-trips paths — return
+`404 {"statusCode":404,"message":"Resource not found"}`. Everything the app
+needs comes from `trips`.
 
 ## Authentication
 
 - API key in the `Ocp-Apim-Subscription-Key` header.
-- The key is read from the **`NS_API_KEY` environment variable** at build/run
-  time (see `development.md` for plumbing).
+- The key comes from the git-ignored `src/.env` (`NS_API_KEY`), bundled into
+  the app as a resource and read at runtime by `APIKey.ns` — see
+  `development.md`. No build scripts.
 - **Never hard-code the key. Never commit it.** It must not appear in source,
   git history, or generated files.
-- v3 also supports OAuth2 client credentials as an alternative — not needed
-  unless the API key stops working.
 
-## Request parameters (trips)
+## Request parameters (verified live)
 
-| Parameter | Value |
-|-----------|-------|
-| `fromStation` | origin station code, e.g. `ASDZ` (Amsterdam Zuid) |
-| `toStation` | destination station code, e.g. `UT` (Utrecht Centraal) |
-| `dateTime` | ISO-8601 date/time of the approximate departure (Europe/Amsterdam) |
-| `searchForArrivalDeparture` | `departure` |
-| `lang` | `nl` or `en` (UI language; decide during development) |
+| Parameter | Value used by the app | Notes |
+|-----------|----------------------|-------|
+| `fromStation` | origin station code, e.g. `ASDZ` | Accepts NS codes or names |
+| `toStation` | destination station code, e.g. `UT` | Same |
+| `dateTime` | ISO-8601 with offset, e.g. `2026-08-14T08:11:00+02:00` | Europe/Amsterdam; past and future dates both accepted |
+| `searchForArrivalDeparture` | `departure` | `arrival` also valid |
+| `lang` | `en` | Response text language |
 
-Station codes are NS codes (e.g. `ASD` Amsterdam Centraal, `ASDZ` Amsterdam
-Zuid, `UT` Utrecht Centraal). The app stores station codes, not free text.
+## Response keys (verified against a live response)
 
-## Models (key fields)
+Times live on the leg's `origin` / `destination` objects — **not** on the leg
+itself. The app reads only these keys:
 
-Domain models: `JourneyConfig`, `Trip`, `Train`, `TrainStatus`.
+| Path (inside `trips[].legs[]`) | Type | Used for |
+|---|---|---|
+| `name` | string | Train display, e.g. `"IC 3008"` → "🚆 IC 3008" |
+| `direction` | string | Shown as "→ Den Helder" |
+| `cancelled` | bool | Full cancellation → status `.cancelled` |
+| `origin.plannedDateTime` | string | Planned departure (status derivation) |
+| `origin.actualDateTime` | string? | Actual departure; delay = actual − planned, floored to minutes |
+| `product.number`, `product.categoryCode` | string | Fallback display name when `name` is missing (e.g. `"IC 1234"`) |
+| `destination.plannedDateTime` | string | Arrival context (not displayed yet) |
+| `trips[].status` | string | Trip-level status; `"NORMAL"` observed (informational) |
 
-DTOs mirror the v3 response shapes. Key fields relied on (exact names verified
-against the NS OpenAPI spec when implementing):
+Notes:
 
-- **Trip / leg**: `name` (e.g. `"IC 1234"`), `direction`, `plannedDeparture`,
-  `actualDeparture`, `plannedArrival`, `actualArrival`, `cancelled`, and
-  `messages` (user-visible info, e.g. delay explanations).
-- Time fields are ISO-8601 strings in `Europe/Amsterdam`.
+- Timestamps are ISO-8601 **without colon in the offset**
+  (`2026-08-14T05:41:00+0200`). `NSDateParser` also accepts `+02:00` and `Z`.
+- `partCancelled`, `transfers`, `optimal`, `realtime`, per-stop
+  `cancelled`/`departureDelayInSeconds`, and `product.longCategoryName` exist
+  in the response but are not used for status yet — only `leg.cancelled` is.
 
-Only fields needed for display and status derivation are decoded. Unknown
-fields are ignored (don't build a full client library).
+Only fields needed for display and status derivation are decoded (`TripDTO`,
+`LegDTO` in `TravelScreen/Models/NSDTOs.swift`). Unknown fields are ignored —
+no full client library.
+
+Domain models: `JourneyConfig`, `TrainLeg`, `TrainStatus`.
 
 ## Errors
 
 | Case | Handling |
 |------|----------|
+| 400 | Bad request (e.g. unknown station code) — treat as config error |
 | 401 / 403 | Invalid or missing API key — surface as "API not configured" |
-| 404 | Bad station code — treat as config error |
-| 429 | Rate limited — back off; widget shows last known/unavailable |
-| 5xx | NS API failure — same graceful degradation |
+| 429 | Rate limited — back off; show last known/unavailable |
+| 5xx | NS API failure — graceful degradation |
 | Network failure / timeout | Last known status or "unavailable" |
 | Decoding failure | Log, degrade gracefully; never crash |
 
-All errors funnel into one `NSAPIError` enum so the app and widget handle them
-uniformly. No retry storms from the widget; respect system refresh cadence.
+All errors funnel into one `NSAPIError` enum (`missingAPIKey`, `invalidURL`,
+`httpStatus`, `decoding`, `noTrips`, `network`).
 
 ## Mock-data strategy
 
-- **Fixtures**: bundled JSON files in the test target capturing realistic
-  v3 responses: on-time train, delayed train, cancelled train, no trains,
-  missing/null fields.
-- **Transport injection**: `NSAPIClient` takes a transport (protocol or
-  `URLProtocol` mock) so tests substitute fixtures without real network.
-- **Never** hit the live API in unit tests; tests must run without
-  `NS_API_KEY`.
-- Optionally, a `MockNSAPIClient` with canned responses for UI previews and
-  widget previews (`#Preview` / `PreviewProvider`).
-
-## Rate limits & fairness
-
-Check NS portal limits when the key is provisioned. The widget must not fetch
-more often than necessary: one request per timeline generation, refreshed at
-system cadence plus one refresh after the shown train departs.
+- **Fixtures**: bundled JSON files in the test target (`trips-on-time.json`,
+  `trips-delayed.json`, `trips-cancelled.json`) capturing the real response
+  shape: legs with `origin`/`destination` objects, `+0200` timestamps.
+- **Never** hit the live API in unit tests; tests run without a key.
+- Fixtures must be updated in the same change whenever the DTOs change.
