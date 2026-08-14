@@ -1,26 +1,51 @@
 import SwiftUI
 
-/// A From/To row that opens the full-height station picker sheet.
-struct StationPickerRow: View {
+/// A From/To row in the route diagram style (dot + connecting line, like
+/// the journey cards): tapping the station name opens the picker sheet.
+struct RouteStationRow: View {
     let label: LocalizedStringKey
     @Binding var station: Station?
+    /// Whether a connecting line is drawn below the dot.
+    var showsLine: Bool
     @State private var showPicker = false
 
     var body: some View {
-        Button {
-            showPicker = true
-        } label: {
-            HStack {
-                Text(label)
-                    .foregroundStyle(Palette.textSecondary)
-                Spacer()
-                Text(station?.name ?? String(localized: "Select station"))
-                    .foregroundStyle(station == nil ? Palette.textTertiary : Palette.textPrimary)
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
+        HStack(alignment: .top, spacing: 9) {
+            VStack(spacing: 0) {
+                Circle()
+                    .fill(Palette.primary)
+                    .frame(width: 9, height: 9)
+                    .padding(.top, 3)
+                if showsLine {
+                    Rectangle()
+                        .fill(Palette.primary.opacity(0.35))
+                        .frame(width: 2)
+                        .frame(maxHeight: .infinity)
+                        .padding(.vertical, -4)
+                }
             }
+            Button {
+                showPicker = true
+            } label: {
+                HStack {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(station?.name ?? String(localized: "Select station"))
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(station == nil ? Palette.textTertiary : Palette.textPrimary)
+                        Text(label)
+                            .font(.caption2)
+                            .foregroundStyle(Palette.textSecondary)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
         }
+        .padding(.vertical, 2)
         .sheet(isPresented: $showPicker) {
             StationPickerSheet(title: label, station: $station)
         }

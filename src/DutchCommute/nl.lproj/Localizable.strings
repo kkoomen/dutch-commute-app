@@ -11,7 +11,6 @@
 "Results" = "Resultaten";
 "Start typing to search stations." = "Begin met typen om stations te zoeken.";
 "No stations found." = "Geen stations gevonden.";
-"Travel options" = "Reisopties";
 "Select a from and to station first." = "Selecteer eerst een vertrek- en aankomststation.";
 "Return" = "Terugreis";
 "Tap to set" = "Tik om in te stellen";
@@ -32,9 +31,6 @@
 "Manual time" = "Handmatige tijd";
 "Set" = "Instellen";
 
-/* App UI — travel options sheet */
-"Transport" = "Vervoer";
-"At least one mode is required." = "Selecteer ten minste één vervoerswijze.";
 "Done" = "Klaar";
 "Selected" = "Geselecteerd";
 "Not selected" = "Niet geselecteerd";

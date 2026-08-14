@@ -193,36 +193,28 @@ final class DecodingTests: XCTestCase {
             to: Station(code: "ASD", name: "Amsterdam Centraal"),
             departMinutes: 480,
             returnMinutes: 1080,
-            days: [.monday, .friday],
-            transportModes: [.train, .bus]
+            days: [.monday, .friday]
         )
         let data = try JSONEncoder().encode(config)
         let decoded = try JSONDecoder().decode(JourneyConfig.self, from: data)
-        XCTAssertEqual(decoded.transportModes, [.train, .bus])
         XCTAssertEqual(decoded.departMinutes, 480)
+        XCTAssertEqual(decoded.days, [.monday, .friday])
     }
 
     func testJourneyConfigOldFormatDecodesWithDefaults() throws {
-        // A config persisted before `transportModes` existed must still
-        // decode: all transport modes selected.
+        // Configs persisted before `isActive` existed must still decode.
         let json = #"{"id":"11111111-1111-1111-1111-111111111111","createdAt":0,"from":{"code":"HKS","name":"Hoogkarspel"},"to":{"code":"ASD","name":"Amsterdam Centraal"},"departMinutes":480,"returnMinutes":1080,"days":[1,2]}"#
         let decoded = try JSONDecoder().decode(JourneyConfig.self, from: Data(json.utf8))
-        XCTAssertEqual(decoded.transportModes, Set(TransportMode.allCases))
+        XCTAssertFalse(decoded.isActive)
         XCTAssertEqual(decoded.from.code, "HKS")
     }
 
-    func testJourneyConfigLegacySingleModeDecodes() throws {
-        // Configs saved when `transportMode` was a single value still work.
-        let json = #"{"id":"11111111-1111-1111-1111-111111111111","createdAt":0,"from":{"code":"HKS","name":"Hoogkarspel"},"to":{"code":"ASD","name":"Amsterdam Centraal"},"departMinutes":480,"returnMinutes":1080,"days":[1,2],"transportMode":"bus"}"#
+    /// Configs saved with the removed `transportModes` key still decode
+    /// (the key is ignored).
+    func testJourneyConfigIgnoresRemovedTransportModes() throws {
+        let json = #"{"id":"11111111-1111-1111-1111-111111111111","createdAt":0,"from":{"code":"HKS","name":"Hoogkarspel"},"to":{"code":"ASD","name":"Amsterdam Centraal"},"departMinutes":480,"returnMinutes":1080,"days":[1,2],"transportModes":["train"]}"#
         let decoded = try JSONDecoder().decode(JourneyConfig.self, from: Data(json.utf8))
-        XCTAssertEqual(decoded.transportModes, [.bus])
-    }
-
-    func testDisabledModalityCodes() {
-        let all = Set(TransportMode.allCases)
-        XCTAssertEqual(TransportMode.disabledModalityCodes(keeping: all), "")
-        XCTAssertEqual(TransportMode.disabledModalityCodes(keeping: [.train]), "BUS,METRO,TRAM,FERRY")
-        XCTAssertEqual(TransportMode.disabledModalityCodes(keeping: [.train, .bus]), "METRO,TRAM,FERRY")
-        XCTAssertEqual(TransportMode.disabledModalityCodes(keeping: [.ferry]), "TRAIN,BUS,METRO,TRAM")
+        XCTAssertEqual(decoded.departMinutes, 480)
+        XCTAssertEqual(decoded.from.code, "HKS")
     }
 }

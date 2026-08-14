@@ -14,15 +14,13 @@
 ## Configuration flow (app)
 
 1. User taps "+" on My journeys.
-2. Picks **origin** and **destination** stations (NS station codes under the
-   hood) and opens **Travel options** (a full-height modal): a **multi-
-   select** of transport modes — Train, Bus, Metro, Tram, Ferry — shown as
-   icon tiles, **all selected by default** (at least one is required). A
-   blue checkmark closes it; the selected modes are shown on the "Travel
-   options" row. Autocomplete kicks in after **2 non-whitespace characters** and
-   queries the station list only after the user **hasn't typed for
-   500 ms**; the station list itself is fetched at most once per app
-   session.
+2. Picks **origin** and **destination** stations in the route section
+   (dot-line diagram like the journey cards); tapping a station opens the
+   full-height **station picker** with a search input on top and a shared
+   history of previously picked stations below. Autocomplete kicks in
+   after **2 non-whitespace characters** and queries the station list only
+   after the user **hasn't typed for 500 ms**; the station list itself is
+   fetched at most once per app session.
 3. Picks **days of the week** (e.g. Mon–Fri).
 4. Sets **departure and return times**: tapping the Depart or Return row
    opens a bottom sheet with a **wheel picker** for the preferred time.

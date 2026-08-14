@@ -35,7 +35,6 @@ subscription.
 | `toStation` | station **name**, e.g. `Amsterdam Centraal` | Same |
 | `dateTime` | ISO-8601 with offset, e.g. `2026-08-14T17:00:00+02:00` | Must be a **current/recent date** — old dates (e.g. 2000-01-01) return HTTP 400 |
 | `searchForArrival` | `false` | Explicit departure search (matches the verified curl) |
-| `disabledTransportModalities` | e.g. `BUS,FERRY,TRAM,METRO` | All modes except the selected ones; **omitted entirely when all modes are selected** |
 | `lang` | `en` | Response text language |
 
 Notes from `docs/trips-api.html`:
@@ -56,8 +55,7 @@ a bottom sheet (`TimePickerSheet`) with a **wheel picker** for the
   `trips` request** for that leg (`from → to` for depart, `to → from` for
   return) with `dateTime` = **today at the preferred time**
   (Europe/Amsterdam), `fromStation`/`toStation` = names,
-  `searchForArrival=false`, `lang=en`, plus
-  `disabledTransportModalities` when configured.
+  `searchForArrival=false`, `lang=en`.
 - Results are **cached for 2 minutes** keyed by
   `<fromCode>-<toCode>-<modes>-<preferredMinute>`
   (`TripsSearchCache`, held by `NSAPIClient`), so scrolling back and forth

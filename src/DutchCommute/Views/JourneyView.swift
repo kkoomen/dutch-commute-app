@@ -102,8 +102,8 @@ struct JourneyView: View {
 
         let times = JourneySchedule.legTimes(on: date, config: config)
         do {
-            async let outboundTrip = state.client.fetchTrip(from: config.from, to: config.to, at: times.outbound, transportModes: config.transportModes)
-            async let returnTrip = state.client.fetchTrip(from: config.to, to: config.from, at: times.return, transportModes: config.transportModes)
+            async let outboundTrip = state.client.fetchTrip(from: config.from, to: config.to, at: times.outbound)
+            async let returnTrip = state.client.fetchTrip(from: config.to, to: config.from, at: times.return)
             let (outbound, returnLeg) = try await (outboundTrip, returnTrip)
             legs[.outbound] = outbound.firstLeg.flatMap(TrainLeg.init)
             legs[.returnLeg] = returnLeg.firstLeg.flatMap(TrainLeg.init)

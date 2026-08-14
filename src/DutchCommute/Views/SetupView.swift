@@ -11,8 +11,6 @@ struct SetupView: View {
 
     @State private var from: Station?
     @State private var to: Station?
-    @State private var transportModes: Set<TransportMode> = Set(TransportMode.allCases)
-    @State private var showTravelOptions = false
     /// nil until the user picks a real departure time (rows show "Tap to set").
     @State private var departMinutes: Int?
     @State private var returnMinutes: Int?
@@ -24,7 +22,6 @@ struct SetupView: View {
         if let prefill {
             _from = State(initialValue: prefill.from)
             _to = State(initialValue: prefill.to)
-            _transportModes = State(initialValue: prefill.transportModes)
             _departMinutes = State(initialValue: prefill.departMinutes)
             _returnMinutes = State(initialValue: prefill.returnMinutes)
             _days = State(initialValue: prefill.days)
@@ -47,19 +44,8 @@ struct SetupView: View {
             }
 
             Section("Route") {
-                StationPickerRow(label: "From", station: $from)
-                StationPickerRow(label: "To", station: $to)
-                Button {
-                    showTravelOptions = true
-                } label: {
-                    HStack {
-                        Text("Travel options")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
-                    }
-                }
+                RouteStationRow(label: "From", station: $from, showsLine: true)
+                RouteStationRow(label: "To", station: $to, showsLine: false)
             }
 
             Section {
@@ -121,14 +107,10 @@ struct SetupView: View {
                     defaultHour: target == .depart ? 8 : 18,
                     from: target == .depart ? from : to,
                     to: target == .depart ? to : from,
-                    transportModes: transportModes,
                     client: state.client,
                     selection: target == .depart ? $departMinutes : $returnMinutes
                 )
             }
-        }
-        .sheet(isPresented: $showTravelOptions) {
-            TravelOptionsSheet(transportModes: $transportModes)
         }
     }
 
@@ -162,7 +144,6 @@ struct SetupView: View {
         if var existing = prefill {
             existing.from = from
             existing.to = to
-            existing.transportModes = transportModes
             existing.departMinutes = departMinutes
             existing.returnMinutes = returnMinutes
             existing.days = days
@@ -175,8 +156,7 @@ struct SetupView: View {
                 to: to,
                 departMinutes: departMinutes,
                 returnMinutes: returnMinutes,
-                days: days,
-                transportModes: transportModes
+                days: days
             ))
         }
         dismiss()
@@ -202,7 +182,6 @@ private struct TimePickerSheet: View {
     let defaultHour: Int
     let from: Station
     let to: Station
-    let transportModes: Set<TransportMode>
     let client: NSAPIClient
     @Binding var selection: Int?
     @Environment(\.dismiss) private var dismiss
@@ -215,12 +194,11 @@ private struct TimePickerSheet: View {
     @State private var searchTask: Task<Void, Never>?
     @State private var manualDate: Date
 
-    init(title: LocalizedStringKey, defaultHour: Int, from: Station, to: Station, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
+    init(title: LocalizedStringKey, defaultHour: Int, from: Station, to: Station, client: NSAPIClient, selection: Binding<Int?>) {
         self.title = title
         self.defaultHour = defaultHour
         self.from = from
         self.to = to
-        self.transportModes = transportModes
         self.client = client
         _selection = selection
         // Start the wheel at the current value when editing, else the default
@@ -331,7 +309,7 @@ private struct TimePickerSheet: View {
             guard !Task.isCancelled else { return }
             hasSearched = true
             do {
-                let minutes = try await client.departureMinutes(from: from, to: to, transportModes: transportModes, at: snapshot)
+                let minutes = try await client.departureMinutes(from: from, to: to, at: snapshot)
                 guard !Task.isCancelled else { return }
                 results = minutes
                 isLoading = false
@@ -341,106 +319,6 @@ private struct TimePickerSheet: View {
                 isLoading = false
             }
         }
-    }
-}
-
-/// Full-height modal with the transport mode multi-select (all selected by
-/// default, at least one required) and the optional via station. The blue
-/// checkmark closes it; changes apply to the form immediately.
-private struct TravelOptionsSheet: View {
-    @Binding var transportModes: Set<TransportMode>
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            List {
-                Section("Transport") {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                        ForEach(TransportMode.allCases) { mode in
-                            TransportModeTile(mode: mode, isSelected: transportModes.contains(mode)) {
-                                toggle(mode)
-                            }
-                        }
-                    }
-                    .padding(.vertical, 4)
-                    Text("At least one mode is required.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .navigationTitle("Travel options")
-            .navigationBarTitleDisplayMode(.inline)
-            .scrollContentBackground(.hidden)
-            .background(Palette.background)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "checkmark")
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.tint)
-                    }
-                    .accessibilityLabel("Done")
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") { dismiss() }
-                }
-            }
-        }
-        .presentationDetents([.large])
-    }
-
-    /// Toggles a mode, refusing to remove the last selected one.
-    private func toggle(_ mode: TransportMode) {
-        if transportModes.contains(mode) {
-            guard transportModes.count > 1 else { return }
-            transportModes.remove(mode)
-        } else {
-            transportModes.insert(mode)
-        }
-    }
-}
-
-/// One selectable transport mode tile: icon with the name below it.
-private struct TransportModeTile: View {
-    let mode: TransportMode
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 6) {
-                Image(systemName: mode.icon)
-                    .font(.title2)
-                    .frame(height: 26)
-                Text(mode.label)
-                    .font(.caption.weight(.medium))
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 12)
-            .foregroundStyle(isSelected ? Palette.primary : Palette.textPrimary)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? Palette.primary.opacity(0.15) : Palette.surfaceSecondary)
-            )
-            .overlay {
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isSelected ? Palette.primary : .clear, lineWidth: 1.5)
-            }
-            .overlay(alignment: .topTrailing) {
-                if isSelected {
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.caption)
-                        .foregroundStyle(Palette.primary)
-                        .background(Circle().fill(Palette.surface))
-                        .padding(4)
-                }
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(mode.label)
-        .accessibilityValue(isSelected ? "Selected" : "Not selected")
     }
 }
 

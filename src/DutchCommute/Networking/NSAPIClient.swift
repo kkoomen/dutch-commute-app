@@ -59,10 +59,9 @@ struct NSAPIClient {
         return Self.nlStations(response.payload)
     }
 
-    /// The first trip departing at/after `date` on the given route
-    /// (in the given modes).
-    func fetchTrip(from: Station, to: Station, at date: Date, transportModes: Set<TransportMode> = Set(TransportMode.allCases)) async throws -> TripDTO {
-        guard let trip = try await fetchTrips(from: from, to: to, at: date, transportModes: transportModes).first else {
+    /// The first trip departing at/after `date` on the given route.
+    func fetchTrip(from: Station, to: Station, at date: Date) async throws -> TripDTO {
+        guard let trip = try await fetchTrips(from: from, to: to, at: date).first else {
             throw NSAPIError.noTrips
         }
         return trip
@@ -72,9 +71,8 @@ struct NSAPIClient {
     /// Mirrors the verified-working request shape (see docs/api.md):
     /// station *names* (not codes), `searchForArrival=false` for departure
     /// search, and a current/recent `dateTime` (old dates like 2000-01-01
-    /// return HTTP 400). `transportModes` is sent as
-    /// `disabledTransportModalities` (omitted when all modes are selected).
-    func fetchTrips(from: Station, to: Station, at date: Date, transportModes: Set<TransportMode> = Set(TransportMode.allCases)) async throws -> [TripDTO] {
+    /// return HTTP 400).
+    func fetchTrips(from: Station, to: Station, at date: Date) async throws -> [TripDTO] {
         var components = URLComponents(url: baseURL.appendingPathComponent("trips"), resolvingAgainstBaseURL: false)!
         var items = [
             URLQueryItem(name: "fromStation", value: from.name),
@@ -83,10 +81,6 @@ struct NSAPIClient {
             URLQueryItem(name: "searchForArrival", value: "false"),
             URLQueryItem(name: "lang", value: "en"),
         ]
-        let disabled = TransportMode.disabledModalityCodes(keeping: transportModes)
-        if !disabled.isEmpty {
-            items.append(URLQueryItem(name: "disabledTransportModalities", value: disabled))
-        }
         components.queryItems = items
         guard let url = components.url else { throw NSAPIError.invalidURL }
         let data = try await get(url: url)
@@ -113,16 +107,15 @@ struct NSAPIClient {
     }
 
     /// Distinct departure minutes-of-day for a route at a preferred time,
-    /// cached for 2 minutes per (from, to, modes, minute) tuple.
-    func departureMinutes(from: Station, to: Station, transportModes: Set<TransportMode> = Set(TransportMode.allCases), at preferred: Date) async throws -> [Int] {
+    /// cached for 2 minutes per (from, to, minute) tuple.
+    func departureMinutes(from: Station, to: Station, at preferred: Date) async throws -> [Int] {
         let calendar = JourneySchedule.calendar
         let minute = calendar.component(.hour, from: preferred) * 60 + calendar.component(.minute, from: preferred)
-        let modesKey = transportModes.map(\.rawValue).sorted().joined(separator: "+")
-        let key = "\(from.code)-\(to.code)-\(modesKey)-\(minute)"
+        let key = "\(from.code)-\(to.code)-\(minute)"
         if let cached = await cache.value(for: key) {
             return cached
         }
-        let trips = try await fetchTrips(from: from, to: to, at: preferred, transportModes: transportModes)
+        let trips = try await fetchTrips(from: from, to: to, at: preferred)
         let minutes = Self.departureMinutes(of: trips, calendar: calendar)
         await cache.store(minutes, for: key)
         return minutes

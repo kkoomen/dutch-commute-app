@@ -11,7 +11,6 @@
 "Results" = "Results";
 "Start typing to search stations." = "Start typing to search stations.";
 "No stations found." = "No stations found.";
-"Travel options" = "Travel options";
 "Select a from and to station first." = "Select a from and to station first.";
 "Return" = "Return";
 "Tap to set" = "Tap to set";
@@ -32,9 +31,6 @@
 "Manual time" = "Manual time";
 "Set" = "Set";
 
-/* App UI — travel options sheet */
-"Transport" = "Transport";
-"At least one mode is required." = "At least one mode is required.";
 "Done" = "Done";
 "Selected" = "Selected";
 "Not selected" = "Not selected";
