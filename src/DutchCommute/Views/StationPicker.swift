@@ -41,7 +41,7 @@ struct RouteStationRow: View {
             }
             .buttonStyle(.plain)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 8)
         .sheet(isPresented: $showPicker) {
             StationPickerSheet(title: label, station: $station)
         }
