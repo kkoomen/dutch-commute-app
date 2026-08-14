@@ -72,7 +72,7 @@ enum TransportMode: String, CaseIterable, Identifiable, Codable {
 /// return times, and active days.
 struct JourneyConfig: Codable, Equatable, Identifiable {
     var id: UUID
-    /// Absolute creation time — shown on the "My journeys" list.
+    /// Absolute creation time (persisted; used for ordering).
     var createdAt: Date
     var from: Station
     /// Optional intermediate station for the trip.

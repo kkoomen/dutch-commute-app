@@ -88,21 +88,25 @@ private struct JourneyCard: View {
     let journey: JourneyConfig
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .top, spacing: 12) {
             Image(systemName: "line.3.horizontal")
                 .foregroundStyle(.tertiary)
                 .accessibilityLabel("Drag to reorder")
 
             VStack(alignment: .leading, spacing: 2) {
                 StationRouteView(stations: stationNames)
-                Text("\(Self.timeString(journey.departMinutes)) – \(Self.timeString(journey.returnMinutes)) · \(Self.daysLabel(journey.days))")
+                Text(Self.daysLabel(journey.days))
                     .font(.subheadline)
                     .foregroundStyle(Palette.textSecondary)
                     .padding(.top, 2)
-                Text("Created \(Self.createdString(journey.createdAt))")
-                    .font(.caption2)
-                    .foregroundStyle(Palette.textTertiary)
             }
+
+            Spacer()
+
+            Text("\(Self.timeString(journey.departMinutes)) – \(Self.timeString(journey.returnMinutes))")
+                .font(.subheadline)
+                .monospacedDigit()
+                .foregroundStyle(Palette.textSecondary)
         }
         .padding(.vertical, 2)
     }
@@ -125,16 +129,6 @@ private struct JourneyCard: View {
             return "\(ordered.first!.shortName)–\(ordered.last!.shortName)"
         }
         return ordered.map(\.shortName).joined(separator: ", ")
-    }
-
-    /// Absolute creation time, e.g. "14 Aug 2026, 02:30" (Europe/Amsterdam);
-    /// month names follow the device language.
-    private static func createdString(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
-        formatter.timeZone = JourneySchedule.calendar.timeZone
-        formatter.dateFormat = "d MMM yyyy, HH:mm"
-        return formatter.string(from: date)
     }
 }
 
