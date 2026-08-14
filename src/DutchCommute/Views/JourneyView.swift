@@ -129,7 +129,7 @@ private struct LegCard: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            StationRouteView(stations: stationNames, captions: trackCaptions)
+            StationRouteView(stations: stationNames)
             Spacer()
             if let leg {
                 VStack(alignment: .trailing, spacing: 4) {
@@ -153,19 +153,6 @@ private struct LegCard: View {
 
     private var stationNames: [String] {
         [fromName] + (viaName.map { [$0] } ?? []) + [toName]
-    }
-
-    /// "Spoor X" under each station; with a via station the trip's first
-    /// leg ends there, so the arrival track belongs to the via stop and the
-    /// final station's track is not available.
-    private var trackCaptions: [String?] {
-        guard let leg else { return [] }
-        let fromTrack = leg.departureTrack.map { String(localized: "Track \($0)") }
-        let arrivalTrack = leg.arrivalTrack.map { String(localized: "Track \($0)") }
-        if viaName != nil {
-            return [fromTrack, arrivalTrack, nil]
-        }
-        return [fromTrack, arrivalTrack]
     }
 }
 
