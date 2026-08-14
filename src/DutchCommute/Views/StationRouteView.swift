@@ -10,8 +10,9 @@ struct StationRouteView: View {
     /// Optional caption per station (e.g. "Spoor 6"); missing entries
     /// render nothing.
     var captions: [String?] = []
-    /// Optional right-aligned text per station (e.g. the departure time).
-    var trailing: [String?] = []
+    /// Optional text shown between the dot and the station name
+    /// (e.g. the departure time).
+    var leading: [String?] = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -31,27 +32,33 @@ struct StationRouteView: View {
                                 .frame(maxHeight: .infinity)
                         }
                     }
-                    // Text column: station name, optional caption, and a
-                    // spacer that keeps consecutive stations apart.
+                    // Text column: leading label, station name, caption, and
+                    // a spacer that keeps consecutive stations apart.
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(name)
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(Palette.textPrimary)
-                        if let caption = caption(at: index) {
-                            Text(caption)
-                                .font(.caption2)
-                                .foregroundStyle(Palette.textSecondary)
+                        HStack(alignment: .top, spacing: 6) {
+                            if let leadingText = leading(at: index) {
+                                Text(leadingText)
+                                    .font(.subheadline)
+                                    .monospacedDigit()
+                                    .foregroundStyle(Palette.textSecondary)
+                            }
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text(name)
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(Palette.textPrimary)
+                                if let caption = caption(at: index) {
+                                    Text(caption)
+                                        .font(.caption2)
+                                        .foregroundStyle(Palette.textSecondary)
+                                }
+                            }
                         }
                         if index < stations.count - 1 {
                             Spacer(minLength: 10)
                         }
                     }
-                    Spacer(minLength: 8)
-                    if let trailingText = trailing(at: index) {
-                        Text(trailingText)
-                            .font(.subheadline)
-                            .monospacedDigit()
-                            .foregroundStyle(Palette.textSecondary)
+                    if index < stations.count - 1 {
+                        Spacer(minLength: 8)
                     }
                 }
             }
@@ -62,7 +69,7 @@ struct StationRouteView: View {
         captions.indices.contains(index) ? captions[index] : nil
     }
 
-    private func trailing(at index: Int) -> String? {
-        trailing.indices.contains(index) ? trailing[index] : nil
+    private func leading(at index: Int) -> String? {
+        leading.indices.contains(index) ? leading[index] : nil
     }
 }

@@ -93,7 +93,7 @@ private struct JourneyCard: View {
                 .foregroundStyle(.tertiary)
                 .accessibilityLabel("Drag to reorder")
 
-            StationRouteView(stations: stationNames, trailing: trailingTimes)
+            StationRouteView(stations: stationNames, leading: leadingTimes)
 
             Text(Self.daysLabel(journey.days))
                 .font(.subheadline)
@@ -108,9 +108,9 @@ private struct JourneyCard: View {
         [journey.from.name] + (journey.via.map { [$0.name] } ?? []) + [journey.to.name]
     }
 
-    /// Outbound time next to the from station, return time next to the to
+    /// Outbound time left of the from station, return time left of the to
     /// station (via gets none).
-    private var trailingTimes: [String?] {
+    private var leadingTimes: [String?] {
         let depart = Self.timeString(journey.departMinutes)
         let returnTime = Self.timeString(journey.returnMinutes)
         return [depart] + (journey.via.map { _ in [nil] } ?? []) + [returnTime]
