@@ -141,8 +141,8 @@ final class DecodingTests: XCTestCase {
             Station(code: "UTG", name: "Utrecht Overvecht"),
             Station(code: "ASD", name: "Amsterdam Centraal"),
         ]
-        XCTAssertEqual(StationField.filter(stations, query: "utr").map(\.code), ["UT", "UTG"])
-        XCTAssertEqual(StationField.filter(stations, query: "amsterdam").map(\.code), ["ASD"])
+        XCTAssertEqual(StationPickerSheet.filter(stations, query: "utr").map(\.code), ["UT", "UTG"])
+        XCTAssertEqual(StationPickerSheet.filter(stations, query: "amsterdam").map(\.code), ["ASD"])
     }
 
     func testStationFilterRequiresTwoNonWhitespaceCharacters() {
@@ -150,10 +150,10 @@ final class DecodingTests: XCTestCase {
             Station(code: "UT", name: "Utrecht Centraal"),
             Station(code: "UTG", name: "Utrecht Overvecht"),
         ]
-        XCTAssertEqual(StationField.filter(stations, query: ""), [])
-        XCTAssertEqual(StationField.filter(stations, query: "u"), [])
-        XCTAssertEqual(StationField.filter(stations, query: "  u  "), [])
-        XCTAssertEqual(StationField.filter(stations, query: "ut").map(\.code), ["UT", "UTG"])
+        XCTAssertEqual(StationPickerSheet.filter(stations, query: ""), [])
+        XCTAssertEqual(StationPickerSheet.filter(stations, query: "u"), [])
+        XCTAssertEqual(StationPickerSheet.filter(stations, query: "  u  "), [])
+        XCTAssertEqual(StationPickerSheet.filter(stations, query: "ut").map(\.code), ["UT", "UTG"])
     }
 
     func testDepartureMinutesDeduplicatedSorted() throws {

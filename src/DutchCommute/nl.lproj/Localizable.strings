@@ -5,6 +5,12 @@
 "Route" = "Route";
 "From" = "Van";
 "To" = "Naar";
+"Select station" = "Selecteer station";
+"Search stations" = "Zoek stations";
+"History" = "Geschiedenis";
+"Results" = "Resultaten";
+"Start typing to search stations." = "Begin met typen om stations te zoeken.";
+"No stations found." = "Geen stations gevonden.";
 "Travel options" = "Reisopties";
 "Select a from and to station first." = "Selecteer eerst een vertrek- en aankomststation.";
 "Return" = "Terugreis";

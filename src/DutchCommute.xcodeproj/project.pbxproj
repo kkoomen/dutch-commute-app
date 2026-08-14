@@ -23,7 +23,7 @@
 		A1000000000000000000008A /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002B /* ConfigStore.swift */; };
 		A1000000000000000000008B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002C /* RootView.swift */; };
 		A1000000000000000000008C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002D /* SetupView.swift */; };
-		A1000000000000000000008D /* StationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002E /* StationField.swift */; };
+		A1000000000000000000008D /* StationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002E /* StationPicker.swift */; };
 		A1000000000000000000008E /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002F /* JourneyView.swift */; };
 		A10000000000000000000090 /* StatusMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000040 /* StatusMappingTests.swift */; };
 		A10000000000000000000091 /* JourneyScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000041 /* JourneyScheduleTests.swift */; };
@@ -103,7 +103,7 @@
 		A1000000000000000000002B /* ConfigStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStore.swift; sourceTree = "<group>"; };
 		A1000000000000000000002C /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		A1000000000000000000002D /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
-		A1000000000000000000002E /* StationField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationField.swift; sourceTree = "<group>"; };
+		A1000000000000000000002E /* StationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationPicker.swift; sourceTree = "<group>"; };
 		A1000000000000000000002F /* JourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyView.swift; sourceTree = "<group>"; };
 		A10000000000000000000032 /* ../.env */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../.env; sourceTree = "<group>"; };
 		A10000000000000000000033 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
@@ -241,7 +241,7 @@
 			children = (
 				A1000000000000000000002C /* RootView.swift */,
 				A1000000000000000000002D /* SetupView.swift */,
-				A1000000000000000000002E /* StationField.swift */,
+				A1000000000000000000002E /* StationPicker.swift */,
 				A1000000000000000000002F /* JourneyView.swift */,
 				A1000000000000000000004D /* JourneyListView.swift */,
 				A100000000000000000000D2 /* LoadingView.swift */,
@@ -463,7 +463,7 @@
 				A1000000000000000000008A /* ConfigStore.swift in Sources */,
 				A1000000000000000000008B /* RootView.swift in Sources */,
 				A1000000000000000000008C /* SetupView.swift in Sources */,
-				A1000000000000000000008D /* StationField.swift in Sources */,
+				A1000000000000000000008D /* StationPicker.swift in Sources */,
 				A1000000000000000000008E /* JourneyView.swift in Sources */,
 				A1000000000000000000009C /* JourneyListView.swift in Sources */,
 				A1000000000000000000009D /* TripsSearchCache.swift in Sources */,

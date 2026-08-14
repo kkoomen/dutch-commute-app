@@ -47,8 +47,8 @@ struct SetupView: View {
             }
 
             Section("Route") {
-                StationField(label: "From", station: $from)
-                StationField(label: "To", station: $to)
+                StationPickerRow(label: "From", station: $from)
+                StationPickerRow(label: "To", station: $to)
                 Button {
                     showTravelOptions = true
                 } label: {

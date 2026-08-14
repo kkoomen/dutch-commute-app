@@ -5,6 +5,12 @@
 "Route" = "Route";
 "From" = "From";
 "To" = "To";
+"Select station" = "Select station";
+"Search stations" = "Search stations";
+"History" = "History";
+"Results" = "Results";
+"Start typing to search stations." = "Start typing to search stations.";
+"No stations found." = "No stations found.";
 "Travel options" = "Travel options";
 "Select a from and to station first." = "Select a from and to station first.";
 "Return" = "Return";

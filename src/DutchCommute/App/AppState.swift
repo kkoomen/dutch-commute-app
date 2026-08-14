@@ -20,11 +20,32 @@ final class AppState {
     var stations: [Station] = []
     private(set) var stationsLoaded = false
     var stationsErrorMessage: String?
+    /// Recently picked stations, shared between the From and To pickers.
+    var stationHistory: [Station] = []
+
+    private let stationHistoryKey = "stationHistory"
 
     init(client: NSAPIClient = NSAPIClient(apiKey: APIKey.ns), store: ConfigStore = ConfigStore()) {
         self.client = client
         self.store = store
         self.journeys = store.load()
+        if let data = UserDefaults.standard.data(forKey: stationHistoryKey),
+           let decoded = try? JSONDecoder().decode([Station].self, from: data) {
+            stationHistory = decoded
+        }
+    }
+
+    /// Records a picked station at the top of the shared history (capped
+    /// at 10 entries) and persists it.
+    func addToStationHistory(_ station: Station) {
+        stationHistory.removeAll { $0 == station }
+        stationHistory.insert(station, at: 0)
+        if stationHistory.count > 10 {
+            stationHistory = Array(stationHistory.prefix(10))
+        }
+        if let data = try? JSONEncoder().encode(stationHistory) {
+            UserDefaults.standard.set(data, forKey: stationHistoryKey)
+        }
     }
 
     func addJourney(_ journey: JourneyConfig) {
