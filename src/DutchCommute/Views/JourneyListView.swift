@@ -20,7 +20,6 @@ struct JourneyListView: View {
             if state.journeys.isEmpty {
                 ContentUnavailableView(
                     "No journeys yet",
-                    systemImage: "train.side.front.car",
                     description: Text("Add your first journey to see train status on the go.")
                 )
             } else {
