@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A10000000000000000000078 /* DutchCommuteWidgetWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* DutchCommuteWidgetWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A10000000000000000000079 /* DutchCommuteWidgetWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004B /* DutchCommuteWidgetWidgetBundle.swift */; };
+		A10000000000000000000078 /* DutchCommuteWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* DutchCommuteWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A10000000000000000000079 /* DutchCommuteWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004B /* DutchCommuteWidgetBundle.swift */; };
 		A1000000000000000000007A /* JourneyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004C /* JourneyWidget.swift */; };
-		A10000000000000000000080 /* DutchCommuteWidgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* DutchCommuteWidgetApp.swift */; };
+		A10000000000000000000080 /* DutchCommuteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* DutchCommuteApp.swift */; };
 		A10000000000000000000081 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000021 /* AppState.swift */; };
 		A10000000000000000000082 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000023 /* Station.swift */; };
 		A10000000000000000000083 /* JourneyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000024 /* JourneyConfig.swift */; };
@@ -25,7 +25,6 @@
 		A1000000000000000000008C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002D /* SetupView.swift */; };
 		A1000000000000000000008D /* StationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002E /* StationField.swift */; };
 		A1000000000000000000008E /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002F /* JourneyView.swift */; };
-		A1000000000000000000009C /* JourneyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004D /* JourneyListView.swift */; };
 		A10000000000000000000090 /* StatusMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000040 /* StatusMappingTests.swift */; };
 		A10000000000000000000091 /* JourneyScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000041 /* JourneyScheduleTests.swift */; };
 		A10000000000000000000092 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000042 /* DecodingTests.swift */; };
@@ -33,12 +32,13 @@
 		A10000000000000000000094 /* trips-delayed.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000044 /* trips-delayed.json */; };
 		A10000000000000000000095 /* trips-cancelled.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000045 /* trips-cancelled.json */; };
 		A10000000000000000000096 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000046 /* stations.json */; };
-		A1000000000000000000009D /* TripsSearchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000005A /* TripsSearchCache.swift */; };
-		A1000000000000000000009E /* TripsSearchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000005A /* TripsSearchCache.swift */; };
 		A10000000000000000000097 /* trips-multiple.json in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004E /* trips-multiple.json */; };
 		A10000000000000000000099 /* ../.env in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000032 /* ../.env */; };
 		A1000000000000000000009A /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000033 /* APIKey.swift */; };
 		A1000000000000000000009B /* APIKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000047 /* APIKeyTests.swift */; };
+		A1000000000000000000009C /* JourneyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000004D /* JourneyListView.swift */; };
+		A1000000000000000000009D /* TripsSearchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000005A /* TripsSearchCache.swift */; };
+		A1000000000000000000009E /* TripsSearchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000005A /* TripsSearchCache.swift */; };
 		A100000000000000000000B3 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000023 /* Station.swift */; };
 		A100000000000000000000B4 /* JourneyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000024 /* JourneyConfig.swift */; };
 		A100000000000000000000B5 /* TrainLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000025 /* TrainLeg.swift */; };
@@ -50,6 +50,7 @@
 		A100000000000000000000BB /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000033 /* APIKey.swift */; };
 		A100000000000000000000BC /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002B /* ConfigStore.swift */; };
 		A100000000000000000000BF /* ../.env in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000032 /* ../.env */; };
+		A100000000000000000000C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000C4 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +59,7 @@
 			containerPortal = A10000000000000000000001 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A10000000000000000000010;
-			remoteInfo = DutchCommuteWidget;
+			remoteInfo = DutchCommute;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -69,7 +70,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				A10000000000000000000078 /* DutchCommuteWidgetWidget.appex in Embed Foundation Extensions */,
+				A10000000000000000000078 /* DutchCommuteWidget.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,10 +78,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A10000000000000000000012 /* DutchCommuteWidget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DutchCommuteWidget.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A10000000000000000000013 /* DutchCommuteWidgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DutchCommuteWidgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A10000000000000000000015 /* DutchCommuteWidgetWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DutchCommuteWidgetWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		A10000000000000000000020 /* DutchCommuteWidgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchCommuteWidgetApp.swift; sourceTree = "<group>"; };
+		A10000000000000000000012 /* DutchCommute.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DutchCommute.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000013 /* DutchCommuteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DutchCommuteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000015 /* DutchCommuteWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DutchCommuteWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000020 /* DutchCommuteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchCommuteApp.swift; sourceTree = "<group>"; };
 		A10000000000000000000021 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A10000000000000000000022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000000000000000000023 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
@@ -96,7 +97,6 @@
 		A1000000000000000000002D /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		A1000000000000000000002E /* StationField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationField.swift; sourceTree = "<group>"; };
 		A1000000000000000000002F /* JourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyView.swift; sourceTree = "<group>"; };
-		A1000000000000000000004D /* JourneyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyListView.swift; sourceTree = "<group>"; };
 		A10000000000000000000032 /* ../.env */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../.env; sourceTree = "<group>"; };
 		A10000000000000000000033 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		A10000000000000000000040 /* StatusMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMappingTests.swift; sourceTree = "<group>"; };
@@ -106,14 +106,16 @@
 		A10000000000000000000044 /* trips-delayed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-delayed.json"; sourceTree = "<group>"; };
 		A10000000000000000000045 /* trips-cancelled.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-cancelled.json"; sourceTree = "<group>"; };
 		A10000000000000000000046 /* stations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
-		A1000000000000000000004E /* trips-multiple.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-multiple.json"; sourceTree = "<group>"; };
-		A1000000000000000000005A /* TripsSearchCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsSearchCache.swift; sourceTree = "<group>"; };
 		A10000000000000000000047 /* APIKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyTests.swift; sourceTree = "<group>"; };
 		A10000000000000000000048 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A10000000000000000000049 /* DutchCommuteWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DutchCommuteWidget.entitlements; sourceTree = "<group>"; };
-		A1000000000000000000004A /* DutchCommuteWidgetWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DutchCommuteWidgetWidget.entitlements; sourceTree = "<group>"; };
-		A1000000000000000000004B /* DutchCommuteWidgetWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchCommuteWidgetWidgetBundle.swift; sourceTree = "<group>"; };
+		A10000000000000000000049 /* DutchCommute.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DutchCommute.entitlements; sourceTree = "<group>"; };
+		A1000000000000000000004A /* DutchCommuteWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DutchCommuteWidget.entitlements; sourceTree = "<group>"; };
+		A1000000000000000000004B /* DutchCommuteWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchCommuteWidgetBundle.swift; sourceTree = "<group>"; };
 		A1000000000000000000004C /* JourneyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyWidget.swift; sourceTree = "<group>"; };
+		A1000000000000000000004D /* JourneyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyListView.swift; sourceTree = "<group>"; };
+		A1000000000000000000004E /* trips-multiple.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "trips-multiple.json"; sourceTree = "<group>"; };
+		A1000000000000000000005A /* TripsSearchCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsSearchCache.swift; sourceTree = "<group>"; };
+		A100000000000000000000C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,9 +146,9 @@
 		A10000000000000000000002 = {
 			isa = PBXGroup;
 			children = (
-				A10000000000000000000050 /* DutchCommuteWidget */,
-				A10000000000000000000058 /* DutchCommuteWidgetTests */,
-				A1000000000000000000005B /* DutchCommuteWidgetWidget */,
+				A10000000000000000000050 /* DutchCommute */,
+				A10000000000000000000058 /* DutchCommuteTests */,
+				A1000000000000000000005B /* DutchCommuteWidget */,
 				A10000000000000000000003 /* Products */,
 				AFBA8AD1302E98A800CB810A /* Recovered References */,
 			);
@@ -155,13 +157,13 @@
 		A10000000000000000000003 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A10000000000000000000012 /* DutchCommuteWidget.app */,
-				A10000000000000000000013 /* DutchCommuteWidgetTests.xctest */,
+				A10000000000000000000012 /* DutchCommute.app */,
+				A10000000000000000000013 /* DutchCommuteTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A10000000000000000000050 /* DutchCommuteWidget */ = {
+		A10000000000000000000050 /* DutchCommute */ = {
 			isa = PBXGroup;
 			children = (
 				A10000000000000000000056 /* App */,
@@ -172,9 +174,10 @@
 				A10000000000000000000055 /* Views */,
 				A10000000000000000000022 /* Info.plist */,
 				A10000000000000000000032 /* ../.env */,
-				A10000000000000000000049 /* DutchCommuteWidget.entitlements */,
+				A10000000000000000000049 /* DutchCommute.entitlements */,
+				A100000000000000000000C4 /* Assets.xcassets */,
 			);
-			path = DutchCommuteWidget;
+			path = DutchCommute;
 			sourceTree = "<group>";
 		};
 		A10000000000000000000051 /* Models */ = {
@@ -231,13 +234,13 @@
 		A10000000000000000000056 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				A10000000000000000000020 /* DutchCommuteWidgetApp.swift */,
+				A10000000000000000000020 /* DutchCommuteApp.swift */,
 				A10000000000000000000021 /* AppState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
-		A10000000000000000000058 /* DutchCommuteWidgetTests */ = {
+		A10000000000000000000058 /* DutchCommuteTests */ = {
 			isa = PBXGroup;
 			children = (
 				A10000000000000000000040 /* StatusMappingTests.swift */,
@@ -246,7 +249,7 @@
 				A10000000000000000000047 /* APIKeyTests.swift */,
 				A10000000000000000000059 /* Fixtures */,
 			);
-			path = DutchCommuteWidgetTests;
+			path = DutchCommuteTests;
 			sourceTree = "<group>";
 		};
 		A10000000000000000000059 /* Fixtures */ = {
@@ -261,21 +264,21 @@
 			path = Fixtures;
 			sourceTree = "<group>";
 		};
-		A1000000000000000000005B /* DutchCommuteWidgetWidget */ = {
+		A1000000000000000000005B /* DutchCommuteWidget */ = {
 			isa = PBXGroup;
 			children = (
-				A1000000000000000000004B /* DutchCommuteWidgetWidgetBundle.swift */,
+				A1000000000000000000004B /* DutchCommuteWidgetBundle.swift */,
 				A1000000000000000000004C /* JourneyWidget.swift */,
 				A10000000000000000000048 /* Info.plist */,
-				A1000000000000000000004A /* DutchCommuteWidgetWidget.entitlements */,
+				A1000000000000000000004A /* DutchCommuteWidget.entitlements */,
 			);
-			path = DutchCommuteWidgetWidget;
+			path = DutchCommuteWidget;
 			sourceTree = "<group>";
 		};
 		AFBA8AD1302E98A800CB810A /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				A10000000000000000000015 /* DutchCommuteWidgetWidget.appex */,
+				A10000000000000000000015 /* DutchCommuteWidget.appex */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -283,9 +286,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A10000000000000000000010 /* DutchCommuteWidget */ = {
+		A10000000000000000000010 /* DutchCommute */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A100000000000000000000B1 /* Build configuration list for PBXNativeTarget "DutchCommuteWidget" */;
+			buildConfigurationList = A100000000000000000000B1 /* Build configuration list for PBXNativeTarget "DutchCommute" */;
 			buildPhases = (
 				A10000000000000000000061 /* Sources */,
 				A10000000000000000000062 /* Frameworks */,
@@ -296,14 +299,14 @@
 			);
 			dependencies = (
 			);
-			name = DutchCommuteWidget;
-			productName = DutchCommuteWidget;
-			productReference = A10000000000000000000012 /* DutchCommuteWidget.app */;
+			name = DutchCommute;
+			productName = DutchCommute;
+			productReference = A10000000000000000000012 /* DutchCommute.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A10000000000000000000011 /* DutchCommuteWidgetTests */ = {
+		A10000000000000000000011 /* DutchCommuteTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A100000000000000000000B2 /* Build configuration list for PBXNativeTarget "DutchCommuteWidgetTests" */;
+			buildConfigurationList = A100000000000000000000B2 /* Build configuration list for PBXNativeTarget "DutchCommuteTests" */;
 			buildPhases = (
 				A10000000000000000000070 /* Sources */,
 				A10000000000000000000071 /* Frameworks */,
@@ -314,14 +317,14 @@
 			dependencies = (
 				A10000000000000000000073 /* PBXTargetDependency */,
 			);
-			name = DutchCommuteWidgetTests;
-			productName = DutchCommuteWidgetTests;
-			productReference = A10000000000000000000013 /* DutchCommuteWidgetTests.xctest */;
+			name = DutchCommuteTests;
+			productName = DutchCommuteTests;
+			productReference = A10000000000000000000013 /* DutchCommuteTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A10000000000000000000014 /* DutchCommuteWidgetWidget */ = {
+		A10000000000000000000014 /* DutchCommuteWidget */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A100000000000000000000C2 /* Build configuration list for PBXNativeTarget "DutchCommuteWidgetWidget" */;
+			buildConfigurationList = A100000000000000000000C2 /* Build configuration list for PBXNativeTarget "DutchCommuteWidget" */;
 			buildPhases = (
 				A10000000000000000000074 /* Sources */,
 				A10000000000000000000075 /* Frameworks */,
@@ -331,9 +334,9 @@
 			);
 			dependencies = (
 			);
-			name = DutchCommuteWidgetWidget;
-			productName = DutchCommuteWidgetWidget;
-			productReference = A10000000000000000000015 /* DutchCommuteWidgetWidget.appex */;
+			name = DutchCommuteWidget;
+			productName = DutchCommuteWidget;
+			productReference = A10000000000000000000015 /* DutchCommuteWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -357,7 +360,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A100000000000000000000B0 /* Build configuration list for PBXProject "DutchCommuteWidget" */;
+			buildConfigurationList = A100000000000000000000B0 /* Build configuration list for PBXProject "DutchCommute" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -370,9 +373,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A10000000000000000000010 /* DutchCommuteWidget */,
-				A10000000000000000000011 /* DutchCommuteWidgetTests */,
-				A10000000000000000000014 /* DutchCommuteWidgetWidget */,
+				A10000000000000000000010 /* DutchCommute */,
+				A10000000000000000000011 /* DutchCommuteTests */,
+				A10000000000000000000014 /* DutchCommuteWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -383,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000099 /* ../.env in Resources */,
+				A100000000000000000000C3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,7 +417,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000000000000000000080 /* DutchCommuteWidgetApp.swift in Sources */,
+				A10000000000000000000080 /* DutchCommuteApp.swift in Sources */,
 				A10000000000000000000081 /* AppState.swift in Sources */,
 				A10000000000000000000082 /* Station.swift in Sources */,
 				A10000000000000000000083 /* JourneyConfig.swift in Sources */,
@@ -449,7 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000000000000000000079 /* DutchCommuteWidgetWidgetBundle.swift in Sources */,
+				A10000000000000000000079 /* DutchCommuteWidgetBundle.swift in Sources */,
 				A1000000000000000000007A /* JourneyWidget.swift in Sources */,
 				A100000000000000000000B3 /* Station.swift in Sources */,
 				A100000000000000000000B4 /* JourneyConfig.swift in Sources */,
@@ -470,7 +474,7 @@
 /* Begin PBXTargetDependency section */
 		A10000000000000000000073 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A10000000000000000000010 /* DutchCommuteWidget */;
+			target = A10000000000000000000010 /* DutchCommute */;
 			targetProxy = A10000000000000000000098 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -531,18 +535,21 @@
 		A100000000000000000000A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = DutchCommuteWidget/DutchCommuteWidget.entitlements;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DutchCommute/DutchCommute.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4985P7739M;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = DutchCommuteWidget/Info.plist;
+				INFOPLIST_FILE = DutchCommute/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dutch Commute";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommutewidget.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommute.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -553,18 +560,21 @@
 		A100000000000000000000A3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = DutchCommuteWidget/DutchCommuteWidget.entitlements;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DutchCommute/DutchCommute.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4985P7739M;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = DutchCommuteWidget/Info.plist;
+				INFOPLIST_FILE = DutchCommute/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dutch Commute";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommutewidget.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommute.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -585,11 +595,11 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.dutchcommutewidget.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.dutchcommute.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DutchCommuteWidget.app/DutchCommuteWidget";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DutchCommute.app/DutchCommute";
 			};
 			name = Debug;
 		};
@@ -606,11 +616,11 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.dutchcommutewidget.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.dutchcommute.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DutchCommuteWidget.app/DutchCommuteWidget";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DutchCommute.app/DutchCommute";
 			};
 			name = Release;
 		};
@@ -618,19 +628,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = DutchCommuteWidgetWidget/DutchCommuteWidgetWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = DutchCommuteWidget/DutchCommuteWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4985P7739M;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = DutchCommuteWidgetWidget/Info.plist;
+				INFOPLIST_FILE = DutchCommuteWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommutewidget.app.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommute.app.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -643,19 +653,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = DutchCommuteWidgetWidget/DutchCommuteWidgetWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = DutchCommuteWidget/DutchCommuteWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4985P7739M;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = DutchCommuteWidgetWidget/Info.plist;
+				INFOPLIST_FILE = DutchCommuteWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommutewidget.app.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dutchcommute.app.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -667,7 +677,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A100000000000000000000B0 /* Build configuration list for PBXProject "DutchCommuteWidget" */ = {
+		A100000000000000000000B0 /* Build configuration list for PBXProject "DutchCommute" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A100000000000000000000A0 /* Debug */,
@@ -676,7 +686,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A100000000000000000000B1 /* Build configuration list for PBXNativeTarget "DutchCommuteWidget" */ = {
+		A100000000000000000000B1 /* Build configuration list for PBXNativeTarget "DutchCommute" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A100000000000000000000A2 /* Debug */,
@@ -685,7 +695,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A100000000000000000000B2 /* Build configuration list for PBXNativeTarget "DutchCommuteWidgetTests" */ = {
+		A100000000000000000000B2 /* Build configuration list for PBXNativeTarget "DutchCommuteTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A100000000000000000000A4 /* Debug */,
@@ -694,7 +704,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A100000000000000000000C2 /* Build configuration list for PBXNativeTarget "DutchCommuteWidgetWidget" */ = {
+		A100000000000000000000C2 /* Build configuration list for PBXNativeTarget "DutchCommuteWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A100000000000000000000C0 /* Debug */,

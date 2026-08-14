@@ -2,21 +2,21 @@
 
 ## Targets
 
-- **DutchCommuteWidget** — the app. Configures the journey, writes it to the shared
+- **DutchCommute** — the app. Configures the journey, writes it to the shared
   container, and triggers widget reloads.
-- **DutchCommuteWidgetWidget** — the WidgetKit extension. Reads the journey
+- **DutchCommuteWidget** — the WidgetKit extension. Reads the journey
   configuration, fetches live data, and renders the Lock Screen widget
   (accessoryRectangular + accessoryInline).
-- **DutchCommuteWidgetTests** — unit tests.
+- **DutchCommuteTests** — unit tests.
 
-The app and widget share the App Group `group.com.dutchcommutewidget.app`
-(entitlements: `DutchCommuteWidget/DutchCommuteWidget.entitlements`,
-`DutchCommuteWidgetWidget/DutchCommuteWidgetWidget.entitlements`).
+The app and widget share the App Group `group.com.dutchcommute.app`
+(entitlements: `DutchCommute/DutchCommute.entitlements`,
+`DutchCommuteWidget/DutchCommuteWidget.entitlements`).
 
 **Shared sources** (compiled into both the app and the widget target):
 `Station`, `JourneyConfig`, `TrainLeg`, `NSDTOs`, `TrainStatusMapping`,
 `JourneySchedule`, `NSDateParsing`, `NSAPIClient`, `APIKey`, `ConfigStore`.
-Widget-only: `DutchCommuteWidgetWidgetBundle`, `JourneyWidget` (TimelineProvider +
+Widget-only: `DutchCommuteWidgetBundle`, `JourneyWidget` (TimelineProvider +
 views). App-only: app state, views, tests.
 
 ## Layers
@@ -57,7 +57,7 @@ views). App-only: app state, views, tests.
     cancelled from planned vs. actual times and cancellation flags.
 - **Persistence**: all `JourneyConfig`s (with `id` + `createdAt`) stored via
   `ConfigStore` in the shared App Group UserDefaults
-  (`group.com.dutchcommutewidget.app`), readable by both the app and the widget.
+  (`group.com.dutchcommute.app`), readable by both the app and the widget.
   The app triggers `WidgetCenter.shared.reloadAllTimelines()` on
   add/update/delete.
 - **Widget** (`JourneyWidget`): TimelineProvider reads the config from the

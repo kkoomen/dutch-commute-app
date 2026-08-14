@@ -1,5 +1,5 @@
 import XCTest
-@testable import DutchCommuteWidget
+@testable import DutchCommute
 
 final class StatusMappingTests: XCTestCase {
     private let base = Date(timeIntervalSince1970: 1_700_000_000)

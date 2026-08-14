@@ -1,5 +1,5 @@
 import XCTest
-@testable import DutchCommuteWidget
+@testable import DutchCommute
 
 final class DecodingTests: XCTestCase {
     private func loadFixture(_ name: String) -> Data {

@@ -1,8 +1,8 @@
-# AGENTS.md — Dutch Commute Widget
+# AGENTS.md — Dutch Commute
 
 ## Project context
 
-Dutch Commute Widget is a native iOS app (Swift / SwiftUI / WidgetKit) that answers one
+Dutch Commute is a native iOS app (Swift / SwiftUI / WidgetKit) that answers one
 question at a glance from the Lock Screen: **"Does my train run, and is it
 delayed?"**
 
@@ -49,8 +49,8 @@ unofficial sources.
 
 ## Architecture
 
-- Two targets: the app (`DutchCommuteWidget`) and a widget extension
-  (`DutchCommuteWidgetWidget`).
+- Two targets: the app (`DutchCommute`) and a widget extension
+  (`DutchCommuteWidget`).
 - Layers: networking (`NSAPIClient`), models (Codable DTOs + small domain
   models), app state + persistence (App Group shared container), widget
   (TimelineProvider).
