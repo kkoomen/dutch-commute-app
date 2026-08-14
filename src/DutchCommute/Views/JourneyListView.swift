@@ -80,6 +80,17 @@ struct JourneyListView: View {
         } message: { _ in
             Text("This journey will be permanently removed.")
         }
+        .safeAreaInset(edge: .top, spacing: 0) {
+            if !state.journeys.isEmpty {
+                Text("Swipe right on a journey to make it active, swipe left to delete it, or tap a journey for its live status. The active journey will be visible on the home screen widget.")
+                    .font(.caption)
+                    .foregroundStyle(Palette.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
+                    .background(Palette.background)
+            }
+        }
         .navigationTitle("My journeys")
         .scrollContentBackground(.hidden)
         .background(Palette.background)
@@ -141,10 +152,12 @@ private struct JourneyCard: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(journey.isActive ? 8 : 0)
         .overlay {
             if journey.isActive {
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(Palette.primary, lineWidth: 2)
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(Palette.primary, lineWidth: 1)
             }
         }
         .padding(.vertical, 2)
