@@ -21,8 +21,7 @@ struct RootView: View {
                 }
         }
         .tint(Palette.primary)
-        .preferredColorScheme(.light)
-        .background(Palette.lightBackground)
+        .background(Palette.background)
     }
 }
 

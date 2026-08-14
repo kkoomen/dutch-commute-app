@@ -55,6 +55,12 @@
 "No days" = "Geen dagen";
 "Created %@" = "Aangemaakt %@";
 
+/* Appearance */
+"System" = "Systeem";
+"Light" = "Licht";
+"Dark" = "Donker";
+"Appearance" = "Weergave";
+
 /* Widget UI */
 "Set up your journey in the Dutch Commute app" = "Stel je reis in in de Dutch Commute app";
 "No train right now" = "Nu geen trein";

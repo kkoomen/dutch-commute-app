@@ -57,6 +57,7 @@
 		A100000000000000000000D0 /* PrimaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CC /* PrimaryButtonStyle.swift */; };
 		A100000000000000000000D1 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CB /* Palette.swift */; };
 		A100000000000000000000D3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000D2 /* LoadingView.swift */; };
+		A100000000000000000000D4 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000D5 /* Appearance.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		A100000000000000000000CB /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		A100000000000000000000CC /* PrimaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonStyle.swift; sourceTree = "<group>"; };
 		A100000000000000000000D2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		A100000000000000000000D5 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 			children = (
 				A100000000000000000000CB /* Palette.swift */,
 				A100000000000000000000CC /* PrimaryButtonStyle.swift */,
+				A100000000000000000000D5 /* Appearance.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				A100000000000000000000CF /* Palette.swift in Sources */,
 				A100000000000000000000D0 /* PrimaryButtonStyle.swift in Sources */,
 				A100000000000000000000D3 /* LoadingView.swift in Sources */,
+				A100000000000000000000D4 /* Appearance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

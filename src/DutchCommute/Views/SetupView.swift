@@ -127,9 +127,8 @@ struct SetupView: View {
             }
         }
         .navigationTitle(prefill == nil ? String(localized: "New journey") : String(localized: "Edit journey"))
-        .brandedNavigationBar()
         .scrollContentBackground(.hidden)
-        .background(Palette.lightBackground)
+        .background(Palette.background)
         .sheet(item: $timePickerTarget) { target in
             if let from, let to {
                 TimePickerSheet(
@@ -321,9 +320,8 @@ private struct TimePickerSheet: View {
             }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
-            .brandedNavigationBar()
             .scrollContentBackground(.hidden)
-            .background(Palette.lightBackground)
+            .background(Palette.background)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Cancel") { dismiss() }
@@ -402,9 +400,8 @@ private struct TravelOptionsSheet: View {
             }
             .navigationTitle("Travel options")
             .navigationBarTitleDisplayMode(.inline)
-            .brandedNavigationBar()
             .scrollContentBackground(.hidden)
-            .background(Palette.lightBackground)
+            .background(Palette.background)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -452,10 +449,10 @@ private struct TransportModeTile: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
-            .foregroundStyle(isSelected ? Palette.primary : Palette.darkText)
+            .foregroundStyle(isSelected ? Palette.primary : Palette.textPrimary)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? Palette.primary.opacity(0.15) : Palette.lightBackground.opacity(0.4))
+                    .fill(isSelected ? Palette.primary.opacity(0.15) : Palette.surfaceSecondary)
             )
             .overlay {
                 RoundedRectangle(cornerRadius: 12)
@@ -466,7 +463,7 @@ private struct TransportModeTile: View {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.caption)
                         .foregroundStyle(Palette.primary)
-                        .background(Circle().fill(Palette.white))
+                        .background(Circle().fill(Palette.surface))
                         .padding(4)
                 }
             }
@@ -489,8 +486,8 @@ private struct DayToggle: View {
                 .font(.caption.weight(.semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
-                .background(isOn ? Palette.primary : Palette.lightBackground.opacity(0.4), in: RoundedRectangle(cornerRadius: 8))
-                .foregroundStyle(isOn ? Palette.white : Palette.darkText)
+                .background(isOn ? Palette.primary : Palette.surfaceSecondary, in: RoundedRectangle(cornerRadius: 8))
+                .foregroundStyle(isOn ? Palette.onAccent : Palette.textPrimary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(day.shortName)

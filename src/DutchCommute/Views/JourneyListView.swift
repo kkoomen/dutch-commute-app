@@ -5,7 +5,14 @@ import UniformTypeIdentifiers
 /// grip on the left of each card.
 struct JourneyListView: View {
     @Environment(AppState.self) private var state
+    @Environment(\.colorScheme) private var colorScheme
+    @AppStorage("appearance") private var appearance = Appearance.system.rawValue
     @State private var draggedJourneyID: UUID?
+
+    /// What is shown right now (resolves `.system` against the environment).
+    private var effectiveAppearance: Appearance {
+        Appearance.effective(Appearance(rawValue: appearance) ?? .system, colorScheme: colorScheme)
+    }
 
     var body: some View {
         @Bindable var state = state
@@ -44,10 +51,22 @@ struct JourneyListView: View {
             }
         }
         .navigationTitle("My journeys")
-        .brandedNavigationBar()
         .scrollContentBackground(.hidden)
-        .background(Palette.lightBackground)
+        .background(Palette.background)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Picker("Appearance", selection: $appearance) {
+                        ForEach(Appearance.allCases) { mode in
+                            Label(mode.label, systemImage: mode.icon)
+                                .tag(mode.rawValue)
+                        }
+                    }
+                } label: {
+                    Image(systemName: effectiveAppearance == .dark ? "moon.fill" : "sun.max.fill")
+                }
+                .accessibilityLabel("Appearance")
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     state.path.append(.setup(nil))
@@ -79,13 +98,13 @@ private struct JourneyCard: View {
                     .font(.headline)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
-                    .foregroundStyle(Palette.darkText)
+                    .foregroundStyle(Palette.textPrimary)
                 Text("\(Self.timeString(journey.departMinutes)) – \(Self.timeString(journey.returnMinutes)) · \(Self.daysLabel(journey.days))")
                     .font(.subheadline)
-                    .foregroundStyle(Palette.darkText.opacity(0.65))
+                    .foregroundStyle(Palette.textSecondary)
                 Text("Created \(Self.createdString(journey.createdAt))")
                     .font(.caption2)
-                    .foregroundStyle(Palette.darkText.opacity(0.45))
+                    .foregroundStyle(Palette.textTertiary)
             }
         }
         .padding(.vertical, 2)

@@ -112,24 +112,24 @@ struct JourneyWidgetEntryView: View {
                     .font(.headline)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
-                    .foregroundStyle(Palette.white)
+                    .foregroundStyle(Palette.textPrimary)
                 Text("\(legKindLabel) \(NSDateParser.timeString(leg.displayedDeparture))")
                     .font(.subheadline)
-                    .foregroundStyle(Palette.white.opacity(0.85))
+                    .foregroundStyle(Palette.textSecondary)
                 StatusLine(status: leg.status, font: .subheadline.weight(.semibold))
             } else if entry.config == nil {
                 Text("Set up your journey in the Dutch Commute app")
                     .font(.caption)
-                    .foregroundStyle(Palette.white.opacity(0.85))
+                    .foregroundStyle(Palette.textSecondary)
             } else {
                 Text("No train right now")
                     .font(.caption)
-                    .foregroundStyle(Palette.white.opacity(0.85))
+                    .foregroundStyle(Palette.textSecondary)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .containerBackground(Palette.darkBackground, for: .widget)
+        .containerBackground(Palette.background, for: .widget)
     }
 
     /// Square 1x1 Lock Screen widget: train + status.
@@ -179,7 +179,7 @@ private struct StatusLine: View {
 
     private var color: Color {
         switch status {
-        case .onTime: .green
+        case .onTime: Palette.statusOnTime
         case .delayed: .orange
         case .cancelled: .red
         case .unknown: .secondary

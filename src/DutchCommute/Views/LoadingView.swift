@@ -6,7 +6,7 @@ struct LoadingView: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                colors: [Palette.darkBackground, Palette.lightBackground],
+                colors: [Palette.splashDark, Palette.splashLight],
                 startPoint: .bottom,
                 endPoint: .top
             )

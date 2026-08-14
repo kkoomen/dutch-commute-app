@@ -8,7 +8,7 @@ struct PrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.body.weight(.semibold))
-            .foregroundStyle(Palette.white)
+            .foregroundStyle(Palette.onAccent)
             .padding(.vertical, 12)
             .frame(maxWidth: .infinity)
             .background(
