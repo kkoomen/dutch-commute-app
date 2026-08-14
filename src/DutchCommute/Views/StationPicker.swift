@@ -87,7 +87,7 @@ struct StationPickerSheet: View {
             }
         }
         .padding(10)
-        .background(Palette.surfaceSecondary, in: RoundedRectangle(cornerRadius: 10))
+        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 10))
         .padding(.horizontal)
         .padding(.vertical, 8)
     }
