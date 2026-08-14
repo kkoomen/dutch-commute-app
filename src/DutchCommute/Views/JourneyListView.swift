@@ -8,6 +8,8 @@ struct JourneyListView: View {
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("appearance") private var appearance = Appearance.system.rawValue
     @State private var draggedJourneyID: UUID?
+    /// Set when the user swipes to delete; shown in a confirmation dialog.
+    @State private var journeyPendingDeletion: JourneyConfig?
 
     /// What is shown right now (resolves `.system` against the environment).
     private var effectiveAppearance: Appearance {
@@ -43,12 +45,40 @@ struct JourneyListView: View {
                                     draggedID: $draggedJourneyID
                                 )
                             )
+                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                Button {
+                                    state.setJourneyActive(journey.id, active: true)
+                                } label: {
+                                    Label("Activate", systemImage: "lock.fill")
+                                }
+                                .tint(Palette.primary)
+                            }
                     }
                     .onDelete { offsets in
-                        state.deleteJourneys(at: offsets)
+                        if let index = offsets.first, state.journeys.indices.contains(index) {
+                            journeyPendingDeletion = state.journeys[index]
+                        }
                     }
                 }
             }
+        }
+        .confirmationDialog(
+            "Delete journey?",
+            isPresented: Binding(
+                get: { journeyPendingDeletion != nil },
+                set: { if !$0 { journeyPendingDeletion = nil } }
+            ),
+            presenting: journeyPendingDeletion
+        ) { journey in
+            Button("Delete", role: .destructive) {
+                state.deleteJourney(journey.id)
+                journeyPendingDeletion = nil
+            }
+            Button("Cancel", role: .cancel) {
+                journeyPendingDeletion = nil
+            }
+        } message: { _ in
+            Text("This journey will be permanently removed.")
         }
         .navigationTitle("My journeys")
         .scrollContentBackground(.hidden)

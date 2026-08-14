@@ -43,6 +43,12 @@ final class AppState {
         persistAndReloadWidgets()
     }
 
+    /// Deletes one journey by id (after user confirmation in the UI).
+    func deleteJourney(_ id: UUID) {
+        journeys.removeAll { $0.id == id }
+        persistAndReloadWidgets()
+    }
+
     /// Marks one journey as active — the one shown on the Lock Screen.
     /// Only one journey can be active, so activating one deactivates all
     /// others; `active: false` just deactivates it.
