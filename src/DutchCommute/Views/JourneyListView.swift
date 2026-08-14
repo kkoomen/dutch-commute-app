@@ -18,10 +18,11 @@ struct JourneyListView: View {
         @Bindable var state = state
         Group {
             if state.journeys.isEmpty {
-                ContentUnavailableView(
-                    "No journeys yet",
-                    description: Text("Add your first journey to see train status on the go.")
-                )
+                ContentUnavailableView {
+                    Text("No journeys yet")
+                } description: {
+                    Text("Add your first journey to see train status on the go.")
+                }
             } else {
                 List {
                     ForEach(state.journeys) { journey in
