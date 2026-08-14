@@ -40,6 +40,7 @@
 "No travel days configured." = "Geen reisdagen ingesteld.";
 "Showing scheduled times only when available." = "Toont geplande tijden alleen wanneer beschikbaar.";
 "Add to lock screen" = "Toevoegen aan vergrendelscherm";
+"Lock screen widget" = "Vergrendelschermwidget";
 "My journey" = "Mijn reis";
 "Edit" = "Bewerken";
 "Press and hold the Lock Screen, then tap Customize." = "Houd het vergrendelscherm ingedrukt en tik op “Aanpassen”.";

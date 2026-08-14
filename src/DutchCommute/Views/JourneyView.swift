@@ -158,7 +158,8 @@ private struct LockScreenHelpView: View {
             }
             .padding()
             .background(Palette.surface)
-            .navigationTitle("Add to lock screen")
+            .navigationTitle("Lock screen widget")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") { dismiss() }
