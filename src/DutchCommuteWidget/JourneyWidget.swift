@@ -52,13 +52,36 @@ struct JourneyTimelineProvider: TimelineProvider {
 
         let leg: TrainLeg?
         do {
-            let trip = try await NSAPIClient(apiKey: APIKey.ns).fetchTrip(from: from, to: to, at: departureTime)
+            // Bound the fetch: if the API hangs (cold start, slow network)
+            // the timeline still completes quickly so the new active journey
+            // shows right away — live data is only ever an enhancement.
+            let trip = try await Self.withTimeout(seconds: 6) {
+                try await NSAPIClient(apiKey: APIKey.ns).fetchTrip(from: from, to: to, at: departureTime)
+            }
             leg = trip.firstLeg.flatMap(TrainLeg.init)
         } catch {
             leg = nil
         }
         return JourneyEntry(date: now, config: config, journeyDate: journeyDate, leg: leg, legKind: kind)
     }
+
+    /// Runs `operation` and fails with a timeout error after `seconds`.
+    private static func withTimeout<T>(seconds: TimeInterval, operation: @escaping () async throws -> T) async throws -> T {
+        try await withThrowingTaskGroup(of: T.self) { group in
+            group.addTask { try await operation() }
+            group.addTask {
+                try? await Task.sleep(for: .seconds(seconds))
+                throw TimeoutError()
+            }
+            defer { group.cancelAll() }
+            guard let result = try await group.next() else {
+                throw TimeoutError()
+            }
+            return result
+        }
+    }
+
+    private struct TimeoutError: Error {}
 }
 
 struct JourneyWidgetEntryView: View {

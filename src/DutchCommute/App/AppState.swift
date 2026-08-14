@@ -93,7 +93,11 @@ final class AppState {
 
     private func persistAndReloadWidgets() {
         store.save(journeys)
-        WidgetCenter.shared.reloadAllTimelines()
+        // WidgetCenter is main-actor-bound; route the reload there so the
+        // request is never silently dropped when called from another context.
+        Task { @MainActor in
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 
     /// Loads the station list once for autocomplete.
