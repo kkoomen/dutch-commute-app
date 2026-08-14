@@ -70,6 +70,8 @@
 		A100000000000000000000ED /* GTFSRealtimeClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E2 /* GTFSRealtimeClientTests.swift */; };
 		A100000000000000000000EE /* GTFSStaticDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */; };
 		A100000000000000000000EF /* RealtimeUpdateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */; };
+		A100000000000000000000F4 /* gtfs in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F3 /* gtfs */; };
+		A100000000000000000000F5 /* gtfs in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F6 /* gtfs */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +156,8 @@
 		A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSStaticDataServiceTests.swift; sourceTree = "<group>"; };
 		A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeUpdateServiceTests.swift; sourceTree = "<group>"; };
 		A100000000000000000000F2 /* gtfs-realtime.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = gtfs-realtime.proto; sourceTree = "<group>"; };
+		A100000000000000000000F3 /* gtfs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gtfs; sourceTree = "<group>"; };
+		A100000000000000000000F6 /* gtfs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ../DutchCommute/gtfs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +221,7 @@
 				A10000000000000000000049 /* DutchCommute.entitlements */,
 				A100000000000000000000C4 /* Assets.xcassets */,
 				A100000000000000000000C7 /* Localizable.strings */,
+				A100000000000000000000F3 /* gtfs */,
 			);
 			path = DutchCommute;
 			sourceTree = "<group>";
@@ -328,6 +333,7 @@
 				A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */,
 				A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */,
 				A10000000000000000000059 /* Fixtures */,
+				A100000000000000000000F6 /* gtfs */,
 			);
 			path = DutchCommuteTests;
 			sourceTree = "<group>";
@@ -478,6 +484,7 @@
 				A10000000000000000000099 /* ../.env in Resources */,
 				A100000000000000000000C3 /* Assets.xcassets in Resources */,
 				A100000000000000000000C6 /* Localizable.strings in Resources */,
+				A100000000000000000000F4 /* gtfs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +497,7 @@
 				A10000000000000000000095 /* trips-cancelled.json in Resources */,
 				A10000000000000000000096 /* stations.json in Resources */,
 				A10000000000000000000097 /* trips-multiple.json in Resources */,
+				A100000000000000000000F5 /* gtfs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

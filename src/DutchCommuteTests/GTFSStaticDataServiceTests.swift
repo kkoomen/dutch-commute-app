@@ -113,4 +113,44 @@ final class GTFSStaticDataServiceTests: XCTestCase {
         // Sorted by name.
         XCTAssertEqual(choices.map(\.name), ["Centraal Station", "Centraal Station", "Station Zuid"])
     }
+
+    /// The compact picker format: stops.txt + stop_modes.txt.
+    func testStationChoicesFromCompactStopModes() throws {
+        let data = try GTFSStaticDataService.load(
+            stopsCSV: """
+            stop_id,stop_name,stop_lat,stop_lon
+            stop-1,Centraal Station,52.09,5.12
+            stop-2,Station Zuid,52.12,5.14
+            """,
+            routesCSV: "",
+            tripsCSV: "",
+            stopTimesCSV: "",
+            stopModesCSV: """
+            stop_id,route_types
+            stop-1,"0,3"
+            stop-2,3
+            """
+        )
+        XCTAssertEqual(data.stopModes["stop-1"], [0, 3])
+        let choices = GTFSStaticDataService.stationChoices(from: data)
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-1", name: "Centraal Station", mode: .tram)))
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-1", name: "Centraal Station", mode: .bus)))
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-2", name: "Station Zuid", mode: .bus)))
+    }
+
+    /// The real bundled dataset parses and yields a large choice list.
+    func testBundledGtfsDatasetLoads() throws {
+        guard let url = Bundle(for: GTFSStaticDataServiceTests.self).url(forResource: "gtfs", withExtension: nil) else {
+            return XCTFail("bundled gtfs folder missing")
+        }
+        let data = try GTFSStaticDataService.load(from: url)
+        XCTAssertGreaterThan(data.stops.count, 50_000)
+        XCTAssertFalse(data.stopModes.isEmpty)
+        let choices = GTFSStaticDataService.stationChoices(from: data)
+        XCTAssertGreaterThan(choices.count, 50_000)
+        // NL GTFS stop names use the "[Station] …" convention.
+        XCTAssertTrue(choices.contains { $0.name.contains("Utrecht Centraal") })
+        XCTAssertTrue(choices.contains { $0.mode == .bus })
+        XCTAssertTrue(choices.contains { $0.mode == .tram })
+    }
 }

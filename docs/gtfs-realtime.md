@@ -44,9 +44,14 @@ GTFSTransitDataService
   `ServiceAlert`s, filtered by their active period.
 - **Station picker**: the From/To picker offers NS train stations plus
   GTFS bus/metro/tram stops, each row showing the mode icon and label.
-  Static GTFS data is read from the bundle's `gtfs/` resource directory
-  when present (`stops.txt`, `routes.txt`, `trips.txt`,
-  `stop_times.txt`); without it, only NS train stations are offered.
+  A compact dataset derived from the national Dutch GTFS
+  (`https://gtfs.ovapi.nl/gtfs-nl.zip`) is bundled as the `gtfs/`
+  resource folder: `stops.txt` + `stop_modes.txt` (stop id → GTFS route
+  types; rail excluded — NS covers trains). ~55k stops. Regenerate with:
+  extract `stops.txt`/`routes.txt`/`trips.txt`, stream `stop_times.txt`
+  to collect (trip, stop) pairs, join trip → route → route_type,
+  drop type 2, write `stop_modes.txt` (CSV-quoted) and a trimmed
+  `stops.txt`.
 
 ## Safety
 

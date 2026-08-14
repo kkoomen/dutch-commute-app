@@ -41,6 +41,24 @@ struct GTFSStaticData: Equatable {
     let routes: [String: GTFSRoute]
     let trips: [String: GTFSTrip]
     let stopTimes: [GTFSStopTime]
+    /// Compact picker format: stop id → the GTFS route types serving it
+    /// (derived from the full dataset; empty when only the full files are
+    /// loaded — then choices are derived from stop times).
+    let stopModes: [String: Set<Int32>]
+
+    init(
+        stops: [String: GTFSStop],
+        routes: [String: GTFSRoute],
+        trips: [String: GTFSTrip],
+        stopTimes: [GTFSStopTime],
+        stopModes: [String: Set<Int32>] = [:]
+    ) {
+        self.stops = stops
+        self.routes = routes
+        self.trips = trips
+        self.stopTimes = stopTimes
+        self.stopModes = stopModes
+    }
 
     static let empty = GTFSStaticData(stops: [:], routes: [:], trips: [:], stopTimes: [])
 
@@ -63,24 +81,34 @@ struct GTFSStaticData: Equatable {
 
 // MARK: - Service
 
-/// Loads and parses static GTFS CSV files (stops.txt, routes.txt,
-/// trips.txt, stop_times.txt).
+/// Loads and parses static GTFS CSV files. Supports either the full
+/// four-file format (stops/routes/trips/stop_times) or the compact picker
+/// format (stops.txt + stop_modes.txt).
 enum GTFSStaticDataService {
-    /// Reads the four standard CSV files from `directory`.
+    /// Reads the dataset files from `directory` (missing files are skipped).
     static func load(from directory: URL) throws -> GTFSStaticData {
         let read = { (name: String) throws -> String in
-            try String(contentsOf: directory.appendingPathComponent(name), encoding: .utf8)
+            let url = directory.appendingPathComponent(name)
+            guard FileManager.default.fileExists(atPath: url.path) else { return "" }
+            return try String(contentsOf: url, encoding: .utf8)
         }
         return try load(
             stopsCSV: read("stops.txt"),
             routesCSV: read("routes.txt"),
             tripsCSV: read("trips.txt"),
-            stopTimesCSV: read("stop_times.txt")
+            stopTimesCSV: read("stop_times.txt"),
+            stopModesCSV: read("stop_modes.txt")
         )
     }
 
     /// Parses CSV text fixtures; testable without files.
-    static func load(stopsCSV: String, routesCSV: String, tripsCSV: String, stopTimesCSV: String) throws -> GTFSStaticData {
+    static func load(
+        stopsCSV: String,
+        routesCSV: String,
+        tripsCSV: String,
+        stopTimesCSV: String,
+        stopModesCSV: String = ""
+    ) throws -> GTFSStaticData {
         let stops = try parse(rows: stopsCSV) { fields in
             GTFSStop(
                 id: fields["stop_id"] ?? "",
@@ -112,11 +140,18 @@ enum GTFSStaticDataService {
                 departureSeconds: fields["departure_time"].flatMap(Self.secondsOfDay)
             )
         }
+        let stopModes = try parse(rows: stopModesCSV) { fields in
+            let types = (fields["route_types"] ?? "")
+                .split(separator: ",")
+                .compactMap { Int32($0) }
+            return (fields["stop_id"] ?? "", types)
+        }
         return GTFSStaticData(
             stops: Dictionary(uniqueKeysWithValues: stops.map { ($0.id, $0) }),
             routes: Dictionary(uniqueKeysWithValues: routes.map { ($0.id, $0) }),
             trips: Dictionary(uniqueKeysWithValues: trips.map { ($0.id, $0) }),
-            stopTimes: stopTimes
+            stopTimes: stopTimes,
+            stopModes: Dictionary(uniqueKeysWithValues: stopModes.map { ($0.0, Set($0.1)) })
         )
     }
 
@@ -129,18 +164,29 @@ enum GTFSStaticDataService {
     }
 
     /// Every stop served by a known route, one choice per (stop, mode)
-    /// pair, sorted by name — used by the station picker.
+    /// pair, sorted by name — used by the station picker. Prefers the
+    /// compact stop_modes data; derives from stop times otherwise.
     static func stationChoices(from data: GTFSStaticData) -> [StationChoice] {
         var choices: [StationChoice] = []
-        for stopTime in data.stopTimes {
-            guard let trip = data.trips[stopTime.tripID],
-                  let route = data.routes[trip.routeID],
-                  let mode = TransportMode(gtfsRouteType: route.routeType),
-                  let stop = data.stops[stopTime.stopID]
-            else { continue }
-            let choice = StationChoice(id: stop.id, name: stop.name, mode: mode)
-            if !choices.contains(choice) {
-                choices.append(choice)
+        if !data.stopModes.isEmpty {
+            for (stopID, types) in data.stopModes {
+                guard let stop = data.stops[stopID] else { continue }
+                for type in types {
+                    guard let mode = TransportMode(gtfsRouteType: type) else { continue }
+                    choices.append(StationChoice(id: stop.id, name: stop.name, mode: mode))
+                }
+            }
+        } else {
+            for stopTime in data.stopTimes {
+                guard let trip = data.trips[stopTime.tripID],
+                      let route = data.routes[trip.routeID],
+                      let mode = TransportMode(gtfsRouteType: route.routeType),
+                      let stop = data.stops[stopTime.stopID]
+                else { continue }
+                let choice = StationChoice(id: stop.id, name: stop.name, mode: mode)
+                if !choices.contains(choice) {
+                    choices.append(choice)
+                }
             }
         }
         return choices.sorted { $0.name < $1.name }
@@ -171,20 +217,22 @@ enum GTFSStaticDataService {
         var row: [String] = []
         var field = ""
         var inQuotes = false
-        for character in csv {
-            switch character {
+        // Iterate scalars: CR and LF are separate scalars even in a \r\n
+        // pair (String grapheme iteration would treat \r\n as one unit).
+        for scalar in csv.unicodeScalars {
+            switch Character(scalar) {
             case "\"":
                 inQuotes.toggle()
             case ",":
                 if inQuotes {
-                    field.append(character)
+                    field.append(Character(scalar))
                 } else {
                     row.append(field)
                     field = ""
                 }
             case "\n":
                 if inQuotes {
-                    field.append(character)
+                    field.append(Character(scalar))
                 } else {
                     row.append(field)
                     rows.append(row)
@@ -194,7 +242,7 @@ enum GTFSStaticDataService {
             case "\r":
                 break
             default:
-                field.append(character)
+                field.append(Character(scalar))
             }
         }
         if !field.isEmpty || !row.isEmpty {
