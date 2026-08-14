@@ -151,6 +151,7 @@ struct JourneyWidgetEntryView: View {
                     .font(.caption2)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
+                    .foregroundStyle(statusColor(leg.status))
             } else {
                 Text("—")
                     .font(.caption2)
