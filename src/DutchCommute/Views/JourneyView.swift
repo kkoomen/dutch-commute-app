@@ -181,8 +181,6 @@ private struct LockScreenHelpView: View {
                 }
             }
         }
-        .background(Palette.teal)
-        .preferredColorScheme(.light)
     }
 
     private func step(_ number: String, _ text: String) -> some View {
