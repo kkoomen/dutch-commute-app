@@ -20,7 +20,7 @@
 
 /* App UI — time picker sheet */
 "Preferred time" = "Gewenste tijd";
-"Searching departure times" = "Vertrektijden ophalen";
+"Searching departure times…" = "Vertrektijden ophalen…";
 "Retry" = "Opnieuw proberen";
 "Departures" = "Vertrektijden";
 "No trains found at %@." = "Geen treinen gevonden om %@.";

@@ -280,7 +280,7 @@ private struct TimePickerSheet: View {
                 if isLoading {
                     HStack(spacing: 8) {
                         ProgressView()
-                        Text("Searching departure times")
+                        Text("Searching departure times…")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

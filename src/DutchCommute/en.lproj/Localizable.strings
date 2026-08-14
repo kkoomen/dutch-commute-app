@@ -20,7 +20,7 @@
 
 /* App UI — time picker sheet */
 "Preferred time" = "Preferred time";
-"Searching departure times" = "Searching departure times";
+"Searching departure times…" = "Searching departure times…";
 "Retry" = "Retry";
 "Departures" = "Departures";
 "No trains found at %@." = "No trains found at %@.";
