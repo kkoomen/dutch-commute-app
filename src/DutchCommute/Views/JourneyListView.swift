@@ -89,9 +89,13 @@ private struct JourneyCard: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: "line.3.horizontal")
-                .foregroundStyle(.tertiary)
-                .accessibilityLabel("Drag to reorder")
+            VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                Image(systemName: "line.3.horizontal")
+                    .foregroundStyle(.tertiary)
+                    .accessibilityLabel("Drag to reorder")
+                Spacer(minLength: 0)
+            }
 
             StationRouteView(stations: stationNames, leading: leadingTimes)
 
