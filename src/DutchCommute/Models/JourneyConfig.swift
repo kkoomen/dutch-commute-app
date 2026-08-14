@@ -75,8 +75,6 @@ struct JourneyConfig: Codable, Equatable, Identifiable {
     /// Absolute creation time (persisted; used for ordering).
     var createdAt: Date
     var from: Station
-    /// Optional intermediate station for the trip.
-    var via: Station? = nil
     var to: Station
     /// Minutes since midnight (Europe/Amsterdam) for the outbound departure.
     var departMinutes: Int
@@ -99,7 +97,7 @@ struct JourneyConfig: Codable, Equatable, Identifiable {
 
 extension JourneyConfig {
     private enum CodingKeys: String, CodingKey {
-        case id, createdAt, from, via, to, departMinutes, returnMinutes, days, transportModes, isActive
+        case id, createdAt, from, to, departMinutes, returnMinutes, days, transportModes, isActive
     }
 
     /// Legacy key: configs saved when a single `transportMode` was stored.
@@ -113,7 +111,6 @@ extension JourneyConfig {
         id = try c.decode(UUID.self, forKey: .id)
         createdAt = try c.decode(Date.self, forKey: .createdAt)
         from = try c.decode(Station.self, forKey: .from)
-        via = try c.decodeIfPresent(Station.self, forKey: .via)
         to = try c.decode(Station.self, forKey: .to)
         departMinutes = try c.decode(Int.self, forKey: .departMinutes)
         returnMinutes = try c.decode(Int.self, forKey: .returnMinutes)

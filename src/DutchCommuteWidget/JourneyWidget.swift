@@ -52,7 +52,7 @@ struct JourneyTimelineProvider: TimelineProvider {
 
         let leg: TrainLeg?
         do {
-            let trip = try await NSAPIClient(apiKey: APIKey.ns).fetchTrip(from: from, to: to, at: departureTime, via: config.via, transportModes: config.transportModes)
+            let trip = try await NSAPIClient(apiKey: APIKey.ns).fetchTrip(from: from, to: to, at: departureTime, transportModes: config.transportModes)
             leg = trip.firstLeg.flatMap(TrainLeg.init)
         } catch {
             leg = nil

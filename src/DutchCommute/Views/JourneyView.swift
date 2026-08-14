@@ -18,7 +18,6 @@ struct JourneyView: View {
                     Section("Outbound") {
                         LegCard(
                             fromName: config.from.name,
-                            viaName: config.via?.name,
                             toName: config.to.name,
                             defaultTime: NSDateParser.timeString(minutes: config.departMinutes),
                             leg: legs[.outbound]
@@ -28,7 +27,6 @@ struct JourneyView: View {
                     Section("Return") {
                         LegCard(
                             fromName: config.to.name,
-                            viaName: config.via?.name,
                             toName: config.from.name,
                             defaultTime: NSDateParser.timeString(minutes: config.returnMinutes),
                             leg: legs[.returnLeg]
@@ -104,8 +102,8 @@ struct JourneyView: View {
 
         let times = JourneySchedule.legTimes(on: date, config: config)
         do {
-            async let outboundTrip = state.client.fetchTrip(from: config.from, to: config.to, at: times.outbound, via: config.via, transportModes: config.transportModes)
-            async let returnTrip = state.client.fetchTrip(from: config.to, to: config.from, at: times.return, via: config.via, transportModes: config.transportModes)
+            async let outboundTrip = state.client.fetchTrip(from: config.from, to: config.to, at: times.outbound, transportModes: config.transportModes)
+            async let returnTrip = state.client.fetchTrip(from: config.to, to: config.from, at: times.return, transportModes: config.transportModes)
             let (outbound, returnLeg) = try await (outboundTrip, returnTrip)
             legs[.outbound] = outbound.firstLeg.flatMap(TrainLeg.init)
             legs[.returnLeg] = returnLeg.firstLeg.flatMap(TrainLeg.init)
@@ -121,7 +119,6 @@ struct JourneyView: View {
 /// "On time" chip; the live time/status replace it in place.
 private struct LegCard: View {
     let fromName: String
-    let viaName: String?
     let toName: String
     /// Locally saved departure time, shown until live data arrives.
     let defaultTime: String
@@ -152,7 +149,7 @@ private struct LegCard: View {
     }
 
     private var stationNames: [String] {
-        [fromName] + (viaName.map { [$0] } ?? []) + [toName]
+        [fromName, toName]
     }
 }
 

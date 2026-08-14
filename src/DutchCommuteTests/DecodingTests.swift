@@ -185,12 +185,11 @@ final class DecodingTests: XCTestCase {
         XCTAssertNil(other)
     }
 
-    func testJourneyConfigViaCodableRoundTrip() throws {
+    func testJourneyConfigCodableRoundTrip() throws {
         let config = JourneyConfig(
             id: UUID(),
             createdAt: Date(timeIntervalSince1970: 1_000),
             from: Station(code: "HKS", name: "Hoogkarspel"),
-            via: Station(code: "HNB", name: "Hoorn"),
             to: Station(code: "ASD", name: "Amsterdam Centraal"),
             departMinutes: 480,
             returnMinutes: 1080,
@@ -199,17 +198,15 @@ final class DecodingTests: XCTestCase {
         )
         let data = try JSONEncoder().encode(config)
         let decoded = try JSONDecoder().decode(JourneyConfig.self, from: data)
-        XCTAssertEqual(decoded.via, Station(code: "HNB", name: "Hoorn"))
         XCTAssertEqual(decoded.transportModes, [.train, .bus])
         XCTAssertEqual(decoded.departMinutes, 480)
     }
 
     func testJourneyConfigOldFormatDecodesWithDefaults() throws {
-        // A config persisted before `via`/`transportModes` existed must
-        // still decode: via nil, all transport modes selected.
+        // A config persisted before `transportModes` existed must still
+        // decode: all transport modes selected.
         let json = #"{"id":"11111111-1111-1111-1111-111111111111","createdAt":0,"from":{"code":"HKS","name":"Hoogkarspel"},"to":{"code":"ASD","name":"Amsterdam Centraal"},"departMinutes":480,"returnMinutes":1080,"days":[1,2]}"#
         let decoded = try JSONDecoder().decode(JourneyConfig.self, from: Data(json.utf8))
-        XCTAssertNil(decoded.via)
         XCTAssertEqual(decoded.transportModes, Set(TransportMode.allCases))
         XCTAssertEqual(decoded.from.code, "HKS")
     }

@@ -151,17 +151,15 @@ private struct JourneyCard: View {
         .padding(.vertical, 2)
     }
 
-    /// "[from, via?, to]" — the route shown as the dot diagram.
+    /// "[from, to]" — the route shown as the dot diagram.
     private var stationNames: [String] {
-        [journey.from.name] + (journey.via.map { [$0.name] } ?? []) + [journey.to.name]
+        [journey.from.name, journey.to.name]
     }
 
     /// Outbound time left of the from station, return time left of the to
-    /// station (via gets none).
+    /// station.
     private var leadingTimes: [String?] {
-        let depart = Self.timeString(journey.departMinutes)
-        let returnTime = Self.timeString(journey.returnMinutes)
-        return [depart] + (journey.via.map { _ in [nil] } ?? []) + [returnTime]
+        [Self.timeString(journey.departMinutes), Self.timeString(journey.returnMinutes)]
     }
 
     private static func timeString(_ minutes: Int) -> String {

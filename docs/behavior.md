@@ -17,11 +17,9 @@
 2. Picks **origin** and **destination** stations (NS station codes under the
    hood) and opens **Travel options** (a full-height modal): a **multi-
    select** of transport modes — Train, Bus, Metro, Tram, Ferry — shown as
-   icon tiles, **all selected by default** (at least one is required), plus
-   an optional **via station**. A blue checkmark closes it; the selected
-   modes are shown on the "Travel options" row and the via station appears
-   as a **readonly row between From and To** (tapping either reopens the
-   modal). Autocomplete kicks in after **2 non-whitespace characters** and
+   icon tiles, **all selected by default** (at least one is required). A
+   blue checkmark closes it; the selected modes are shown on the "Travel
+   options" row. Autocomplete kicks in after **2 non-whitespace characters** and
    queries the station list only after the user **hasn't typed for
    500 ms**; the station list itself is fetched at most once per app
    session.

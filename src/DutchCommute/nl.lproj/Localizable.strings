@@ -4,7 +4,6 @@
 "NS_API_KEY not configured — add it to src/.env and rebuild." = "NS_API_KEY niet geconfigureerd — voeg het toe aan src/.env en bouw opnieuw.";
 "Route" = "Route";
 "From" = "Van";
-"Via" = "Via";
 "To" = "Naar";
 "Travel options" = "Reisopties";
 "Select a from and to station first." = "Selecteer eerst een vertrek- en aankomststation.";
@@ -30,7 +29,6 @@
 /* App UI — travel options sheet */
 "Transport" = "Vervoer";
 "At least one mode is required." = "Selecteer ten minste één vervoerswijze.";
-"Via station (optional)" = "Via-station (optioneel)";
 "Done" = "Klaar";
 "Selected" = "Geselecteerd";
 "Not selected" = "Niet geselecteerd";

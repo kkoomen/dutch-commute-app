@@ -11,7 +11,6 @@ struct SetupView: View {
 
     @State private var from: Station?
     @State private var to: Station?
-    @State private var via: Station?
     @State private var transportModes: Set<TransportMode> = Set(TransportMode.allCases)
     @State private var showTravelOptions = false
     /// nil until the user picks a real departure time (rows show "Tap to set").
@@ -25,7 +24,6 @@ struct SetupView: View {
         if let prefill {
             _from = State(initialValue: prefill.from)
             _to = State(initialValue: prefill.to)
-            _via = State(initialValue: prefill.via)
             _transportModes = State(initialValue: prefill.transportModes)
             _departMinutes = State(initialValue: prefill.departMinutes)
             _returnMinutes = State(initialValue: prefill.returnMinutes)
@@ -50,21 +48,6 @@ struct SetupView: View {
 
             Section("Route") {
                 StationField(label: "From", station: $from)
-                if let via {
-                    Button {
-                        showTravelOptions = true
-                    } label: {
-                        HStack {
-                            Text("Via")
-                            Spacer()
-                            Text(via.name)
-                                .foregroundStyle(.secondary)
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
-                }
                 StationField(label: "To", station: $to)
                 Button {
                     showTravelOptions = true
@@ -138,7 +121,6 @@ struct SetupView: View {
                     defaultHour: target == .depart ? 8 : 18,
                     from: target == .depart ? from : to,
                     to: target == .depart ? to : from,
-                    via: effectiveVia,
                     transportModes: transportModes,
                     client: state.client,
                     selection: target == .depart ? $departMinutes : $returnMinutes
@@ -146,14 +128,8 @@ struct SetupView: View {
             }
         }
         .sheet(isPresented: $showTravelOptions) {
-            TravelOptionsSheet(transportModes: $transportModes, via: $via)
+            TravelOptionsSheet(transportModes: $transportModes)
         }
-    }
-
-    /// The via station only counts when it differs from both endpoints.
-    private var effectiveVia: Station? {
-        guard let via, via != from, via != to else { return nil }
-        return via
     }
 
     fileprivate static func timeString(_ minutes: Int) -> String {
@@ -186,7 +162,6 @@ struct SetupView: View {
         if var existing = prefill {
             existing.from = from
             existing.to = to
-            existing.via = effectiveVia
             existing.transportModes = transportModes
             existing.departMinutes = departMinutes
             existing.returnMinutes = returnMinutes
@@ -197,7 +172,6 @@ struct SetupView: View {
                 id: UUID(),
                 createdAt: Date(),
                 from: from,
-                via: effectiveVia,
                 to: to,
                 departMinutes: departMinutes,
                 returnMinutes: returnMinutes,
@@ -228,7 +202,6 @@ private struct TimePickerSheet: View {
     let defaultHour: Int
     let from: Station
     let to: Station
-    let via: Station?
     let transportModes: Set<TransportMode>
     let client: NSAPIClient
     @Binding var selection: Int?
@@ -242,12 +215,11 @@ private struct TimePickerSheet: View {
     @State private var searchTask: Task<Void, Never>?
     @State private var manualDate: Date
 
-    init(title: LocalizedStringKey, defaultHour: Int, from: Station, to: Station, via: Station?, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
+    init(title: LocalizedStringKey, defaultHour: Int, from: Station, to: Station, transportModes: Set<TransportMode>, client: NSAPIClient, selection: Binding<Int?>) {
         self.title = title
         self.defaultHour = defaultHour
         self.from = from
         self.to = to
-        self.via = via
         self.transportModes = transportModes
         self.client = client
         _selection = selection
@@ -359,7 +331,7 @@ private struct TimePickerSheet: View {
             guard !Task.isCancelled else { return }
             hasSearched = true
             do {
-                let minutes = try await client.departureMinutes(from: from, to: to, via: via, transportModes: transportModes, at: snapshot)
+                let minutes = try await client.departureMinutes(from: from, to: to, transportModes: transportModes, at: snapshot)
                 guard !Task.isCancelled else { return }
                 results = minutes
                 isLoading = false
@@ -377,7 +349,6 @@ private struct TimePickerSheet: View {
 /// checkmark closes it; changes apply to the form immediately.
 private struct TravelOptionsSheet: View {
     @Binding var transportModes: Set<TransportMode>
-    @Binding var via: Station?
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -395,9 +366,6 @@ private struct TravelOptionsSheet: View {
                     Text("At least one mode is required.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                }
-                Section("Via station (optional)") {
-                    StationField(label: "Via", station: $via)
                 }
             }
             .navigationTitle("Travel options")
