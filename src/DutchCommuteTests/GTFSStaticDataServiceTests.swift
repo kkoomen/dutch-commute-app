@@ -79,4 +79,38 @@ final class GTFSStaticDataServiceTests: XCTestCase {
         XCTAssertNil(TransportMode(gtfsRouteType: 5))
         XCTAssertNil(TransportMode(gtfsRouteType: 100))
     }
+
+    func testStationChoicesFromGtfsData() throws {
+        let data = try GTFSStaticDataService.load(
+            stopsCSV: """
+            stop_id,stop_name,stop_lat,stop_lon
+            stop-1,Centraal Station,52.09,5.12
+            stop-2,Station Zuid,52.12,5.14
+            """,
+            routesCSV: """
+            route_id,route_short_name,route_long_name,route_type
+            route-38,38,Centrum - Station,3
+            route-9,9,Spoorzone,0
+            """,
+            tripsCSV: """
+            trip_id,route_id,trip_headsign
+            trip-1,route-38,Station Zuid
+            trip-2,route-9,Markt
+            """,
+            stopTimesCSV: """
+            trip_id,stop_id,stop_sequence,departure_time
+            trip-1,stop-1,1,08:00:00
+            trip-1,stop-2,2,08:12:00
+            trip-2,stop-1,1,08:05:00
+            """
+        )
+        let choices = GTFSStaticDataService.stationChoices(from: data)
+        // stop-1 is served by a bus and a tram route → two choices.
+        XCTAssertEqual(choices.count, 3)
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-1", name: "Centraal Station", mode: .bus)))
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-1", name: "Centraal Station", mode: .tram)))
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-2", name: "Station Zuid", mode: .bus)))
+        // Sorted by name.
+        XCTAssertEqual(choices.map(\.name), ["Centraal Station", "Centraal Station", "Station Zuid"])
+    }
 }

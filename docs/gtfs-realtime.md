@@ -42,6 +42,11 @@ GTFSTransitDataService
   live updates — delays, `SKIPPED` stops, cancelled trips
   (`TripDescriptor.schedule_relationship == CANCELED`). Alerts become
   `ServiceAlert`s, filtered by their active period.
+- **Station picker**: the From/To picker offers NS train stations plus
+  GTFS bus/metro/tram stops, each row showing the mode icon and label.
+  Static GTFS data is read from the bundle's `gtfs/` resource directory
+  when present (`stops.txt`, `routes.txt`, `trips.txt`,
+  `stop_times.txt`); without it, only NS train stations are offered.
 
 ## Safety
 

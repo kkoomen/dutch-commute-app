@@ -136,24 +136,24 @@ final class DecodingTests: XCTestCase {
     }
 
     func testStationFilterRanking() {
-        let stations = [
-            Station(code: "UT", name: "Utrecht Centraal"),
-            Station(code: "UTG", name: "Utrecht Overvecht"),
-            Station(code: "ASD", name: "Amsterdam Centraal"),
+        let choices = [
+            StationChoice(id: "UT", name: "Utrecht Centraal", mode: .train),
+            StationChoice(id: "UTG", name: "Utrecht Overvecht", mode: .train),
+            StationChoice(id: "ASD", name: "Amsterdam Centraal", mode: .train),
         ]
-        XCTAssertEqual(StationPickerSheet.filter(stations, query: "utr").map(\.code), ["UT", "UTG"])
-        XCTAssertEqual(StationPickerSheet.filter(stations, query: "amsterdam").map(\.code), ["ASD"])
+        XCTAssertEqual(StationPickerSheet.filter(choices, query: "utr").map(\.id), ["UT", "UTG"])
+        XCTAssertEqual(StationPickerSheet.filter(choices, query: "amsterdam").map(\.id), ["ASD"])
     }
 
     func testStationFilterRequiresTwoNonWhitespaceCharacters() {
-        let stations = [
-            Station(code: "UT", name: "Utrecht Centraal"),
-            Station(code: "UTG", name: "Utrecht Overvecht"),
+        let choices = [
+            StationChoice(id: "UT", name: "Utrecht Centraal", mode: .train),
+            StationChoice(id: "UTG", name: "Utrecht Overvecht", mode: .train),
         ]
-        XCTAssertEqual(StationPickerSheet.filter(stations, query: ""), [])
-        XCTAssertEqual(StationPickerSheet.filter(stations, query: "u"), [])
-        XCTAssertEqual(StationPickerSheet.filter(stations, query: "  u  "), [])
-        XCTAssertEqual(StationPickerSheet.filter(stations, query: "ut").map(\.code), ["UT", "UTG"])
+        XCTAssertEqual(StationPickerSheet.filter(choices, query: ""), [])
+        XCTAssertEqual(StationPickerSheet.filter(choices, query: "u"), [])
+        XCTAssertEqual(StationPickerSheet.filter(choices, query: "  u  "), [])
+        XCTAssertEqual(StationPickerSheet.filter(choices, query: "ut").map(\.id), ["UT", "UTG"])
     }
 
     func testDepartureMinutesDeduplicatedSorted() throws {

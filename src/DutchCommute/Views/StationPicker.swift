@@ -58,7 +58,7 @@ struct StationPickerSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var query = ""
-    @State private var suggestions: [Station] = []
+    @State private var suggestions: [StationChoice] = []
     @State private var searchTask: Task<Void, Never>?
     @State private var hasSearched = false
     @FocusState private var searchFocused: Bool
@@ -83,7 +83,7 @@ struct StationPickerSheet: View {
         }
         .presentationDetents([.large])
         .task {
-            await state.loadStations()
+            await state.loadStationChoices()
             searchFocused = true
         }
     }
@@ -148,12 +148,11 @@ struct StationPickerSheet: View {
     private var resultsList: some View {
         List {
             Section("Results") {
-                ForEach(suggestions) { station in
+                ForEach(suggestions) { choice in
                     Button {
-                        select(station)
+                        select(choice)
                     } label: {
-                        Text(station.name)
-                            .foregroundStyle(Palette.textPrimary)
+                        StationChoiceRow(choice: choice)
                     }
                 }
                 if suggestions.isEmpty && hasSearched {
@@ -183,10 +182,14 @@ struct StationPickerSheet: View {
         searchTask = Task { @MainActor in
             try? await Task.sleep(for: .milliseconds(500))
             guard !Task.isCancelled else { return }
-            await state.loadStations()
-            suggestions = Self.filter(state.stations, query: snapshot)
+            await state.loadStationChoices()
+            suggestions = Self.filter(state.stationChoices, query: snapshot)
             hasSearched = true
         }
+    }
+
+    private func select(_ choice: StationChoice) {
+        select(Station(code: choice.id, name: choice.name))
     }
 
     private func select(_ station: Station) {
@@ -197,11 +200,11 @@ struct StationPickerSheet: View {
 
     /// Ranks stations: prefix matches first, then contains; capped at 8.
     /// Returns no suggestions until the query has 2+ non-whitespace characters.
-    static func filter(_ stations: [Station], query: String) -> [Station] {
+    static func filter(_ choices: [StationChoice], query: String) -> [StationChoice] {
         let q = query.lowercased().trimmingCharacters(in: .whitespaces)
         guard q.count >= 2 else { return [] }
-        let matches = stations.filter {
-            $0.name.lowercased().contains(q) || $0.code.lowercased().contains(q)
+        let matches = choices.filter {
+            $0.name.lowercased().contains(q) || $0.id.lowercased().contains(q)
         }
         let ranked = matches.sorted { a, b in
             let aPrefix = a.name.lowercased().hasPrefix(q) ? 0 : 1
@@ -210,5 +213,32 @@ struct StationPickerSheet: View {
             return a.name < b.name
         }
         return Array(ranked.prefix(8))
+    }
+}
+
+/// One autocomplete row: mode icon + station name, with the mode label
+/// (icon + train/bus/metro/tram) below.
+private struct StationChoiceRow: View {
+    let choice: StationChoice
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: choice.mode.icon)
+                .font(.subheadline)
+                .foregroundStyle(Palette.textSecondary)
+                .frame(width: 26)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(choice.name)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Palette.textPrimary)
+                HStack(spacing: 4) {
+                    Image(systemName: choice.mode.icon)
+                        .font(.caption2)
+                    Text(choice.mode.label)
+                        .font(.caption2)
+                }
+                .foregroundStyle(Palette.textSecondary)
+            }
+        }
     }
 }

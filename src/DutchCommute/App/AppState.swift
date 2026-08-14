@@ -20,6 +20,10 @@ final class AppState {
     var stations: [Station] = []
     private(set) var stationsLoaded = false
     var stationsErrorMessage: String?
+    /// Selectable stops: NS train stations plus GTFS bus/metro/tram stops
+    /// (when static GTFS data is bundled).
+    var stationChoices: [StationChoice] = []
+    private(set) var stationChoicesLoaded = false
     /// Recently picked stations, shared between the From and To pickers.
     var stationHistory: [Station] = []
 
@@ -110,5 +114,22 @@ final class AppState {
         } catch {
             stationsErrorMessage = error.localizedDescription
         }
+    }
+
+    /// Loads the selectable stops (NS train stations + bundled GTFS stops)
+    /// once for the station picker.
+    func loadStationChoices() async {
+        guard !stationChoicesLoaded else { return }
+        await loadStations()
+        let nsChoices = stations.map { StationChoice(id: $0.code, name: $0.name, mode: .train) }
+        var gtfsChoices: [StationChoice] = []
+        // Static GTFS data is bundled under Resources/gtfs/ when present;
+        // without it only NS train stations are offered.
+        if let url = Bundle.main.url(forResource: "gtfs", withExtension: nil),
+           let data = try? GTFSStaticDataService.load(from: url) {
+            gtfsChoices = GTFSStaticDataService.stationChoices(from: data)
+        }
+        stationChoices = nsChoices + gtfsChoices
+        stationChoicesLoaded = true
     }
 }

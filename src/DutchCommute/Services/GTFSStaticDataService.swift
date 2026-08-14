@@ -128,6 +128,24 @@ enum GTFSStaticDataService {
         return h * 3600 + m * 60 + s
     }
 
+    /// Every stop served by a known route, one choice per (stop, mode)
+    /// pair, sorted by name — used by the station picker.
+    static func stationChoices(from data: GTFSStaticData) -> [StationChoice] {
+        var choices: [StationChoice] = []
+        for stopTime in data.stopTimes {
+            guard let trip = data.trips[stopTime.tripID],
+                  let route = data.routes[trip.routeID],
+                  let mode = TransportMode(gtfsRouteType: route.routeType),
+                  let stop = data.stops[stopTime.stopID]
+            else { continue }
+            let choice = StationChoice(id: stop.id, name: stop.name, mode: mode)
+            if !choices.contains(choice) {
+                choices.append(choice)
+            }
+        }
+        return choices.sorted { $0.name < $1.name }
+    }
+
     // MARK: CSV
 
     /// Parses CSV text with a header row into structs. Handles quoted

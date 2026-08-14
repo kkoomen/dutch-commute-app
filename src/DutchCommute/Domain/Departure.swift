@@ -1,10 +1,5 @@
 import Foundation
 
-/// A mode of public transport, shared by the NS API and GTFS providers.
-enum TransportMode: Equatable {
-    case train, bus, metro, tram, ferry
-}
-
 /// A single public-transport departure (train, bus, tram, metro) in
 /// app-level terms. Both the NS API and GTFS-Realtime providers produce
 /// this type; views and widgets never see the underlying API types.
