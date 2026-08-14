@@ -56,6 +56,7 @@
 		A100000000000000000000CF /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CB /* Palette.swift */; };
 		A100000000000000000000D0 /* PrimaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CC /* PrimaryButtonStyle.swift */; };
 		A100000000000000000000D1 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000CB /* Palette.swift */; };
+		A100000000000000000000D3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000D2 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		A100000000000000000000CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A100000000000000000000CB /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		A100000000000000000000CC /* PrimaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonStyle.swift; sourceTree = "<group>"; };
+		A100000000000000000000D2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 				A1000000000000000000002E /* StationField.swift */,
 				A1000000000000000000002F /* JourneyView.swift */,
 				A1000000000000000000004D /* JourneyListView.swift */,
+				A100000000000000000000D2 /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				A1000000000000000000009D /* TripsSearchCache.swift in Sources */,
 				A100000000000000000000CF /* Palette.swift in Sources */,
 				A100000000000000000000D0 /* PrimaryButtonStyle.swift in Sources */,
+				A100000000000000000000D3 /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

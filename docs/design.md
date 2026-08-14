@@ -20,6 +20,9 @@
   button (white label on `primary`, `primaryPressed` while pressed, dimmed
   when disabled).
 - Both files are compiled into the app **and** the widget target.
+- `LoadingView` — launch screen: `darkBackground` → `lightBackground`
+  gradient (bottom to top) with the logo (`LoadingLogo` in the asset
+  catalog) centered; shown ~1.2 s on launch (`DutchCommuteApp`).
 
 ## Rules
 
