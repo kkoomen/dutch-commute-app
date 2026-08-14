@@ -39,4 +39,9 @@ enum NSDateParser {
         formatter.dateFormat = "HH:mm"
         return formatter.string(from: date)
     }
+
+    /// Formats minutes since midnight as "HH:mm" (e.g. `8 * 60 + 12` → "08:12").
+    static func timeString(minutes: Int) -> String {
+        String(format: "%02d:%02d", minutes / 60, minutes % 60)
+    }
 }

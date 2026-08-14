@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// Vertical route diagram: a dot per station with connecting lines,
-/// e.g. from → (via) → to. Optional captions (tracks) sit under each
+/// Vertical route diagram: a dot per station with a connecting line that
+/// spans from each dot to the next (it grows when rows get taller, e.g.
+/// when track captions appear). Optional captions (tracks) sit under each
 /// station name.
 struct StationRouteView: View {
     /// Ordered station names, e.g. ["Utrecht", "Amsterdam"].
@@ -14,10 +15,22 @@ struct StationRouteView: View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(stations.enumerated()), id: \.offset) { index, name in
                 HStack(alignment: .top, spacing: 9) {
-                    Circle()
-                        .fill(Palette.primary)
-                        .frame(width: 9, height: 9)
-                        .padding(.top, 3)
+                    // Dot column: dot on top, flexible line below it so the
+                    // line always reaches the next dot, however tall the row.
+                    VStack(spacing: 0) {
+                        Circle()
+                            .fill(Palette.primary)
+                            .frame(width: 9, height: 9)
+                            .padding(.top, 3)
+                        if index < stations.count - 1 {
+                            Rectangle()
+                                .fill(Palette.primary.opacity(0.35))
+                                .frame(width: 2)
+                                .frame(maxHeight: .infinity)
+                        }
+                    }
+                    // Text column: station name, optional caption, and a
+                    // spacer that keeps consecutive stations apart.
                     VStack(alignment: .leading, spacing: 0) {
                         Text(name)
                             .font(.subheadline.weight(.semibold))
@@ -27,13 +40,10 @@ struct StationRouteView: View {
                                 .font(.caption2)
                                 .foregroundStyle(Palette.textSecondary)
                         }
+                        if index < stations.count - 1 {
+                            Spacer(minLength: 10)
+                        }
                     }
-                }
-                if index < stations.count - 1 {
-                    Rectangle()
-                        .fill(Palette.primary.opacity(0.35))
-                        .frame(width: 2, height: 20)
-                        .padding(.leading, 3.5)
                 }
             }
         }

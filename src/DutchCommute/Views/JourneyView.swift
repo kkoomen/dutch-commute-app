@@ -7,7 +7,6 @@ struct JourneyView: View {
 
     @State private var journeyDate: Date?
     @State private var legs: [LegKind: TrainLeg] = [:]
-    @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var showLockScreenHelp = false
 
@@ -21,8 +20,8 @@ struct JourneyView: View {
                             fromName: config.from.name,
                             viaName: config.via?.name,
                             toName: config.to.name,
-                            leg: legs[.outbound],
-                            isLoading: isLoading
+                            defaultTime: NSDateParser.timeString(minutes: config.departMinutes),
+                            leg: legs[.outbound]
                         )
                     }
 
@@ -31,8 +30,8 @@ struct JourneyView: View {
                             fromName: config.to.name,
                             viaName: config.via?.name,
                             toName: config.from.name,
-                            leg: legs[.returnLeg],
-                            isLoading: isLoading
+                            defaultTime: NSDateParser.timeString(minutes: config.returnMinutes),
+                            leg: legs[.returnLeg]
                         )
                     }
                 } else {
@@ -81,9 +80,6 @@ struct JourneyView: View {
     }
 
     private func reload() async {
-        isLoading = true
-        defer { isLoading = false }
-
         guard let date = JourneySchedule.nextJourneyDate(now: Date(), config: config) else {
             journeyDate = nil
             legs = [:]
@@ -106,12 +102,15 @@ struct JourneyView: View {
 }
 
 /// One train leg card: route diagram (stations with tracks), time, status.
+/// Before the live leg arrives it shows the saved departure time with an
+/// "On time" chip; the live time/status replace it in place.
 private struct LegCard: View {
     let fromName: String
     let viaName: String?
     let toName: String
+    /// Locally saved departure time, shown until live data arrives.
+    let defaultTime: String
     let leg: TrainLeg?
-    let isLoading: Bool
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -125,11 +124,13 @@ private struct LegCard: View {
                         .strikethrough(leg.status == .cancelled)
                     StatusChip(status: leg.status)
                 }
-            } else if isLoading {
-                ProgressView()
             } else {
-                Text("—")
-                    .foregroundStyle(Palette.textTertiary)
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text(defaultTime)
+                        .font(.title3.monospacedDigit())
+                        .foregroundStyle(Palette.textPrimary)
+                    StatusChip(status: .onTime)
+                }
             }
         }
         .padding(.vertical, 4)

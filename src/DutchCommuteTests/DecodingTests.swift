@@ -15,6 +15,12 @@ final class DecodingTests: XCTestCase {
 
     // MARK: - Trip fixtures
 
+    func testTimeStringFromMinutes() {
+        XCTAssertEqual(NSDateParser.timeString(minutes: 8 * 60 + 12), "08:12")
+        XCTAssertEqual(NSDateParser.timeString(minutes: 18 * 60), "18:00")
+        XCTAssertEqual(NSDateParser.timeString(minutes: 0), "00:00")
+    }
+
     func testOnTimeFixture() throws {
         let leg = try XCTUnwrap(firstLeg(fromFixture: "trips-on-time"))
         XCTAssertEqual(leg.name, "IC 1234")
