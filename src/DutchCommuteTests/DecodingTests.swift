@@ -24,6 +24,9 @@ final class DecodingTests: XCTestCase {
         let train = try XCTUnwrap(TrainLeg(dto: leg))
         XCTAssertEqual(train.status, .onTime)
         XCTAssertEqual(train.plannedDeparture, NSDateParser.parse("2026-08-14T08:11:00+0200"))
+        // Tracks: actual wins over planned at the origin; planned at the destination.
+        XCTAssertEqual(train.departureTrack, "6")
+        XCTAssertEqual(train.arrivalTrack, "7")
     }
 
     func testDelayedFixture() throws {

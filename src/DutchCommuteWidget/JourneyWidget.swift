@@ -88,8 +88,15 @@ struct JourneyWidgetEntryView: View {
                     .font(.headline)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
-                Text(legKindLabel)
-                    .font(.caption)
+                HStack(spacing: 4) {
+                    Text(legKindLabel)
+                    if let track = leg.departureTrack {
+                        Text("·")
+                        Text(String(localized: "Track \(track)"))
+                            .foregroundStyle(Palette.textSecondary)
+                    }
+                }
+                .font(.caption)
                 Text("\(NSDateParser.timeString(leg.displayedDeparture)) · \(leg.status.label)")
                     .font(.caption)
                     .monospacedDigit()

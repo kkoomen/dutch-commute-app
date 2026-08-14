@@ -18,7 +18,8 @@ struct JourneyView: View {
                 if journeyDate != nil {
                     Section("Outbound") {
                         LegCard(
-                            title: "\(config.from.name) → \(config.to.name)",
+                            fromName: config.from.name,
+                            toName: config.to.name,
                             leg: legs[.outbound],
                             isLoading: isLoading
                         )
@@ -26,7 +27,8 @@ struct JourneyView: View {
 
                     Section("Return") {
                         LegCard(
-                            title: "\(config.to.name) → \(config.from.name)",
+                            fromName: config.to.name,
+                            toName: config.from.name,
                             leg: legs[.returnLeg],
                             isLoading: isLoading
                         )
@@ -101,28 +103,18 @@ struct JourneyView: View {
     }
 }
 
-/// One train leg card: train, direction, time, and status.
+/// One train leg card: stations with tracks, time, and status.
 private struct LegCard: View {
-    let title: String
+    let fromName: String
+    let toName: String
     let leg: TrainLeg?
     let isLoading: Bool
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.headline)
-                    .foregroundStyle(Palette.textPrimary)
-                if let leg {
-                    Text("🚆 \(leg.name)")
-                        .font(.subheadline)
-                        .foregroundStyle(Palette.textPrimary)
-                    if !leg.direction.isEmpty {
-                        Text("→ \(leg.direction)")
-                            .font(.subheadline)
-                            .foregroundStyle(Palette.textSecondary)
-                    }
-                }
+                stationLine(name: fromName, track: leg?.departureTrack)
+                stationLine(name: toName, track: leg?.arrivalTrack)
             }
             Spacer()
             if let leg {
@@ -141,6 +133,25 @@ private struct LegCard: View {
             }
         }
         .padding(.vertical, 4)
+    }
+
+    /// "• Station" with the track (grey, indented) below it.
+    private func stationLine(name: String, track: String?) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 5) {
+                Text("•")
+                    .font(.subheadline.weight(.semibold))
+                Text(name)
+                    .font(.subheadline.weight(.medium))
+            }
+            .foregroundStyle(Palette.textPrimary)
+            if let track {
+                Text(String(localized: "Track \(track)"))
+                    .font(.caption2)
+                    .foregroundStyle(Palette.textSecondary)
+                    .padding(.leading, 14)
+            }
+        }
     }
 }
 

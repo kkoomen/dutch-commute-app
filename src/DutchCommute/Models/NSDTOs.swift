@@ -35,6 +35,8 @@ struct LegEndpointDTO: Decodable {
     let stationCode: String?   // "ZD"
     let plannedDateTime: String?
     let actualDateTime: String?
+    let plannedTrack: String?  // "4" (platform)
+    let actualTrack: String?   // "6" (platform)
 }
 
 struct ProductDTO: Decodable {

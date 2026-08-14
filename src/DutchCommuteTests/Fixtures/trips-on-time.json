@@ -13,13 +13,16 @@
             "name": "Amsterdam Zuid",
             "stationCode": "ASDZ",
             "plannedDateTime": "2026-08-14T08:11:00+0200",
-            "actualDateTime": "2026-08-14T08:11:00+0200"
+            "actualDateTime": "2026-08-14T08:11:00+0200",
+            "plannedTrack": "4",
+            "actualTrack": "6"
           },
           "destination": {
             "name": "Utrecht Centraal",
             "stationCode": "UT",
             "plannedDateTime": "2026-08-14T08:48:00+0200",
-            "actualDateTime": "2026-08-14T08:48:00+0200"
+            "actualDateTime": "2026-08-14T08:48:00+0200",
+            "plannedTrack": "7"
           },
           "product": {
             "number": "1234",

@@ -68,9 +68,10 @@
 "Your next train and whether it's on time." = "Je volgende trein en of deze op tijd is.";
 
 /* Shared domain labels */
+"Track %@" = "Spoor %@";
 "On time" = "Op tijd";
 "+%lld min" = "+%lld min";
-"Cancelled" = "Geannuleerd";
+"Cancelled" = "Rijdt niet";
 "Unknown" = "Onbekend";
 "Train" = "Trein";
 "Bus" = "Bus";

@@ -25,6 +25,10 @@ struct TrainLeg: Identifiable, Equatable {
     let plannedDeparture: Date
     let actualDeparture: Date?
     let status: TrainStatus
+    /// Track shown to the user: actual when known, otherwise planned
+    /// ("Spoor 4"). Nil when the API didn't provide one.
+    let departureTrack: String?
+    let arrivalTrack: String?
 
     /// The time shown to the user: actual when delayed, otherwise planned.
     var displayedDeparture: Date { actualDeparture ?? plannedDeparture }
@@ -36,6 +40,8 @@ struct TrainLeg: Identifiable, Equatable {
         direction = dto.direction ?? ""
         plannedDeparture = planned
         actualDeparture = actual
+        departureTrack = dto.origin?.actualTrack ?? dto.origin?.plannedTrack
+        arrivalTrack = dto.destination?.actualTrack ?? dto.destination?.plannedTrack
         status = TrainStatusMapping.status(
             cancelled: dto.cancelled,
             plannedDeparture: planned,

@@ -68,6 +68,7 @@
 "Your next train and whether it's on time." = "Your next train and whether it's on time.";
 
 /* Shared domain labels */
+"Track %@" = "Track %@";
 "On time" = "On time";
 "+%lld min" = "+%lld min";
 "Cancelled" = "Cancelled";

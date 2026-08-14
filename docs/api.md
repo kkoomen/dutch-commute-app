@@ -98,7 +98,8 @@ Notes:
 
 Only fields needed for display and status derivation are decoded (`TripDTO`,
 `LegDTO` in `DutchCommute/Models/NSDTOs.swift`). Unknown fields are ignored —
-no full client library.
+no full client library. Tracks come from `origin`/`destination`:
+`plannedTrack` / `actualTrack` (actual wins for display; "Spoor X").
 
 Domain models: `JourneyConfig`, `TrainLeg`, `TrainStatus`.
 
