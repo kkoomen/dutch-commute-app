@@ -20,6 +20,10 @@ The app and widget share the App Group `group.com.dutchcommute.app`
 Widget-only: `DutchCommuteWidgetBundle`, `JourneyWidget` (TimelineProvider +
 views). App-only: app state, views, tests, `PrimaryButtonStyle`.
 
+GTFS-Realtime support (app target only): `Domain/Departure`,
+`Domain/ServiceAlert`, `Networking/GTFSRealtime/*` (SwiftProtobuf package
+`swift-protobuf`) and `Services/*` — see `docs/gtfs-realtime.md`.
+
 Design tokens: `docs/design.md`.
 
 `Localizable.strings` (in `DutchCommute/en.lproj/`) is bundled into **both**

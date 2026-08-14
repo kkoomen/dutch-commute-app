@@ -59,6 +59,17 @@
 		A100000000000000000000D3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000D2 /* LoadingView.swift */; };
 		A100000000000000000000D4 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000D5 /* Appearance.swift */; };
 		A100000000000000000000D7 /* StationRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000D6 /* StationRouteView.swift */; };
+		A100000000000000000000E5 /* Departure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000DA /* Departure.swift */; };
+		A100000000000000000000E6 /* ServiceAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000DB /* ServiceAlert.swift */; };
+		A100000000000000000000E7 /* GTFSRealtime.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000DC /* GTFSRealtime.pb.swift */; };
+		A100000000000000000000E8 /* GTFSRealtimeFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000DD /* GTFSRealtimeFeed.swift */; };
+		A100000000000000000000E9 /* GTFSRealtimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000DE /* GTFSRealtimeClient.swift */; };
+		A100000000000000000000EA /* GTFSStaticDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000DF /* GTFSStaticDataService.swift */; };
+		A100000000000000000000EB /* RealtimeUpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E0 /* RealtimeUpdateService.swift */; };
+		A100000000000000000000EC /* TransitDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E1 /* TransitDataService.swift */; };
+		A100000000000000000000ED /* GTFSRealtimeClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E2 /* GTFSRealtimeClientTests.swift */; };
+		A100000000000000000000EE /* GTFSStaticDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */; };
+		A100000000000000000000EF /* RealtimeUpdateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +142,18 @@
 		A100000000000000000000D2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A100000000000000000000D5 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		A100000000000000000000D6 /* StationRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRouteView.swift; sourceTree = "<group>"; };
+		A100000000000000000000DA /* Departure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Departure.swift; sourceTree = "<group>"; };
+		A100000000000000000000DB /* ServiceAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAlert.swift; sourceTree = "<group>"; };
+		A100000000000000000000DC /* GTFSRealtime.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSRealtime.pb.swift; sourceTree = "<group>"; };
+		A100000000000000000000DD /* GTFSRealtimeFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSRealtimeFeed.swift; sourceTree = "<group>"; };
+		A100000000000000000000DE /* GTFSRealtimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSRealtimeClient.swift; sourceTree = "<group>"; };
+		A100000000000000000000DF /* GTFSStaticDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSStaticDataService.swift; sourceTree = "<group>"; };
+		A100000000000000000000E0 /* RealtimeUpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeUpdateService.swift; sourceTree = "<group>"; };
+		A100000000000000000000E1 /* TransitDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitDataService.swift; sourceTree = "<group>"; };
+		A100000000000000000000E2 /* GTFSRealtimeClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSRealtimeClientTests.swift; sourceTree = "<group>"; };
+		A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSStaticDataServiceTests.swift; sourceTree = "<group>"; };
+		A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeUpdateServiceTests.swift; sourceTree = "<group>"; };
+		A100000000000000000000F2 /* gtfs-realtime.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = gtfs-realtime.proto; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +211,7 @@
 				A10000000000000000000054 /* Store */,
 				A10000000000000000000055 /* Views */,
 				A100000000000000000000CE /* Design */,
+				A100000000000000000000F0 /* Services */,
 				A10000000000000000000022 /* Info.plist */,
 				A10000000000000000000032 /* ../.env */,
 				A10000000000000000000049 /* DutchCommute.entitlements */,
@@ -215,8 +239,20 @@
 				A10000000000000000000028 /* NSDateParsing.swift */,
 				A10000000000000000000033 /* APIKey.swift */,
 				A1000000000000000000005A /* TripsSearchCache.swift */,
+				A100000000000000000000F1 /* GTFSRealtime */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		A100000000000000000000F1 /* GTFSRealtime */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000DC /* GTFSRealtime.pb.swift */,
+				A100000000000000000000DD /* GTFSRealtimeFeed.swift */,
+				A100000000000000000000DE /* GTFSRealtimeClient.swift */,
+				A100000000000000000000F2 /* gtfs-realtime.proto */,
+			);
+			path = GTFSRealtime;
 			sourceTree = "<group>";
 		};
 		A10000000000000000000053 /* Domain */ = {
@@ -224,6 +260,8 @@
 			children = (
 				A10000000000000000000029 /* TrainStatusMapping.swift */,
 				A1000000000000000000002A /* JourneySchedule.swift */,
+				A100000000000000000000DA /* Departure.swift */,
+				A100000000000000000000DB /* ServiceAlert.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -260,6 +298,16 @@
 			path = Design;
 			sourceTree = "<group>";
 		};
+		A100000000000000000000F0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000DF /* GTFSStaticDataService.swift */,
+				A100000000000000000000E0 /* RealtimeUpdateService.swift */,
+				A100000000000000000000E1 /* TransitDataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		A10000000000000000000056 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +324,9 @@
 				A10000000000000000000041 /* JourneyScheduleTests.swift */,
 				A10000000000000000000042 /* DecodingTests.swift */,
 				A10000000000000000000047 /* APIKeyTests.swift */,
+				A100000000000000000000E2 /* GTFSRealtimeClientTests.swift */,
+				A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */,
+				A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */,
 				A10000000000000000000059 /* Fixtures */,
 			);
 			path = DutchCommuteTests;
@@ -329,6 +380,9 @@
 			dependencies = (
 			);
 			name = DutchCommute;
+			packageProductDependencies = (
+				A100000000000000000000D9 /* SwiftProtobuf */,
+			);
 			productName = DutchCommute;
 			productReference = A10000000000000000000012 /* DutchCommute.app */;
 			productType = "com.apple.product-type.application";
@@ -347,6 +401,9 @@
 				A10000000000000000000073 /* PBXTargetDependency */,
 			);
 			name = DutchCommuteTests;
+			packageProductDependencies = (
+				A100000000000000000000D9 /* SwiftProtobuf */,
+			);
 			productName = DutchCommuteTests;
 			productReference = A10000000000000000000013 /* DutchCommuteTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -399,6 +456,9 @@
 				nl,
 			);
 			mainGroup = A10000000000000000000002;
+			packageReferences = (
+				A100000000000000000000D8 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
+			);
 			productRefGroup = A10000000000000000000003 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -472,6 +532,14 @@
 				A100000000000000000000D3 /* LoadingView.swift in Sources */,
 				A100000000000000000000D4 /* Appearance.swift in Sources */,
 				A100000000000000000000D7 /* StationRouteView.swift in Sources */,
+				A100000000000000000000E5 /* Departure.swift in Sources */,
+				A100000000000000000000E6 /* ServiceAlert.swift in Sources */,
+				A100000000000000000000E7 /* GTFSRealtime.pb.swift in Sources */,
+				A100000000000000000000E8 /* GTFSRealtimeFeed.swift in Sources */,
+				A100000000000000000000E9 /* GTFSRealtimeClient.swift in Sources */,
+				A100000000000000000000EA /* GTFSStaticDataService.swift in Sources */,
+				A100000000000000000000EB /* RealtimeUpdateService.swift in Sources */,
+				A100000000000000000000EC /* TransitDataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +551,9 @@
 				A10000000000000000000091 /* JourneyScheduleTests.swift in Sources */,
 				A10000000000000000000092 /* DecodingTests.swift in Sources */,
 				A1000000000000000000009B /* APIKeyTests.swift in Sources */,
+				A100000000000000000000ED /* GTFSRealtimeClientTests.swift in Sources */,
+				A100000000000000000000EE /* GTFSStaticDataServiceTests.swift in Sources */,
+				A100000000000000000000EF /* RealtimeUpdateServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +587,25 @@
 			targetProxy = A10000000000000000000098 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A100000000000000000000D8 /* XCRemoteSwiftPackageReference "swift-protobuf" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-protobuf.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.26.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A100000000000000000000D9 /* SwiftProtobuf */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A100000000000000000000D8 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = SwiftProtobuf;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin PBXVariantGroup section */
 		A100000000000000000000C7 /* Localizable.strings */ = {
