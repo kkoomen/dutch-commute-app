@@ -14,7 +14,7 @@ Every role adapts to the current color scheme (light / dark):
 | Text tertiary | `#ACB0B0` | `#525D5E` | Captions, muted labels |
 | Primary | `#007572` | `#5ABAB1` | Accent: buttons, selected states, checkmarks, tint |
 | Primary pressed | `#00605E` | `#4AA29B` | Primary buttons while pressed |
-| On accent | `#FFFFFF` | `#0E0F11` | Text on accent fills (day toggles) |
+| On accent | `#FFFFFF` | `#0E0F11` | Text on accent fills (buttons, day toggles) |
 | Disabled fill | `#E2E5E8` | `#383C40` | Disabled primary buttons |
 | Disabled text | `#9AA1A6` | `#7C8286` | Disabled primary button labels |
 | Status on time | `#5AA58B` | `#6CB87A` | "On time" status |
@@ -27,8 +27,9 @@ Every role adapts to the current color scheme (light / dark):
 - `src/DutchCommute/Design/Appearance.swift` — `Appearance` (system / light /
   dark), persisted via `AppStorage("appearance")`.
 - `src/DutchCommute/Design/PrimaryButtonStyle.swift` — the filled primary
-  button: black label on `primary`, `primaryPressed` while pressed, gray
-  fill + gray text when disabled.
+  button: `onAccent` label on `primary` (white in light mode, near-black in
+  dark mode), `primaryPressed` while pressed, gray fill + gray text when
+  disabled.
 
 ## Appearance toggle
 

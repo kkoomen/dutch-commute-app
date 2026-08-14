@@ -1,14 +1,15 @@
 import SwiftUI
 
-/// Filled brand button: primary background with black text, darker while
-/// pressed, gray (fill + text) when disabled.
+/// Filled brand button: accent fill with contrasting label (white on the
+/// dark teal accent in light mode, near-black on the light teal accent in
+/// dark mode), darker while pressed, gray (fill + text) when disabled.
 struct PrimaryButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.body.weight(.semibold))
-            .foregroundStyle(isEnabled ? Color.black : Palette.disabledText)
+            .foregroundStyle(isEnabled ? Palette.onAccent : Palette.disabledText)
             .padding(.vertical, 12)
             .frame(maxWidth: .infinity)
             .background(
