@@ -21,6 +21,20 @@ struct JourneyView: View {
         state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false
     }
 
+    private var showsLiveActivityBinding: Binding<Bool> {
+        Binding(
+            get: { state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false },
+            set: { state.setShowsLiveActivity(config.id, shows: $0) }
+        )
+    }
+
+    private var showsNearDepartureBinding: Binding<Bool> {
+        Binding(
+            get: { state.journeys.first(where: { $0.id == config.id })?.showsNearDeparture ?? false },
+            set: { state.setShowsNearDeparture(config.id, shows: $0) }
+        )
+    }
+
     /// The journey date to show; nil when no days are configured.
     private var journeyDate: Date? {
         JourneySchedule.nextJourneyDate(now: Date(), config: config)
@@ -68,39 +82,21 @@ struct JourneyView: View {
                 }
 
                 Section {
-                    Toggle(isOn: Binding(
-                        get: { state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false },
-                        set: { state.setShowsLiveActivity(config.id, shows: $0) }
-                    )) {
-                        HStack(spacing: 6) {
-                            Text("Show live activity")
-                            Button {
-                                showLiveActivityHelp = true
-                            } label: {
-                                Image(systemName: "questionmark.circle")
-                                    .foregroundStyle(Palette.textSecondary)
-                            }
-                        }
-                    }
-                    .disabled(!isLiveActivityEligible)
+                    ToggleRow(
+                        title: String(localized: "Show live activity"),
+                        isOn: showsLiveActivityBinding,
+                        isSwitchDisabled: !isLiveActivityEligible,
+                        helpAction: { showLiveActivityHelp = true }
+                    )
                     Text("Only available for journeys between two train stations.")
                         .font(.caption2)
                         .foregroundStyle(Palette.textSecondary)
-                    Toggle(isOn: Binding(
-                        get: { state.journeys.first(where: { $0.id == config.id })?.showsNearDeparture ?? false },
-                        set: { state.setShowsNearDeparture(config.id, shows: $0) }
-                    )) {
-                        HStack(spacing: 6) {
-                            Text("Show near departure")
-                            Button {
-                                showNearDepartureHelp = true
-                            } label: {
-                                Image(systemName: "questionmark.circle")
-                                    .foregroundStyle(Palette.textSecondary)
-                            }
-                        }
-                    }
-                    .disabled(!showsLiveActivity)
+                    ToggleRow(
+                        title: String(localized: "Show near departure"),
+                        isOn: showsNearDepartureBinding,
+                        isSwitchDisabled: !showsLiveActivity,
+                        helpAction: { showNearDepartureHelp = true }
+                    )
                 }
                 .alert("Show near departure", isPresented: $showNearDepartureHelp) {
                     Button("Done", role: .cancel) {}
@@ -126,6 +122,33 @@ struct JourneyView: View {
                     }
                 }
             }
+    }
+}
+
+/// A settings row whose switch can be disabled on its own: only the switch
+/// gets the disabled state, so the label and its help button stay
+/// interactive (tappable) while the toggle is off-limits.
+private struct ToggleRow: View {
+    let title: String
+    let isOn: Binding<Bool>
+    let isSwitchDisabled: Bool
+    let helpAction: () -> Void
+
+    var body: some View {
+        HStack {
+            HStack(spacing: 6) {
+                Text(title)
+                Button(action: helpAction) {
+                    Image(systemName: "questionmark.circle")
+                        .foregroundStyle(Palette.textSecondary)
+                }
+            }
+            Spacer()
+            Toggle("", isOn: isOn)
+                .labelsHidden()
+                .disabled(isSwitchDisabled)
+                .accessibilityLabel(title)
+        }
     }
 }
 
