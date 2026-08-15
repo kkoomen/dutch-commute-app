@@ -214,12 +214,12 @@ final class GTFSStaticDataServiceTests: XCTestCase {
             StationChoice(id: "UT", name: "Utrecht Centraal", mode: .train),
             StationChoice(id: "BUS1", name: "Busplein", mode: .bus),
         ]
-        XCTAssertTrue(AppState.usesNSAPI(from: train, to: train, choices: choices))
-        XCTAssertFalse(AppState.usesNSAPI(from: train, to: bus, choices: choices))
-        XCTAssertFalse(AppState.usesNSAPI(from: bus, to: bus, choices: choices))
+        // Routing is based on the leg's departure stop only.
+        XCTAssertTrue(AppState.usesNSAPI(departureStop: train, choices: choices))
+        XCTAssertFalse(AppState.usesNSAPI(departureStop: bus, choices: choices))
         // Unknown stops fall back to the NS API.
-        XCTAssertTrue(AppState.usesNSAPI(from: Station(code: "ZZZ", name: "X"), to: train, choices: choices))
+        XCTAssertTrue(AppState.usesNSAPI(departureStop: Station(code: "ZZZ", name: "X"), choices: choices))
         // No choices loaded yet → NS API (historical default).
-        XCTAssertTrue(AppState.usesNSAPI(from: train, to: train, choices: []))
+        XCTAssertTrue(AppState.usesNSAPI(departureStop: train, choices: []))
     }
 }

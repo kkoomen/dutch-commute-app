@@ -127,20 +127,22 @@ final class AppState {
         }
     }
 
-    /// Whether the time picker should use the NS API for this route:
-    /// both stops must be train stations. Unknown stops fall back to the
-    /// NS API (historical behavior).
-    static func usesNSAPI(from: Station, to: Station, choices: [StationChoice]) -> Bool {
-        let fromMode = choices.first { $0.id == from.code }?.mode ?? .train
-        let toMode = choices.first { $0.id == to.code }?.mode ?? .train
-        return fromMode == .train && toMode == .train
+    /// Whether the time picker should use the NS API for a leg — based on
+    /// the leg's **departure stop** only (the from stop for the outbound
+    /// leg, the to stop for the return leg). Unknown stops fall back to
+    /// the NS API (historical behavior).
+    static func usesNSAPI(departureStop: Station, choices: [StationChoice]) -> Bool {
+        let mode = choices.first { $0.id == departureStop.code }?.mode ?? .train
+        return mode == .train
     }
 
-    /// Departure minutes for the time picker: NS API for train-to-train
-    /// journeys; bundled GTFS stop departures otherwise (bus/metro/tram).
+    /// Departure minutes for the time picker: NS API when the leg departs
+    /// from a train station; bundled GTFS stop departures otherwise
+    /// (bus/metro/tram). The departure stop is `from` for the outbound
+    /// leg and the journey's `to` for the return leg.
     /// GTFS departures are direction-agnostic — NL stops are per-direction.
     func departureMinutes(from: Station, to: Station, at preferred: Date) async throws -> [Int] {
-        if Self.usesNSAPI(from: from, to: to, choices: stationChoices) {
+        if Self.usesNSAPI(departureStop: from, choices: stationChoices) {
             return try await client.departureMinutes(from: from, to: to, at: preferred)
         }
         await ensureGTFSDeparturesLoaded()
