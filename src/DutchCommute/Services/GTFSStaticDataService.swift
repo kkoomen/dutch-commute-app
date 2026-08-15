@@ -1,4 +1,5 @@
 import Foundation
+import zlib
 
 // MARK: - Static GTFS models (internal to the services layer)
 
@@ -161,6 +162,80 @@ enum GTFSStaticDataService {
         guard parts.count == 3,
               let h = Int(parts[0]), let m = Int(parts[1]), let s = Int(parts[2]) else { return nil }
         return h * 3600 + m * 60 + s
+    }
+
+    // MARK: - Stop departures (bundled, compressed)
+
+    /// Loads and decompresses the bundled stop-departures file
+    /// (`departures.bin.gz`): per stop, the distinct departure minutes of
+    /// day (0..<1440) across all service days, sorted. Format: repeated
+    /// `stop_id int32`, `count uint16`, then `count × minute uint16`.
+    static func loadDepartureMinutes(from url: URL) -> [String: [Int]] {
+        guard let gz = try? Data(contentsOf: url),
+              let data = gunzip(gz)
+        else { return [:] }
+        return parseDepartureMinutes(data)
+    }
+
+    /// Gzip decompression via zlib. The uncompressed size comes from the
+    /// gzip trailer (ISIZE, last 4 bytes); windowBits 15+32 accepts gzip
+    /// (and zlib) streams.
+    static func gunzip(_ data: Data) -> Data? {
+        guard data.count > 8 else { return nil }
+        let size = Int(data.withUnsafeBytes { $0.loadUnaligned(fromByteOffset: data.count - 4, as: UInt32.self) })
+        var output = Data(count: size)
+        let status = output.withUnsafeMutableBytes { dst -> Int32 in
+            data.withUnsafeBytes { src -> Int32 in
+                var stream = z_stream()
+                let initStatus = inflateInit2_(&stream, 15 + 32, ZLIB_VERSION, Int32(MemoryLayout<z_stream>.size))
+                guard initStatus == Z_OK else { return initStatus }
+                defer { inflateEnd(&stream) }
+                stream.next_in = UnsafeMutablePointer(mutating: src.bindMemory(to: Bytef.self).baseAddress!)
+                stream.avail_in = uInt(data.count)
+                stream.next_out = dst.bindMemory(to: Bytef.self).baseAddress!
+                stream.avail_out = uInt(size)
+                return inflate(&stream, Z_FINISH)
+            }
+        }
+        return status == Z_STREAM_END ? output : nil
+    }
+
+    /// Parses the binary stop-departures format (see loadDepartureMinutes).
+    static func parseDepartureMinutes(_ data: Data) -> [String: [Int]] {
+        var result: [String: [Int]] = [:]
+        result.reserveCapacity(55_000)
+        data.withUnsafeBytes { raw in
+            var offset = 0
+            while offset + 6 <= raw.count {
+                let stop = raw.loadUnaligned(fromByteOffset: offset, as: Int32.self)
+                let count = Int(raw.loadUnaligned(fromByteOffset: offset + 4, as: UInt16.self))
+                offset += 6
+                guard offset + count * 2 <= raw.count else { break }
+                var minutes: [Int] = []
+                minutes.reserveCapacity(count)
+                for index in 0..<count {
+                    minutes.append(Int(raw.loadUnaligned(fromByteOffset: offset + index * 2, as: UInt16.self)))
+                }
+                offset += count * 2
+                result[String(stop)] = minutes
+            }
+        }
+        return result
+    }
+
+    /// Departure minutes-of-day at a stop, from the preferred minute on,
+    /// capped — used by the time picker for GTFS journeys.
+    static func departureMinutes(
+        from stopID: String,
+        data: [String: [Int]],
+        at preferred: Date,
+        limit: Int = 8,
+        calendar: Calendar = JourneySchedule.calendar
+    ) -> [Int] {
+        guard let minutes = data[stopID] else { return [] }
+        let preferredMinute = calendar.component(.hour, from: preferred) * 60
+            + calendar.component(.minute, from: preferred)
+        return Array(minutes.filter { $0 >= preferredMinute }.prefix(limit))
     }
 
     /// Every stop served by a known route, one choice per (stop, mode)

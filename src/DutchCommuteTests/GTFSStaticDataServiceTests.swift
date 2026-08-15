@@ -153,4 +153,73 @@ final class GTFSStaticDataServiceTests: XCTestCase {
         XCTAssertTrue(choices.contains { $0.mode == .bus })
         XCTAssertTrue(choices.contains { $0.mode == .tram })
     }
+
+    // MARK: - Stop departures
+
+    func testParseDepartureMinutesBinary() {
+        var blob = Data()
+        blob.append(contentsOf: [0xE9, 0x03, 0x00, 0x00, 0x02, 0x00]) // stop 1001, count 2
+        blob.append(contentsOf: [0xE0, 0x01, 0x58, 0x02])             // minutes 480, 600
+        blob.append(contentsOf: [0xD2, 0x07, 0x00, 0x00, 0x03, 0x00]) // stop 2002, count 3
+        blob.append(contentsOf: [0x3C, 0x00, 0x78, 0x00, 0xB4, 0x00]) // minutes 60, 120, 180
+        let parsed = GTFSStaticDataService.parseDepartureMinutes(blob)
+        XCTAssertEqual(parsed["1001"], [480, 600])
+        XCTAssertEqual(parsed["2002"], [60, 120, 180])
+        XCTAssertEqual(parsed.count, 2)
+    }
+
+    /// A small gzip'd binary blob, generated with Python's gzip module.
+    func testGunzipAndParse() {
+        let base64 = "H4sIALAtgGoC/3vJzMDAxPCAMYLpEjsDAzODDUMFwxYGAPqsVJcWAAAA"
+        let gz = Data(base64Encoded: base64)!
+        let parsed = GTFSStaticDataService.parseDepartureMinutes(
+            GTFSStaticDataService.gunzip(gz)!
+        )
+        XCTAssertEqual(parsed["1001"], [480, 600])
+        XCTAssertEqual(parsed["2002"], [60, 120, 180])
+    }
+
+    func testDepartureMinutesFromPreferredTime() {
+        let data = ["1001": [420, 480, 600, 720, 900]]
+        let calendar = JourneySchedule.calendar
+        let preferred = calendar.date(from: DateComponents(year: 2026, month: 8, day: 10, hour: 8))! // 480
+        XCTAssertEqual(
+            GTFSStaticDataService.departureMinutes(from: "1001", data: data, at: preferred, calendar: calendar),
+            [480, 600, 720, 900]
+        )
+        let capped = GTFSStaticDataService.departureMinutes(from: "1001", data: data, at: preferred, limit: 2, calendar: calendar)
+        XCTAssertEqual(capped, [480, 600])
+        XCTAssertEqual(
+            GTFSStaticDataService.departureMinutes(from: "9999", data: data, at: preferred, calendar: calendar),
+            []
+        )
+    }
+
+    /// The real bundled departures file decompresses and covers the stops.
+    func testBundledDeparturesLoad() {
+        guard let url = Bundle(for: GTFSStaticDataServiceTests.self).url(forResource: "gtfs", withExtension: nil) else {
+            return XCTFail("bundled gtfs folder missing")
+        }
+        let minutes = GTFSStaticDataService.loadDepartureMinutes(
+            from: url.appendingPathComponent("departures.bin.gz")
+        )
+        XCTAssertGreaterThan(minutes.count, 50_000)
+        XCTAssertFalse(minutes["2860212"]?.isEmpty ?? true)
+    }
+
+    func testUsesNSAPIByMode() {
+        let train = Station(code: "UT", name: "Utrecht Centraal")
+        let bus = Station(code: "BUS1", name: "Busplein")
+        let choices = [
+            StationChoice(id: "UT", name: "Utrecht Centraal", mode: .train),
+            StationChoice(id: "BUS1", name: "Busplein", mode: .bus),
+        ]
+        XCTAssertTrue(AppState.usesNSAPI(from: train, to: train, choices: choices))
+        XCTAssertFalse(AppState.usesNSAPI(from: train, to: bus, choices: choices))
+        XCTAssertFalse(AppState.usesNSAPI(from: bus, to: bus, choices: choices))
+        // Unknown stops fall back to the NS API.
+        XCTAssertTrue(AppState.usesNSAPI(from: Station(code: "ZZZ", name: "X"), to: train, choices: choices))
+        // No choices loaded yet → NS API (historical default).
+        XCTAssertTrue(AppState.usesNSAPI(from: train, to: train, choices: []))
+    }
 }

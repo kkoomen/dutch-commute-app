@@ -47,11 +47,18 @@ GTFSTransitDataService
   A compact dataset derived from the national Dutch GTFS
   (`https://gtfs.ovapi.nl/gtfs-nl.zip`) is bundled as the `gtfs/`
   resource folder: `stops.txt` + `stop_modes.txt` (stop id → GTFS route
-  types; rail excluded — NS covers trains). ~55k stops. Regenerate with:
+  types; rail excluded — NS covers trains) and `departures.bin.gz`
+  (stop id → distinct departure minutes of day, gzip'd binary, ~5 MB).
+  ~55k stops. Regenerate with:
   extract `stops.txt`/`routes.txt`/`trips.txt`, stream `stop_times.txt`
   to collect (trip, stop) pairs, join trip → route → route_type,
   drop type 2, write `stop_modes.txt` (CSV-quoted) and a trimmed
-  `stops.txt`.
+  `stops.txt`; stream stop_times again for the distinct per-stop
+  departure minutes and pack them as the delta-free binary
+  (`stop int32`, `count uint16`, `count × minute uint16`), gzip'd.
+- **Time picker**: train-to-train journeys use the NS API; journeys with
+  a GTFS stop (bus/metro/tram) use the bundled GTFS departure minutes
+  (direction-agnostic — NL stops are per-direction).
 
 ## Safety
 

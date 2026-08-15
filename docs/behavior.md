@@ -24,6 +24,9 @@
 3. Picks **days of the week** (e.g. Mon–Fri).
 4. Sets **departure and return times**: tapping the Depart or Return row
    opens a bottom sheet with a **wheel picker** for the preferred time.
+   The departure list uses the **NS API** when both stops are train
+   stations, and the **bundled GTFS departure minutes** otherwise
+   (bus/metro/tram).
    Every wheel change (debounced ~350 ms) makes one cached `trips` request
    for that leg at today's preferred time and the ~5 returned departures
    are shown as-is; picking one sets the journey time (the preferred time

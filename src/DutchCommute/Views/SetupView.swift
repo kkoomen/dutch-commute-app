@@ -109,7 +109,7 @@ struct SetupView: View {
                     defaultHour: target == .depart ? 8 : 18,
                     from: target == .depart ? from : to,
                     to: target == .depart ? to : from,
-                    client: state.client,
+                    state: state,
                     selection: target == .depart ? $departMinutes : $returnMinutes
                 )
             }
@@ -184,7 +184,7 @@ private struct TimePickerSheet: View {
     let defaultHour: Int
     let from: Station
     let to: Station
-    let client: NSAPIClient
+    let state: AppState
     @Binding var selection: Int?
     @Environment(\.dismiss) private var dismiss
 
@@ -196,12 +196,12 @@ private struct TimePickerSheet: View {
     @State private var searchTask: Task<Void, Never>?
     @State private var manualDate: Date
 
-    init(title: LocalizedStringKey, defaultHour: Int, from: Station, to: Station, client: NSAPIClient, selection: Binding<Int?>) {
+    init(title: LocalizedStringKey, defaultHour: Int, from: Station, to: Station, state: AppState, selection: Binding<Int?>) {
         self.title = title
         self.defaultHour = defaultHour
         self.from = from
         self.to = to
-        self.client = client
+        self.state = state
         _selection = selection
         // Start the wheel at the current value when editing, else the default
         // hour for this leg (08:00 outbound, 18:00 return).
@@ -283,7 +283,10 @@ private struct TimePickerSheet: View {
             }
         }
         .presentationDetents([.large])
-        .task { scheduleSearch(at: preferredDate) }
+        .task {
+            await state.loadStationChoices()
+            scheduleSearch(at: preferredDate)
+        }
     }
 
     /// Manual picker so a time can still be set without the API.
@@ -311,7 +314,7 @@ private struct TimePickerSheet: View {
             guard !Task.isCancelled else { return }
             hasSearched = true
             do {
-                let minutes = try await client.departureMinutes(from: from, to: to, at: snapshot)
+                let minutes = try await state.departureMinutes(from: from, to: to, at: snapshot)
                 guard !Task.isCancelled else { return }
                 results = minutes
                 isLoading = false
