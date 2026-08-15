@@ -24,6 +24,7 @@ struct DutchCommuteApp: App {
                 withAnimation(.easeOut(duration: 0.4)) {
                     showLoading = false
                 }
+                state.applyLiveActivities()
             }
         }
     }

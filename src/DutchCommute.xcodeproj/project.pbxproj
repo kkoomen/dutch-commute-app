@@ -70,8 +70,15 @@
 		A100000000000000000000ED /* GTFSRealtimeClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E2 /* GTFSRealtimeClientTests.swift */; };
 		A100000000000000000000EE /* GTFSStaticDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */; };
 		A100000000000000000000EF /* RealtimeUpdateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */; };
+		B10000000000000000000006 /* LiveActivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* LiveActivityTests.swift */; };
 		A100000000000000000000F4 /* gtfs in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F3 /* gtfs */; };
 		A100000000000000000000F5 /* gtfs in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F6 /* gtfs */; };
+		A100000000000000000000FC /* JourneyActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F7 /* JourneyActivity.swift */; };
+		A100000000000000000000FD /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F8 /* LiveActivityManager.swift */; };
+		A100000000000000000000FE /* LiveActivityPushTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F9 /* LiveActivityPushTokenStore.swift */; };
+		A100000000000000000000FF /* LiveActivityUpdateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000FA /* LiveActivityUpdateClient.swift */; };
+		B10000000000000000000001 /* JourneyActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* JourneyActivity.swift */; };
+		B10000000000000000000002 /* JourneyLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000FB /* JourneyLiveActivity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,9 +162,16 @@
 		A100000000000000000000E2 /* GTFSRealtimeClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSRealtimeClientTests.swift; sourceTree = "<group>"; };
 		A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSStaticDataServiceTests.swift; sourceTree = "<group>"; };
 		A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeUpdateServiceTests.swift; sourceTree = "<group>"; };
+		B10000000000000000000005 /* LiveActivityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityTests.swift; sourceTree = "<group>"; };
 		A100000000000000000000F2 /* gtfs-realtime.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = gtfs-realtime.proto; sourceTree = "<group>"; };
 		A100000000000000000000F3 /* gtfs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gtfs; sourceTree = "<group>"; };
 		A100000000000000000000F6 /* gtfs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ../DutchCommute/gtfs; sourceTree = "<group>"; };
+		A100000000000000000000F7 /* JourneyActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyActivity.swift; sourceTree = "<group>"; };
+		A100000000000000000000F8 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		A100000000000000000000F9 /* LiveActivityPushTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityPushTokenStore.swift; sourceTree = "<group>"; };
+		A100000000000000000000FA /* LiveActivityUpdateClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityUpdateClient.swift; sourceTree = "<group>"; };
+		A100000000000000000000FB /* JourneyLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyLiveActivity.swift; sourceTree = "<group>"; };
+		B10000000000000000000003 /* JourneyActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ../DutchCommute/LiveActivities/JourneyActivity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +230,7 @@
 				A10000000000000000000055 /* Views */,
 				A100000000000000000000CE /* Design */,
 				A100000000000000000000F0 /* Services */,
+				B10000000000000000000004 /* LiveActivities */,
 				A10000000000000000000022 /* Info.plist */,
 				A10000000000000000000032 /* ../.env */,
 				A10000000000000000000049 /* DutchCommute.entitlements */,
@@ -313,6 +328,17 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		B10000000000000000000004 /* LiveActivities */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000F7 /* JourneyActivity.swift */,
+				A100000000000000000000F8 /* LiveActivityManager.swift */,
+				A100000000000000000000F9 /* LiveActivityPushTokenStore.swift */,
+				A100000000000000000000FA /* LiveActivityUpdateClient.swift */,
+			);
+			path = LiveActivities;
+			sourceTree = "<group>";
+		};
 		A10000000000000000000056 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,6 +358,7 @@
 				A100000000000000000000E2 /* GTFSRealtimeClientTests.swift */,
 				A100000000000000000000E3 /* GTFSStaticDataServiceTests.swift */,
 				A100000000000000000000E4 /* RealtimeUpdateServiceTests.swift */,
+				B10000000000000000000005 /* LiveActivityTests.swift */,
 				A10000000000000000000059 /* Fixtures */,
 				A100000000000000000000F6 /* gtfs */,
 			);
@@ -355,6 +382,8 @@
 			children = (
 				A1000000000000000000004B /* DutchCommuteWidgetBundle.swift */,
 				A1000000000000000000004C /* JourneyWidget.swift */,
+				B10000000000000000000003 /* JourneyActivity.swift */,
+				A100000000000000000000FB /* JourneyLiveActivity.swift */,
 				A10000000000000000000048 /* Info.plist */,
 				A1000000000000000000004A /* DutchCommuteWidget.entitlements */,
 			);
@@ -548,6 +577,10 @@
 				A100000000000000000000EA /* GTFSStaticDataService.swift in Sources */,
 				A100000000000000000000EB /* RealtimeUpdateService.swift in Sources */,
 				A100000000000000000000EC /* TransitDataService.swift in Sources */,
+				A100000000000000000000FC /* JourneyActivity.swift in Sources */,
+				A100000000000000000000FD /* LiveActivityManager.swift in Sources */,
+				A100000000000000000000FE /* LiveActivityPushTokenStore.swift in Sources */,
+				A100000000000000000000FF /* LiveActivityUpdateClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,6 +595,7 @@
 				A100000000000000000000ED /* GTFSRealtimeClientTests.swift in Sources */,
 				A100000000000000000000EE /* GTFSStaticDataServiceTests.swift in Sources */,
 				A100000000000000000000EF /* RealtimeUpdateServiceTests.swift in Sources */,
+				B10000000000000000000006 /* LiveActivityTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +617,8 @@
 				A100000000000000000000BC /* ConfigStore.swift in Sources */,
 				A1000000000000000000009E /* TripsSearchCache.swift in Sources */,
 				A100000000000000000000D1 /* Palette.swift in Sources */,
+				B10000000000000000000001 /* JourneyActivity.swift in Sources */,
+				B10000000000000000000002 /* JourneyLiveActivity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

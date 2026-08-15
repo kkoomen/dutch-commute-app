@@ -24,6 +24,13 @@ GTFS-Realtime support (app target only): `Domain/Departure`,
 `Domain/ServiceAlert`, `Networking/GTFSRealtime/*` (SwiftProtobuf package
 `swift-protobuf`) and `Services/*` — see `docs/gtfs-realtime.md`.
 
+Live Activities (`LiveActivities/` in the app target, rendering config in
+`DutchCommuteWidget/JourneyLiveActivity.swift`): only the active journey
+may run one; `LiveActivityManager` decides start/update/end,
+`LiveActivityPushTokenStore` keeps push tokens in the Keychain,
+`LiveActivityUpdateClient` is the (unimplemented) push backend seam —
+see `docs/live-activities.md`.
+
 Design tokens: `docs/design.md`.
 
 `Localizable.strings` (in `DutchCommute/en.lproj/`) is bundled into **both**

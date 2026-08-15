@@ -118,6 +118,26 @@ Given the config and the API response, pick the train to show:
    instead (the commute window is over). *(Exact rule confirmed during
    development — the key requirement is determinism and tests.)*
 
+## Live Activity
+
+The journey detail page has two extra toggles below "Show on lockscreen":
+
+- **Show live activity** — starts a Live Activity for the journey. Only
+  available (and only enabled) when both endpoints are train stations;
+  the toggle is disabled otherwise. Only the **active** journey may run
+  an activity.
+- **Show near departure** — off by default; only enabled when "Show live
+  activity" is on. On: the activity appears only from **one hour before
+  the next departure** until the journey ends. Off: the activity is shown
+  for the whole journey period.
+
+The activity shows route, stations, planned/actual departure, status
+(including cancellation) and a stale marker. It ends when the journey
+ends, is deleted/deactivated/disabled, or the train is cancelled.
+WidgetKit refresh stays the fallback for the regular widget; Live
+Activity updates are best-effort and never claim instant delivery (see
+`docs/live-activities.md` for the push-update backend contract).
+
 ## Adding the widget
 
 The "Add to lock screen" button at the bottom of "My journey" opens a sheet

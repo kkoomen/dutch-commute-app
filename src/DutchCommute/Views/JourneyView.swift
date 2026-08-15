@@ -9,6 +9,18 @@ struct JourneyView: View {
     @State private var legs: [LegKind: TrainLeg] = [:]
     @State private var errorMessage: String?
     @State private var showLockScreenHelp = false
+    @State private var showNearDepartureHelp = false
+
+    /// Live Activity eligibility: both stops must be train stations.
+    private var isLiveActivityEligible: Bool {
+        LiveActivityManager.isEligible(config, choices: state.stationChoices)
+    }
+
+    /// The journey's current live-activity setting (from state, not the
+    /// immutable config passed in).
+    private var showsLiveActivity: Bool {
+        state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false
+    }
 
     private let autoRefresh = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
@@ -63,6 +75,29 @@ struct JourneyView: View {
                         get: { state.journeys.first(where: { $0.id == config.id })?.isActive ?? false },
                         set: { state.setJourneyActive(config.id, active: $0) }
                     ))
+                    Toggle("Show live activity", isOn: Binding(
+                        get: { state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false },
+                        set: { state.setShowsLiveActivity(config.id, shows: $0) }
+                    ))
+                    .disabled(!isLiveActivityEligible)
+                    Text("Only available for journeys between two train stations.")
+                        .font(.caption2)
+                        .foregroundStyle(Palette.textSecondary)
+                    Toggle(isOn: Binding(
+                        get: { state.journeys.first(where: { $0.id == config.id })?.showsNearDeparture ?? false },
+                        set: { state.setShowsNearDeparture(config.id, shows: $0) }
+                    )) {
+                        HStack(spacing: 6) {
+                            Text("Show near departure")
+                            Button {
+                                showNearDepartureHelp = true
+                            } label: {
+                                Image(systemName: "questionmark.circle")
+                                    .foregroundStyle(Palette.textSecondary)
+                            }
+                        }
+                    }
+                    .disabled(!showsLiveActivity)
                     Button {
                         showLockScreenHelp = true
                     } label: {
@@ -70,6 +105,11 @@ struct JourneyView: View {
                             .font(.caption)
                             .foregroundStyle(Palette.primary)
                     }
+                }
+                .alert("Show near departure", isPresented: $showNearDepartureHelp) {
+                    Button("Done", role: .cancel) {}
+                } message: {
+                    Text("By default, the Live Activity stays visible for the journey. Enable this to show it only from 1 hour before departure until the journey ends.")
                 }
             }
             .sheet(isPresented: $showLockScreenHelp) {
@@ -86,7 +126,10 @@ struct JourneyView: View {
                 }
             }
             .refreshable { await reload() }
-            .task { await reload() }
+            .task {
+                await state.loadStationChoices()
+                await reload()
+            }
             .onReceive(autoRefresh) { _ in
                 Task { await reload() }
             }

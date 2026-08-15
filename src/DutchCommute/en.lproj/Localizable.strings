@@ -42,6 +42,11 @@
 "My journey" = "My journey";
 "Edit" = "Edit";
 "Show on lockscreen" = "Show on lockscreen";
+"Show live activity" = "Show live activity";
+"Only available for journeys between two train stations." = "Only available for journeys between two train stations.";
+"Show near departure" = "Show near departure";
+"By default, the Live Activity stays visible for the journey. Enable this to show it only from 1 hour before departure until the journey ends." = "By default, the Live Activity stays visible for the journey. Enable this to show it only from 1 hour before departure until the journey ends.";
+"Unavailable" = "Unavailable";
 "Read here how to add this widget to your lockscreen." = "Read here how to add this widget to your lockscreen.";
 "Add widget" = "Add widget";
 "Press and hold the Lock Screen, then tap Customize." = "Press and hold the Lock Screen, then tap Customize.";

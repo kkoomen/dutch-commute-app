@@ -55,23 +55,27 @@ final class AppState {
     func addJourney(_ journey: JourneyConfig) {
         journeys.insert(journey, at: 0)
         persistAndReloadWidgets()
+        applyLiveActivities()
     }
 
     func updateJourney(_ journey: JourneyConfig) {
         guard let index = journeys.firstIndex(where: { $0.id == journey.id }) else { return }
         journeys[index] = journey
         persistAndReloadWidgets()
+        applyLiveActivities()
     }
 
     func deleteJourneys(at offsets: IndexSet) {
         journeys.remove(atOffsets: offsets)
         persistAndReloadWidgets()
+        applyLiveActivities()
     }
 
     /// Deletes one journey by id (after user confirmation in the UI).
     func deleteJourney(_ id: UUID) {
         journeys.removeAll { $0.id == id }
         persistAndReloadWidgets()
+        applyLiveActivities()
     }
 
     /// Marks one journey as active — the one shown on the Lock Screen.
@@ -88,6 +92,35 @@ final class AppState {
             journeys[index].isActive = false
         }
         persistAndReloadWidgets()
+        applyLiveActivities()
+    }
+
+    /// Toggles the Live Activity for a journey (persisted; the activity is
+    /// started/ended accordingly).
+    func setShowsLiveActivity(_ id: UUID, shows: Bool) {
+        guard let index = journeys.firstIndex(where: { $0.id == id }) else { return }
+        journeys[index].showsLiveActivity = shows
+        if !shows {
+            journeys[index].showsNearDeparture = false
+        }
+        persistAndReloadWidgets()
+        applyLiveActivities()
+    }
+
+    /// Toggles near-departure-only Live Activity mode.
+    func setShowsNearDeparture(_ id: UUID, shows: Bool) {
+        guard let index = journeys.firstIndex(where: { $0.id == id }) else { return }
+        journeys[index].showsNearDeparture = shows
+        persistAndReloadWidgets()
+        applyLiveActivities()
+    }
+
+    /// Reconciles running Live Activities with the current journeys.
+    func applyLiveActivities() {
+        Task { @MainActor in
+            await loadStationChoices()
+            await LiveActivityManager.apply(journeys: journeys, choices: stationChoices)
+        }
     }
 
     /// Persists the current order (e.g. after manual drag reordering).

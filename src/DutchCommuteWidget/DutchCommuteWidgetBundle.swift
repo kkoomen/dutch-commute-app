@@ -5,5 +5,6 @@ import WidgetKit
 struct DutchCommuteWidgetBundle: WidgetBundle {
     var body: some Widget {
         JourneyWidget()
+        JourneyLiveActivity()
     }
 }

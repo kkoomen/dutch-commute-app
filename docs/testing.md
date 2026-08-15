@@ -44,6 +44,34 @@
 - Cancelled train with messages vs. without.
 - Multiple trips in response, ties (two trains same minute — pick deterministically, e.g. first in response order).
 
+### GTFS (static + realtime)
+
+- `GTFSRealtimeClientTests`: protobuf fixtures (built with the generated
+  types) for trip updates, alerts and vehicle positions; one hand-crafted
+  raw-bytes wire fixture; malformed and stale feeds throw.
+- `GTFSStaticDataServiceTests`: CSV fixtures (quoted fields, >24h times),
+  route-type mapping, station choices (stop-modes + derived), and the
+  bundled national dataset parses to 55k+ stops.
+- `RealtimeUpdateServiceTests`: scheduled-only fallback, delays applied,
+  skipped/cancelled trips, limit, unknown modes skipped, alert filtering.
+
+### Live Activities (`LiveActivityTests`)
+
+- `JourneyConfig` encodes/decodes both settings; defaults are off.
+- Eligibility: exactly two train stations (GTFS stops and unknown stops
+  are ineligible).
+- Decision: inactive/disabled/ineligible/no-journey-date → none; full
+  mode runs for the whole journey period; near-departure waits until
+  1 hour before departure and runs inside the window; only the active
+  journey runs.
+- Toggle behavior through `AppState`: disabling live activity clears
+  near-departure; settings persist in the shared store.
+- Cancellation maps to the activity status; the stale date is 5 minutes
+  after the last refresh.
+
+ActivityKit start/update/end itself is not unit-testable (system API) and
+push delivery needs a real device + backend — see `docs/live-activities.md`.
+
 ## How to run
 
 From Xcode: `Cmd+U` (Test) on the `DutchCommute` scheme.
