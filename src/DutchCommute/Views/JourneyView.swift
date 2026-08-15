@@ -10,6 +10,7 @@ struct JourneyView: View {
     @State private var errorMessage: String?
     @State private var showLockScreenHelp = false
     @State private var showNearDepartureHelp = false
+    @State private var showLiveActivityHelp = false
 
     /// Live Activity eligibility: both stops must be train stations.
     private var isLiveActivityEligible: Bool {
@@ -85,10 +86,20 @@ struct JourneyView: View {
                 }
 
                 Section {
-                    Toggle("Show live activity", isOn: Binding(
+                    Toggle(isOn: Binding(
                         get: { state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false },
                         set: { state.setShowsLiveActivity(config.id, shows: $0) }
-                    ))
+                    )) {
+                        HStack(spacing: 6) {
+                            Text("Show live activity")
+                            Button {
+                                showLiveActivityHelp = true
+                            } label: {
+                                Image(systemName: "questionmark.circle")
+                                    .foregroundStyle(Palette.textSecondary)
+                            }
+                        }
+                    }
                     .disabled(!isLiveActivityEligible)
                     Text("Only available for journeys between two train stations.")
                         .font(.caption2)
@@ -113,6 +124,11 @@ struct JourneyView: View {
                     Button("Done", role: .cancel) {}
                 } message: {
                     Text("Turn this on to start the Live Activity 1 hour before departure.")
+                }
+                .alert("Show live activity", isPresented: $showLiveActivityHelp) {
+                    Button("Done", role: .cancel) {}
+                } message: {
+                    Text("Only available for journeys between two train stations.")
                 }
             }
             .sheet(isPresented: $showLockScreenHelp) {
