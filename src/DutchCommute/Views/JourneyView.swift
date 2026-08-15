@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Shows the journey as configured: both legs with the saved times, the
-/// days, and the lock screen / live activity toggles. No live data.
+/// Shows the journey as configured: route with the saved times, the days,
+/// and the lock screen / live activity toggles. No live data.
 struct JourneyView: View {
     @Environment(AppState.self) private var state
     let config: JourneyConfig
@@ -29,20 +29,15 @@ struct JourneyView: View {
     var body: some View {
         List {
                 if journeyDate != nil {
-                    Section("Outbound") {
-                        LegCard(
-                            fromName: config.from.name,
-                            toName: config.to.name,
-                            departureTime: NSDateParser.timeString(minutes: config.departMinutes)
+                    Section("Route") {
+                        StationRouteView(
+                            stations: [config.from.name, config.to.name],
+                            leading: [
+                                NSDateParser.timeString(minutes: config.departMinutes),
+                                NSDateParser.timeString(minutes: config.returnMinutes)
+                            ]
                         )
-                    }
-
-                    Section("Return") {
-                        LegCard(
-                            fromName: config.to.name,
-                            toName: config.from.name,
-                            departureTime: NSDateParser.timeString(minutes: config.returnMinutes)
-                        )
+                        .padding(.vertical, 4)
                     }
                 } else {
                     Text("No travel days configured.")
@@ -131,30 +126,6 @@ struct JourneyView: View {
                     }
                 }
             }
-    }
-}
-
-/// One train leg card: route diagram (stations with tracks) and the saved
-/// departure time.
-private struct LegCard: View {
-    let fromName: String
-    let toName: String
-    /// Locally saved departure time.
-    let departureTime: String
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            StationRouteView(stations: stationNames)
-            Spacer()
-            Text(departureTime)
-                .font(.title3.monospacedDigit())
-                .foregroundStyle(Palette.textPrimary)
-        }
-        .padding(.vertical, 4)
-    }
-
-    private var stationNames: [String] {
-        [fromName, toName]
     }
 }
 

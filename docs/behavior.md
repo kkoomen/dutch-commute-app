@@ -16,8 +16,9 @@
 Tapping a journey card opens the detail page ("My journey"), which shows
 **only what the user configured** — it makes no NS API request on open:
 
-- Outbound and return cards with the saved departure times (no live status
-  shown).
+- A single route card in the same style as the edit page: a dot per stop
+  with the saved outbound time + origin on the first row and the saved
+  return time + destination on the second (no live status shown).
 - The configured days.
 - The "Show on lockscreen", "Show live activity", and "Show near departure"
   toggles.
