@@ -14,7 +14,7 @@
 "Select a from and to station first." = "Select a from and to station first.";
 "Return" = "Return";
 "Tap to set" = "Tap to set";
-"Times" = "Times";
+"Departure times" = "Departure times";
 "Days" = "Days";
 "Add journey" = "Add journey";
 "Save changes" = "Save changes";
@@ -23,7 +23,7 @@
 "Cancel" = "Cancel";
 
 /* App UI — time picker sheet */
-"Preferred time" = "Preferred time";
+"Preferred departure time" = "Preferred departure time";
 "Searching departure times…" = "Searching departure times…";
 "Retry" = "Retry";
 "Departures" = "Departures";

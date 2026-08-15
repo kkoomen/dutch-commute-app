@@ -78,7 +78,7 @@ struct SetupView: View {
                     }
                 }
             } header: {
-                Text("Times")
+                Text("Departure times")
             }
 
             Section("Days") {
@@ -215,9 +215,9 @@ private struct TimePickerSheet: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Preferred time") {
+                Section("Preferred departure time") {
                     DatePicker(
-                        "Preferred time",
+                        "Preferred departure time",
                         selection: $preferredDate,
                         displayedComponents: .hourAndMinute
                     )

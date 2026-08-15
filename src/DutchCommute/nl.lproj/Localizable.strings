@@ -14,7 +14,7 @@
 "Select a from and to station first." = "Selecteer eerst een vertrek- en aankomststation.";
 "Return" = "Terugreis";
 "Tap to set" = "Tik om in te stellen";
-"Times" = "Tijden";
+"Departure times" = "Vertrektijden";
 "Days" = "Dagen";
 "Add journey" = "Reis toevoegen";
 "Save changes" = "Wijzigingen opslaan";
@@ -23,7 +23,7 @@
 "Cancel" = "Annuleren";
 
 /* App UI — time picker sheet */
-"Preferred time" = "Gewenste tijd";
+"Preferred departure time" = "Gewenste vertrektijden";
 "Searching departure times…" = "Vertrektijden ophalen…";
 "Retry" = "Opnieuw proberen";
 "Departures" = "Vertrektijden";
