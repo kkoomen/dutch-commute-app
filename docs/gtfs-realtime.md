@@ -56,10 +56,13 @@ GTFSTransitDataService
   `stops.txt`; stream stop_times again for the distinct per-stop
   departure minutes and pack them as the delta-free binary
   (`stop int32`, `count uint16`, `count × minute uint16`), gzip'd.
-- **Time picker**: the leg's **departure stop** decides the data source:
-  NS API when it is a train station (outbound: the from stop, return:
-  the to stop); bundled GTFS departure minutes otherwise
-  (direction-agnostic — NL stops are per-direction).
+- **Time picker**: the NS API is used only when **both** stops are train
+  stations (it rejects unknown station names with HTTP 400); otherwise
+  the bundled GTFS departure minutes of the leg's departure stop are
+  used (outbound: the from stop, return: the to stop). A train station
+  in a mixed leg is resolved by exact name via the bundled rail-stop
+  index (`rail_stops.txt`). GTFS departures are direction-agnostic — NL
+  stops are per-direction.
 
 ## Safety
 

@@ -223,6 +223,22 @@ enum GTFSStaticDataService {
         return result
     }
 
+    /// Loads the rail-stop index (`rail_stops.txt`): GTFS stop id → name
+    /// for rail-served stops. Used to look up a train station's GTFS
+    /// departures by exact name in mixed bus/train legs.
+    static func loadRailStops(from url: URL) -> [String: String] {
+        guard let text = try? String(contentsOf: url, encoding: .utf8),
+              let entries = try? parse(rows: text, map: { fields in
+                  (fields["stop_id"] ?? "", fields["stop_name"] ?? "")
+              })
+        else { return [:] }
+        var byName: [String: String] = [:]
+        for (id, name) in entries {
+            byName[name] = id
+        }
+        return byName
+    }
+
     /// Departure minutes-of-day at a stop, from the preferred minute on,
     /// capped — used by the time picker for GTFS journeys.
     static func departureMinutes(
@@ -232,7 +248,17 @@ enum GTFSStaticDataService {
         limit: Int = 8,
         calendar: Calendar = JourneySchedule.calendar
     ) -> [Int] {
-        guard let minutes = data[stopID] else { return [] }
+        departureMinutes(minutes: data[stopID], at: preferred, limit: limit, calendar: calendar)
+    }
+
+    /// Departure minutes-of-day from a pre-resolved minute list.
+    static func departureMinutes(
+        minutes: [Int]?,
+        at preferred: Date,
+        limit: Int = 8,
+        calendar: Calendar = JourneySchedule.calendar
+    ) -> [Int] {
+        guard let minutes else { return [] }
         let preferredMinute = calendar.component(.hour, from: preferred) * 60
             + calendar.component(.minute, from: preferred)
         return Array(minutes.filter { $0 >= preferredMinute }.prefix(limit))

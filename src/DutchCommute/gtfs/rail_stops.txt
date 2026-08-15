@@ -1,0 +1,1314 @@
+stop_id,stop_name
+2860697,Aachen Hbf
+2860716,Arkel
+2860887,Amsterdam Lelylaan
+2860888,Amsterdam Lelylaan
+2860938,Amsterdam Science Park
+2860939,Amsterdam Science Park
+2860942,Aalten
+2860943,Aalten
+2860947,Antwerpen-Luchtbal
+2860956,Aachen West
+2860993,Antwerpen-Berchem
+2861020,Bad Bentheim
+2861141,Boskoop Snijdelwijk
+2861203,Driebergen-Zeist
+2861204,Driebergen-Zeist
+2861315,Duisburg Hbf
+2861400,Eijsden
+2861401,Eijsden
+2861467,Emmerich
+2861482,Metelen Land
+2861488,Nordwalde
+2861492,Praest
+2861652,Grijpskerk
+2861653,Grijpskerk
+2861806,Hengelo
+2861807,Hengelo
+2861808,Hengelo
+2861809,Hengelo
+2861810,Hengelo
+2861811,Hengelo
+2861812,Hengelo
+2861815,Hengelo Gezondheidspark
+2861981,Hoevelaken
+2861982,Hoevelaken
+2862010,Herzogenrath
+2862017,IJlst
+2862212,Loppersum
+2862213,Loppersum
+2862299,Mook-Molenhoek
+2862300,Mook-Molenhoek
+2862360,Noorderkempen
+2862364,Neuss Hbf
+2862432,Oberhausen Hbf
+2862811,Terborg
+2862812,Terborg
+2862913,Utrecht Leidsche Rijn
+2862914,Utrecht Leidsche Rijn
+2862917,Utrecht Maliebaan
+2862971,Viersen
+2863049,Waddinxveen Triangel
+2863073,Wesel
+2863131,Wuppertal Hbf
+2863133,Wuppertal-Vohwinkel
+2863250,Zandvoort aan Zee
+2863251,Zandvoort aan Zee
+2991991,Abcoude
+2991992,Abcoude
+2991994,Airport Charles de Gaulle
+2992012,Arnhem Velperpoort
+2992013,Arnhem Velperpoort
+2992016,Arnhem Presikhaaf
+2992017,Arnhem Presikhaaf
+2992020,Arnhem Zuid
+2992021,Arnhem Zuid
+2992028,Akkrum
+2992029,Akkrum
+2992041,Almere Buiten
+2992042,Almere Buiten
+2992046,Almere Muziekwijk
+2992047,Almere Muziekwijk
+2992053,Almere Oostvaarders
+2992054,Almere Oostvaarders
+2992055,Almere Oostvaarders
+2992056,Almere Oostvaarders
+2992060,Almere Parkwijk
+2992061,Almere Parkwijk
+2992065,Amersfoort Centraal
+2992066,Amersfoort Centraal
+2992069,Amersfoort Centraal
+2992070,Amersfoort Centraal
+2992071,Amersfoort Centraal
+2992073,Amersfoort Centraal
+2992074,Amersfoort Centraal
+2992075,Amersfoort Centraal
+2992078,Amersfoort Centraal
+2992081,Amersfoort Schothorst
+2992082,Amersfoort Schothorst
+2992083,Amersfoort Schothorst
+2992087,Almelo
+2992088,Almelo
+2992089,Almelo
+2992090,Almelo
+2992092,Almelo
+2992093,Almelo
+2992094,Almelo
+2992103,Alkmaar
+2992104,Alkmaar
+2992105,Alkmaar
+2992106,Alkmaar
+2992107,Alkmaar
+2992110,Almelo de Riet
+2992111,Almelo de Riet
+2992114,Alkmaar Noord
+2992115,Alkmaar Noord
+2992123,Antwerpen-Noorderdokken
+2992133,Apeldoorn De Maten
+2992136,Apeldoorn Osseveld
+2992137,Apeldoorn Osseveld
+2992140,Appingedam
+2992141,Appingedam
+2992144,Alphen a/d Rijn
+2992145,Alphen a/d Rijn
+2992146,Alphen a/d Rijn
+2992154,Amsterdam Amstel
+2992155,Amsterdam Amstel
+2992168,Amsterdam Centraal
+2992169,Amsterdam Centraal
+2992170,Amsterdam Centraal
+2992171,Amsterdam Centraal
+2992178,Amsterdam Centraal
+2992179,Amsterdam Centraal
+2992181,Amsterdam Centraal
+2992182,Amsterdam Centraal
+2992183,Amsterdam Centraal
+2992184,Amsterdam Centraal
+2992185,Amsterdam Centraal
+2992186,Amsterdam Centraal
+2992187,Amsterdam Centraal
+2992188,Amsterdam Centraal
+2992189,Amsterdam Centraal
+2992190,Amsterdam Centraal
+2992191,Amsterdam Centraal
+2992192,Amsterdam Centraal
+2992193,Amsterdam Centraal
+2992194,Amsterdam Centraal
+2992195,Amsterdam Centraal
+2992196,Amsterdam Centraal
+2992197,Amsterdam Centraal
+2992198,Amsterdam Centraal
+2992202,Amsterdam Muiderpoort
+2992203,Amsterdam Muiderpoort
+2992204,Amsterdam Muiderpoort
+2992205,Amsterdam Muiderpoort
+2992208,Amsterdam Zuid
+2992210,Amsterdam Zuid
+2992211,Amsterdam Zuid
+2992212,Amsterdam Zuid
+2992225,Assen
+2992226,Assen
+2992227,Assen
+2992228,Assen
+2992231,Assen
+2992234,Amsterdam Sloterdijk
+2992235,Amsterdam Sloterdijk
+2992236,Amsterdam Sloterdijk
+2992237,Amsterdam Sloterdijk
+2992238,Amsterdam Sloterdijk
+2992239,Amsterdam Sloterdijk
+2992240,Amsterdam Sloterdijk
+2992241,Amsterdam Sloterdijk
+2992242,Amsterdam Sloterdijk
+2992243,Amsterdam Sloterdijk
+2992247,Antwerpen-Centraal
+2992250,Amersfoort Vathorst
+2992251,Amersfoort Vathorst
+2992252,Amersfoort Vathorst
+2992256,Baden (CH)
+2992260,Basel Bad Bf
+2992262,Basel SBB
+2992276,Bunde
+2992277,Bunde
+2992280,Bodegraven
+2992281,Bodegraven
+2992284,Bedum
+2992293,Berlin Hbf
+2992296,Best
+2992297,Best
+2992298,Best
+2992299,Best
+2992303,Baflo
+2992304,Baflo
+2992307,Bergen op Zoom
+2992308,Bergen op Zoom
+2992312,Boven-Hardinxveld
+2992313,Boven-Hardinxveld
+2992315,Berlin Ostbahnhof
+2992318,Bilthoven
+2992319,Bilthoven
+2992321,Bielefeld Hbf
+2992327,Beek-Elsloo
+2992328,Beek-Elsloo
+2992335,Bovenkarspel-Grootebroek
+2992336,Bovenkarspel-Grootebroek
+2992339,Breukelen
+2992340,Breukelen
+2992343,Beilen
+2992344,Beilen
+2992354,Brummen
+2992355,Brummen
+2992358,Boxmeer
+2992359,Boxmeer
+2992363,Borne
+2992364,Borne
+2992367,Barneveld Centrum
+2992368,Barneveld Centrum
+2992371,Bunnik
+2992372,Bunnik
+2992375,Barneveld Noord
+2992378,Barneveld Zuid
+2992380,Bonn Hbf
+2992385,Buitenpost
+2992386,Buitenpost
+2992391,Blerick
+2992392,Blerick
+2992393,Blerick
+2992394,Blerick
+2992399,Barendrecht
+2992400,Barendrecht
+2992401,Barendrecht
+2992402,Barendrecht
+2992404,Bressoux
+2992408,Baarn
+2992409,Baarn
+2992410,Baarn
+2992412,Brussel-Centraal
+2992414,Brussel-Noord
+2992416,Brussel-Zuid
+2992419,Beesd
+2992420,Beesd
+2992423,Boskoop
+2992424,Boskoop
+2992427,Bussum Zuid
+2992428,Bussum Zuid
+2992430,Berlin-Spandau
+2992433,Boxtel
+2992434,Boxtel
+2992435,Boxtel
+2992436,Boxtel
+2992438,Bünde (Westf)
+2992447,Kapelle-Biezelinge
+2992448,Kapelle-Biezelinge
+2992451,Castricum
+2992452,Castricum
+2992460,Cuijk
+2992461,Cuijk
+2992465,Culemborg
+2992466,Culemborg
+2992469,Coevorden
+2992470,Coevorden
+2992473,Capelle Schollevaar
+2992474,Capelle Schollevaar
+2992477,Chevremont
+2992480,Daarlerveen
+2992481,Daarlerveen
+2992484,Delden
+2992485,Delden
+2992488,Dordrecht
+2992489,Dordrecht
+2992492,Dordrecht
+2992493,Dordrecht
+2992494,Dordrecht
+2992495,Dordrecht
+2992496,Dordrecht
+2992497,Dordrecht
+2992498,Dordrecht
+2992499,Dordrecht
+2992500,Dordrecht
+2992501,Dordrecht
+2992502,Dordrecht
+2992506,Dordrecht Stadspolders
+2992507,Dordrecht Stadspolders
+2992516,Deinum
+2992519,Didam
+2992520,Didam
+2992523,Dalfsen
+2992524,Dalfsen
+2992527,Den Dolder
+2992528,Den Dolder
+2992533,Dalen
+2992536,Diemen
+2992537,Diemen
+2992548,Deurne
+2992549,Deurne
+2992550,Deurne
+2992555,Dieren
+2992556,Dieren
+2992563,Driehuis
+2992564,Driehuis
+2992567,Dronten
+2992568,Dronten
+2992573,Dronryp
+2992574,Dronryp
+2992577,Delft
+2992578,Delft
+2992579,Delft
+2992580,Delft
+2992583,Doetinchem
+2992584,Doetinchem
+2992589,Doetinchem De Huet
+2992592,Delft Campus
+2992593,Delft Campus
+2992594,Delft Campus
+2992595,Delft Campus
+2992597,Düsseldorf Hbf
+2992618,Duivendrecht
+2992619,Duivendrecht
+2992620,Duivendrecht
+2992621,Duivendrecht
+2992625,Duiven
+2992626,Duiven
+2992629,De Vink
+2992630,De Vink
+2992631,De Vink
+2992632,De Vink
+2992635,De Westereen
+2992636,De Westereen
+2992639,Delfzijl
+2992642,Delfzijl West
+2992644,Altenberge
+2992650,Bönen
+2992652,Steinfurt-Burgsteinfurt
+2992654,Steinfurt-Borghorst
+2992657,Echt
+2992658,Echt
+2992669,Ede Centrum
+2992675,Dortmund Hbf
+2992680,Eemshaven
+2992682,Ennepetal
+2992685,Eygelshoven
+2992686,Eygelshoven
+2992689,Eygelshoven Markt
+2992691,Steinfurt-Grottenkamp
+2992694,Eindhoven Strijp-S
+2992695,Eindhoven Strijp-S
+2992696,Eindhoven Strijp-S
+2992697,Eindhoven Strijp-S
+2992717,Holzwickede
+2992720,Enkhuizen
+2992721,Enkhuizen
+2992724,Emmerich-Elten
+2992731,Ermelo
+2992732,Ermelo
+2992735,Emmen
+2992736,Emmen
+2992739,Emmen Zuid
+2992740,Emmen Zuid
+2992742,Münster-Häger
+2992744,Münster (W) Zentrum Nord
+2992750,Enschede
+2992751,Enschede
+2992752,Enschede
+2992753,Enschede
+2992755,Enschede
+2992756,Enschede
+2992759,Enschede De Eschmarke
+2992760,Enschede De Eschmarke
+2992767,Enschede Kennispark
+2992768,Enschede Kennispark
+2992773,Schwerte (Ruhr)
+2992776,Elst
+2992777,Elst
+2992783,Etten-Leur
+2992784,Etten-Leur
+2992786,Unna
+2992788,Brussels Airport-Zaventem
+2992792,Frankfurt (M) Hbf
+2992803,Mainz Hbf
+2992806,Franeker
+2992807,Franeker
+2992809,Frankfurt Flughafen Fernb
+2992820,Feanwâlden
+2992821,Feanwâlden
+2992823,Gronau (Westf.)
+2992826,Gramsbergen
+2992827,Gramsbergen
+2992829,Glanerbrug
+2992830,Glanerbrug
+2992833,Gouda
+2992834,Gouda
+2992835,Gouda
+2992839,Gouda
+2992842,Gouda
+2992868,Gaanderen
+2992873,Groningen Europapark
+2992874,Groningen Europapark
+2992875,Groningen Europapark
+2992876,Groningen Europapark
+2992879,Geleen Oost
+2992880,Geleen Oost
+2992903,Hardinxveld-Giessendam
+2992904,Hardinxveld-Giessendam
+2992907,Groningen Noord
+2992908,Groningen Noord
+2992911,Goor
+2992912,Goor
+2992915,Geldrop
+2992916,Geldrop
+2992919,Gorinchem
+2992920,Gorinchem
+2992923,Goes
+2992924,Goes
+2992926,Berlin Gesundbrunnen
+2992936,Den Haag Centraal
+2992937,Den Haag Centraal
+2992938,Den Haag Centraal
+2992939,Den Haag Centraal
+2992940,Den Haag Centraal
+2992941,Den Haag Centraal
+2992942,Den Haag Centraal
+2992943,Den Haag Centraal
+2992944,Den Haag Centraal
+2992945,Den Haag Centraal
+2992949,Den Haag Mariahoeve
+2992950,Den Haag Mariahoeve
+2992951,Den Haag Mariahoeve
+2992952,Den Haag Mariahoeve
+2992955,Den Haag Moerwijk
+2992956,Den Haag Moerwijk
+2992957,Den Haag Moerwijk
+2992958,Den Haag Moerwijk
+2992968,Gilze-Rijen
+2992969,Gilze-Rijen
+2992972,Heemstede-Aerdenhout
+2992973,Heemstede-Aerdenhout
+2992975,Hagen Hbf
+2992979,Hamm (Westf.)
+2992981,Hannover Hbf
+2992984,Hoensbroek
+2992985,Hoensbroek
+2992988,Hardinxveld Blauwe Zoom
+2992991,Harderwijk
+2992992,Harderwijk
+2992995,Hardenberg
+2992996,Hardenberg
+2992999,'t Harde
+2993000,'t Harde
+2993007,Hurdegaryp
+2993008,Hurdegaryp
+2993012,Den Helder
+2993013,Den Helder
+2993016,Den Helder Zuid
+2993017,Den Helder Zuid
+2993020,Hoofddorp
+2993021,Hoofddorp
+2993022,Hoofddorp
+2993023,Hoofddorp
+2993026,Hengelo Oost
+2993027,Hengelo Oost
+2993030,Hoogeveen
+2993031,Hoogeveen
+2993035,Hoogezand-Sappemeer
+2993036,Hoogezand-Sappemeer
+2993039,Hillegom
+2993040,Hillegom
+2993043,Heemskerk
+2993044,Heemskerk
+2993047,Hoogkarspel
+2993048,Hoogkarspel
+2993051,Harlingen
+2993052,Harlingen
+2993055,Harlingen Haven
+2993058,Haarlem
+2993059,Haarlem
+2993061,Haarlem
+2993062,Haarlem
+2993063,Haarlem
+2993064,Haarlem
+2993065,Haarlem
+2993067,Haarlem
+2993070,Haarlem Spaarnwoude
+2993071,Haarlem Spaarnwoude
+2993074,Heiloo
+2993075,Heiloo
+2993078,Helmond
+2993079,Helmond
+2993082,Helmond Brouwhuis
+2993083,Helmond Brouwhuis
+2993090,Helmond 't Hout
+2993091,Helmond 't Hout
+2993094,Hemmen-Dodewaard
+2993095,Hemmen-Dodewaard
+2993102,Heino
+2993103,Heino
+2993106,Hindeloopen
+2993109,Holten
+2993110,Holten
+2993115,Hollandsche Rading
+2993116,Hollandsche Rading
+2993125,Heerlen
+2993126,Heerlen
+2993127,Heerlen
+2993128,Heerlen
+2993129,Heerlen
+2993132,Heerlen Woonboulevard
+2993133,Heerlen Woonboulevard
+2993140,Horst-Sevenum
+2993141,Horst-Sevenum
+2993173,Houten
+2993174,Houten
+2993186,Hilversum
+2993187,Hilversum
+2993188,Hilversum
+2993189,Hilversum
+2993190,Hilversum
+2993197,Hilversum Sportpark
+2993198,Hilversum Sportpark
+2993201,Heerhugowaard
+2993202,Heerhugowaard
+2993208,Halfweg-Zwanenburg
+2993209,Halfweg-Zwanenburg
+2993212,Heeze
+2993213,Heeze
+2993215,Innsbruck Hbf
+2993217,Jenbach
+2993219,Karlsruhe Hbf
+2993221,Bonn-Beuel
+2993223,Krabbendijke
+2993224,Krabbendijke
+2993227,Klarenbeek
+2993228,Klarenbeek
+2993230,Boisheim
+2993232,Breyell
+2993234,Düsseldorf Flughafen
+2993236,Dülken
+2993242,Köln-Ehrenfeld
+2993245,Koblenz Hbf
+2993249,Veenendaal-De Klomp
+2993250,Veenendaal-De Klomp
+2993259,Klimmen-Ransdaal
+2993260,Klimmen-Ransdaal
+2993263,Koudum-Molkwerum
+2993265,Kaldenkirchen
+2993267,Köln Hbf
+2993272,Kampen
+2993275,Kampen Zuid
+2993276,Kampen Zuid
+2993279,Kerkrade Centrum
+2993283,Kruiningen-Yerseke
+2993284,Kruiningen-Yerseke
+2993286,Siegburg/Bonn
+2993288,Schwelm
+2993292,Kesteren
+2993293,Kesteren
+2993295,Kufstein
+2993300,Kropswolde
+2993301,Kropswolde
+2993303,Wuppertal-Barmen
+2993305,Wuppertal-Oberbarmen
+2993308,Koog aan de Zaan
+2993309,Koog aan de Zaan
+2993312,Den Haag Laan v NOI
+2993313,Den Haag Laan v NOI
+2993314,Den Haag Laan v NOI
+2993315,Den Haag Laan v NOI
+2993325,Lochem
+2993326,Lochem
+2993329,Leiden Lammenschans
+2993332,Leerdam
+2993333,Leerdam
+2993336,Leiden Centraal
+2993337,Leiden Centraal
+2993339,Leiden Centraal
+2993340,Leiden Centraal
+2993341,Leiden Centraal
+2993342,Leiden Centraal
+2993343,Leiden Centraal
+2993345,Leiden Centraal
+2993346,Leiden Centraal
+2993348,Leiden Centraal
+2993349,Leiden Centraal
+2993356,Landgraaf
+2993357,Landgraaf
+2993358,Landgraaf
+2993364,Lille Europe
+2993366,Linz Hbf
+2993381,Lansingerland-Zoetermeer
+2993382,Lansingerland-Zoetermeer
+2993392,Lunteren
+2993393,Lunteren
+2993396,Lichtenvoorde-Groenlo
+2993397,Lichtenvoorde-Groenlo
+2993399,Liège-Guillemins
+2993402,Geleen-Lutterade
+2993403,Geleen-Lutterade
+2993406,Leeuwarden
+2993407,Leeuwarden
+2993408,Leeuwarden
+2993409,Leeuwarden
+2993410,Leeuwarden
+2993413,Leeuwarden
+2993414,Leeuwarden
+2993417,Leeuwarden Camminghaburen
+2993421,Augsburg Hbf
+2993423,Mannheim Hbf
+2993425,Marne-la-Vallée-Chessy
+2993430,Maarssen
+2993431,Maarssen
+2993433,Mönchengladbach Hbf
+2993436,Middelburg
+2993437,Middelburg
+2993439,Mechelen
+2993442,Meerssen
+2993443,Meerssen
+2993446,Mantgum
+2993447,Mantgum
+2993458,Meppel
+2993459,Meppel
+2993461,Meppel
+2993465,Mariënberg
+2993466,Mariënberg
+2993467,Mariënberg
+2993470,Maarn
+2993471,Maarn
+2993474,Maastricht
+2993475,Maastricht
+2993476,Maastricht
+2993477,Maastricht
+2993478,Maastricht
+2993479,Maastricht
+2993480,Maastricht
+2993481,Maastricht
+2993484,Martenshoek
+2993485,Martenshoek
+2993488,Maastricht Noord
+2993489,Maastricht Noord
+2993492,Maastricht Randwyck
+2993493,Maastricht Randwyck
+2993494,Maastricht Randwyck
+2993496,München Hbf
+2993498,Münster (Westf) Hbf
+2993501,Maarheeze
+2993502,Maarheeze
+2993505,Nieuw Amsterdam
+2993506,Nieuw Amsterdam
+2993510,Naarden-Bussum
+2993511,Naarden-Bussum
+2993515,Nuth
+2993516,Nuth
+2993519,Nijkerk
+2993520,Nijkerk
+2993524,Nijmegen
+2993525,Nijmegen
+2993526,Nijmegen
+2993527,Nijmegen
+2993530,Nijmegen
+2993535,Nijmegen Dukenburg
+2993536,Nijmegen Dukenburg
+2993539,Nijmegen Goffert
+2993540,Nijmegen Goffert
+2993543,Nijmegen Heyendaal
+2993544,Nijmegen Heyendaal
+2993551,Nunspeet
+2993552,Nunspeet
+2993555,Bad Nieuweschans
+2993556,Bad Nieuweschans
+2993558,Nürnberg Hbf
+2993561,Nijverdal
+2993562,Nijverdal
+2993565,Nieuw Vennep
+2993566,Nieuw Vennep
+2993569,Nieuwerkerk a/d IJssel
+2993570,Nieuwerkerk a/d IJssel
+2993575,Oss
+2993576,Oss
+2993579,Obdam
+2993580,Obdam
+2993582,Oberhausen-Sterkrade
+2993585,Oudenbosch
+2993586,Oudenbosch
+2993593,Oldenzaal
+2993594,Oldenzaal
+2993595,Oldenzaal
+2993602,Ommen
+2993603,Ommen
+2993606,Opheusden
+2993607,Opheusden
+2993609,Osnabrück Hbf
+2993614,Olst
+2993615,Olst
+2993618,Oisterwijk
+2993619,Oisterwijk
+2993623,Oosterbeek
+2993624,Oosterbeek
+2993627,Overveen
+2993628,Overveen
+2993631,Oss West
+2993632,Oss West
+2993634,Paris-Nord
+2993639,Purmerend Overwhere
+2993640,Purmerend Overwhere
+2993643,Purmerend
+2993644,Purmerend
+2993650,St.Pölten Hbf
+2993654,Praha hl.n.
+2993659,Putten
+2993660,Putten
+2993663,Amsterdam RAI
+2993664,Amsterdam RAI
+2993665,Amsterdam RAI
+2993666,Amsterdam RAI
+2993670,Raalte
+2993671,Raalte
+2993674,Rilland-Bath
+2993675,Rilland-Bath
+2993677,Baden-Baden
+2993680,Roodeschool
+2993684,Freiburg (Breisgau) Hbf
+2993686,Rheine
+2993689,Rhenen
+2993692,Ruurlo
+2993693,Ruurlo
+2993702,Roermond
+2993703,Roermond
+2993705,Roermond
+2993706,Roermond
+2993708,Offenburg
+2993710,Rosenheim
+2993713,Rosmalen
+2993714,Rosmalen
+2993717,Roosendaal
+2993718,Roosendaal
+2993719,Roosendaal
+2993720,Roosendaal
+2993721,Roosendaal
+2993722,Roosendaal
+2993723,Roosendaal
+2993724,Roosendaal
+2993725,Roosendaal
+2993728,Rijssen
+2993729,Rijssen
+2993733,Rijswijk
+2993734,Rijswijk
+2993735,Rijswijk
+2993736,Rijswijk
+2993739,Rotterdam Alexander
+2993740,Rotterdam Alexander
+2993755,Rotterdam Centraal
+2993756,Rotterdam Centraal
+2993757,Rotterdam Centraal
+2993758,Rotterdam Centraal
+2993761,Rotterdam Centraal
+2993762,Rotterdam Centraal
+2993765,Rotterdam Centraal
+2993766,Rotterdam Centraal
+2993767,Rotterdam Centraal
+2993768,Rotterdam Centraal
+2993769,Rotterdam Centraal
+2993770,Rotterdam Centraal
+2993771,Rotterdam Centraal
+2993776,Rotterdam Noord
+2993777,Rotterdam Noord
+2993795,Reuver
+2993796,Reuver
+2993807,Spaubeek
+2993808,Spaubeek
+2993816,Soestdijk
+2993819,Scheemda
+2993820,Scheemda
+2993823,Schiedam Centrum
+2993824,Schiedam Centrum
+2993825,Schiedam Centrum
+2993826,Schiedam Centrum
+2993831,Sliedrecht
+2993832,Sliedrecht
+2993835,Sliedrecht Baanhoek
+2993838,Houthem-St. Gerlach
+2993839,Houthem-St. Gerlach
+2993842,Schagen
+2993844,Schagen
+2993855,Sneek
+2993856,Sneek
+2993859,Sneek Noord
+2993860,Sneek Noord
+2993866,Swalmen
+2993869,Schinnen
+2993870,Schinnen
+2993873,Schin op Geul
+2993874,Schin op Geul
+2993877,Santpoort Noord
+2993878,Santpoort Noord
+2993882,Santpoort Zuid
+2993883,Santpoort Zuid
+2993886,Susteren
+2993887,Susteren
+2993890,Sassenheim
+2993891,Sassenheim
+2993894,Soest
+2993895,Soest
+2993900,Sittard
+2993902,Sittard
+2993903,Sittard
+2993904,Sittard
+2993906,Sittard
+2993907,Sittard
+2993914,Stedum
+2993917,London St. Pancras Int.
+2993921,Stavoren
+2993924,Soest Zuid
+2993927,Sauwerd
+2993928,Sauwerd
+2993931,Steenwijk
+2993932,Steenwijk
+2993935,Tilburg
+2993936,Tilburg
+2993937,Tilburg
+2993938,Tilburg
+2993945,Tilburg Universiteit
+2993946,Tilburg Universiteit
+2993947,Tilburg Universiteit
+2993950,Tegelen
+2993956,Tiel
+2993957,Tiel
+2993962,Tiel Passewaaij
+2993964,Stuttgart Hbf
+2993966,Ulm Hbf
+2993973,Uithuizermeeden
+2993974,Uithuizermeeden
+2993977,Uithuizen
+2993980,Usquert
+2993981,Usquert
+2993986,Utrecht Centraal
+2993987,Utrecht Centraal
+2993990,Utrecht Centraal
+2993993,Utrecht Centraal
+2993996,Utrecht Centraal
+2993997,Utrecht Centraal
+2994000,Utrecht Centraal
+2994003,Utrecht Centraal
+2994004,Utrecht Centraal
+2994005,Utrecht Centraal
+2994006,Utrecht Centraal
+2994007,Utrecht Centraal
+2994010,Utrecht Centraal
+2994013,Utrecht Centraal
+2994016,Utrecht Centraal
+2994019,Utrecht Centraal
+2994024,Uitgeest
+2994025,Uitgeest
+2994026,Uitgeest
+2994027,Uitgeest
+2994028,Uitgeest
+2994029,Uitgeest
+2994030,Uitgeest
+2994033,Utrecht Lunetten
+2994034,Utrecht Lunetten
+2994037,Utrecht Overvecht
+2994038,Utrecht Overvecht
+2994039,Utrecht Overvecht
+2994042,Utrecht Terwijde
+2994043,Utrecht Terwijde
+2994046,Utrecht Zuilen
+2994047,Utrecht Zuilen
+2994052,Voorburg
+2994053,Voorburg
+2994056,Vorden
+2994057,Vorden
+2994060,Voerendaal
+2994061,Voerendaal
+2994064,Veendam
+2994067,Voorst-Empe
+2994078,Vroomshoop
+2994079,Vroomshoop
+2994082,Valkenburg
+2994083,Valkenburg
+2994084,Valkenburg
+2994087,Venlo
+2994088,Venlo
+2994089,Venlo
+2994090,Venlo
+2994093,Venlo
+2994094,Venlo
+2994095,Venlo
+2994096,Venlo
+2994099,Vierlingsbeek
+2994100,Vierlingsbeek
+2994106,Veenendaal Centrum
+2994107,Veenendaal Centrum
+2994110,Veenendaal West
+2994111,Veenendaal West
+2994114,Velp
+2994115,Velp
+2994118,Venray
+2994119,Venray
+2994120,Venray
+2994128,Vlissingen Souburg
+2994129,Vlissingen Souburg
+2994138,Varsseveld
+2994139,Varsseveld
+2994142,Vriezenveen
+2994146,Waddinxveen
+2994147,Waddinxveen
+2994150,Waddinxveen Noord
+2994154,Wien Hbf
+2994157,Wijchen
+2994158,Wijchen
+2994159,Wijchen
+2994162,Woerden
+2994163,Woerden
+2994164,Woerden
+2994165,Woerden
+2994168,Wierden
+2994169,Wierden
+2994170,Wierden
+2994175,Wolfheze
+2994176,Wolfheze
+2994177,Wolfheze
+2994180,Warffum
+2994181,Warffum
+2994184,Wijhe
+2994185,Wijhe
+2994189,Workum
+2994190,Workum
+2994193,Wehl
+2994194,Wehl
+2994197,Wormerveer
+2994198,Wormerveer
+2994199,Wormerveer
+2994200,Wormerveer
+2994202,Wörgl Hbf
+2994205,Weesp
+2994206,Weesp
+2994207,Weesp
+2994208,Weesp
+2994214,Winschoten
+2994215,Winschoten
+2994218,Winsum
+2994219,Winsum
+2994222,Weert
+2994224,Weert
+2994225,Weert
+2994228,Westervoort
+2994229,Westervoort
+2994231,Würzburg Hbf
+2994234,Wolvega
+2994235,Wolvega
+2994239,Winterswijk
+2994240,Winterswijk
+2994243,Winterswijk West
+2994246,Wezep
+2994247,Wezep
+2994254,Zetten-Andelst
+2994255,Zetten-Andelst
+2994258,Zuidbroek
+2994259,Zuidbroek
+2994260,Zuidbroek
+2994263,Zaltbommel
+2994264,Zaltbommel
+2994267,Zaandam
+2994268,Zaandam
+2994269,Zaandam
+2994270,Zaandam
+2994273,Zaandam Kogerveld
+2994274,Zaandam Kogerveld
+2994277,Zuidhorn
+2994278,Zuidhorn
+2994279,Zuidhorn
+2994283,Zwolle
+2994284,Zwolle
+2994285,Zwolle
+2994286,Zwolle
+2994287,Zwolle
+2994288,Zwolle
+2994289,Zwolle
+2994290,Zwolle
+2994291,Zwolle
+2994294,Zwolle
+2994295,Zwolle
+2994298,Zwolle
+2994301,Zwolle
+2994302,Zwolle
+2994303,Zwolle
+2994306,Zwolle Stadshagen
+2994309,Lage Zwaluwe
+2994310,Lage Zwaluwe
+2994311,Lage Zwaluwe
+2994312,Lage Zwaluwe
+2994315,Zutphen
+2994316,Zutphen
+2994317,Zutphen
+2994318,Zutphen
+2994319,Zutphen
+2994320,Zutphen
+2994321,Zutphen
+2994327,Zoetermeer
+2994328,Zoetermeer
+2994331,Zoetermeer Oost
+2994332,Zoetermeer Oost
+2994334,Zürich HB
+2994337,Zevenaar
+2994338,Zevenaar
+2994339,Zevenaar
+2994352,Zaandijk Zaanse Schans
+2994353,Zaandijk Zaanse Schans
+3065336,Almere Centrum
+3065337,Almere Centrum
+3065338,Almere Centrum
+3065339,Almere Centrum
+3065346,Apeldoorn
+3065347,Apeldoorn
+3065348,Apeldoorn
+3065349,Apeldoorn
+3065352,Arnemuiden
+3065353,Arnemuiden
+3065368,Beverwijk
+3065370,Beverwijk
+3065374,'s-Hertogenbosch Oost
+3065375,'s-Hertogenbosch Oost
+3065378,Krommenie-Assendelft
+3065379,Krommenie-Assendelft
+3065382,Rheden
+3065383,Rheden
+3065387,Schiphol Airport
+3065389,Schiphol Airport
+3065390,Schiphol Airport
+3065391,Schiphol Airport
+3065394,Voorschoten
+3065395,Voorschoten
+3065396,Voorschoten
+3065397,Voorschoten
+3133716,Breda
+3133717,Breda
+3133718,Breda
+3133719,Breda
+3133722,Breda
+3133723,Breda
+3133726,Bloemendaal
+3133727,Bloemendaal
+3133730,Dordrecht Zuid
+3133731,Dordrecht Zuid
+3133736,Deventer Colmschate
+3133737,Deventer Colmschate
+3133740,Ede-Wageningen
+3133743,Ede-Wageningen
+3133744,Ede-Wageningen
+3133745,Ede-Wageningen
+3133785,Rotterdam Blaak
+3133786,Rotterdam Blaak
+3133787,Rotterdam Blaak
+3133788,Rotterdam Blaak
+3133793,Twello
+3133794,Twello
+3133798,Den Haag Ypenburg
+3133799,Den Haag Ypenburg
+3160112,Arnhem Centraal
+3160113,Arnhem Centraal
+3160114,Arnhem Centraal
+3160115,Arnhem Centraal
+3160116,Arnhem Centraal
+3160117,Arnhem Centraal
+3160119,Arnhem Centraal
+3160120,Arnhem Centraal
+3160121,Arnhem Centraal
+3160122,Arnhem Centraal
+3160123,Arnhem Centraal
+3160126,Breda-Prinsenbeek
+3160127,Breda-Prinsenbeek
+3160130,Bovenkarspel Flora
+3160151,Hoorn Kersenboogerd
+3160152,Hoorn Kersenboogerd
+3160155,Heerenveen
+3160156,Heerenveen
+3160159,Houten Castellum
+3160160,Houten Castellum
+3160163,Nijmegen Lent
+3160164,Nijmegen Lent
+3160167,Purmerend Weidevenne
+3160168,Purmerend Weidevenne
+3160177,Tilburg Reeshof
+3160178,Tilburg Reeshof
+3160181,Voorhout
+3160182,Voorhout
+3160185,Vleuten
+3160186,Vleuten
+3160189,Zevenbergen
+3160190,Zevenbergen
+3244257,Rotterdam Stadion
+3244258,Rotterdam Stadion
+3244260,Rotterdam Stadion
+3244261,Rotterdam Stadion
+3541108,Hamburg-Harburg
+3541109,Bremen Hbf
+3541110,Kassel-Wilhelmshöhe
+3541111,Osnabrück Altstadt
+3541114,Wien Meidling
+3570040,Düsseldorf-Bilk
+3618135,Bad Bentheim
+3618136,Bad Bentheim
+3618140,Berlin-Spandau
+3618141,Berlin-Spandau
+3618143,Berlin-Spandau
+3618144,Bünde (Westf)
+3618145,Bünde (Westf)
+3618147,Wittenberge
+3618149,Hannover Hbf
+3618150,Hannover Hbf
+3618151,Hannover Hbf
+3618154,Osnabrück Hbf
+3618155,Osnabrück Hbf
+3618156,Rheine
+3618157,Rheine
+3667680,Berlin Hbf
+3667681,Berlin Hbf
+3667682,Berlin Hbf
+3667685,Berlin Südkreuz
+3670797,Diemen Zuid
+3670798,Diemen Zuid
+3670802,Deventer
+3670806,Deventer
+3670809,Deventer
+3670810,Deventer
+3670811,Deventer
+3670818,Groningen
+3670821,Groningen
+3670824,Groningen
+3670827,Groningen
+3670830,Groningen
+3670832,Groningen
+3670835,Groningen
+3670840,Den Haag HS
+3670841,Den Haag HS
+3670842,Den Haag HS
+3670843,Den Haag HS
+3670844,Den Haag HS
+3670847,Grou-Jirnsum
+3670848,Grou-Jirnsum
+3670851,Helmond Brandevoort
+3670852,Helmond Brandevoort
+3670881,Lelystad Centrum
+3670882,Lelystad Centrum
+3670883,Lelystad Centrum
+3670884,Lelystad Centrum
+3670887,Rotterdam Zuid
+3670888,Rotterdam Zuid
+3670889,Rotterdam Zuid
+3670890,Rotterdam Zuid
+3670893,Ravenstein
+3670894,Ravenstein
+3670898,Vlissingen
+3670899,Vlissingen
+3670900,Vlissingen
+3670903,Zwijndrecht
+3670904,Zwijndrecht
+3670905,Zwijndrecht
+3670906,Zwijndrecht
+3707611,Berlin Hbf
+3707612,Berlin-Spandau
+3707613,Bünde (Westf)
+3707619,Hannover Hbf
+3707621,Osnabrück Hbf
+3707622,Rheine
+3784758,Berlin Hbf
+3784773,München Ost
+3871036,Altenberge
+3871037,Altenberge
+3871038,Ahaus
+3871039,Ahaus
+3871040,Steinfurt-Burgsteinfurt
+3871041,Steinfurt-Burgsteinfurt
+3871042,Steinfurt-Borghorst
+3871043,Bork (Westf)
+3871044,Coesfeld (Westf)
+3871045,Coesfeld (Westf)
+3871046,Dortmund-Derne
+3871047,Dortmund-Derne
+3871048,Dortmund-Kirchderne
+3871049,Dortmund-Kirchderne
+3871050,Dortmund Hbf
+3871051,Dülmen
+3871052,Epe (Westf)
+3871053,Epe (Westf)
+3871054,Steinfurt-Grottenkamp
+3871055,Rosendahl-Holtwick
+3871056,Lüdinghausen
+3871057,Lüdinghausen
+3871058,Lette (Kr Coesfeld)
+3871059,Legden
+3871060,Lünen Hbf
+3871061,Lünen Hbf
+3871062,Metelen Land
+3871063,Münster-Häger
+3871064,Münster (W) Zentrum Nord
+3871065,Nordwalde
+3871066,Ochtrup
+3871067,Ochtrup
+3871068,Preussen
+3871069,Preussen
+3871070,Selm-Beifang
+3871071,Selm
+3871076,Gronau (Westf.)
+3871077,Gronau (Westf.)
+3871078,Gronau (Westf.)
+3871082,Münster (Westf) Hbf
+3871083,Münster (Westf) Hbf
+3930347,Den Haag Centraal
+3930348,Den Haag Centraal
+3930353,Salzburg Hbf
+3934969,Berlin Hbf
+3954293,Geldermalsen
+3954294,Geldermalsen
+3954297,Geldermalsen
+3954300,Geldermalsen
+3954301,Geldermalsen
+4001890,Almere Poort
+4001891,Almere Poort
+4001894,Anna Paulowna
+4001895,Anna Paulowna
+4001898,Amsterdam Bijlmer ArenA
+4001899,Amsterdam Bijlmer ArenA
+4001900,Amsterdam Bijlmer ArenA
+4001901,Amsterdam Bijlmer ArenA
+4001902,Amsterdam Bijlmer ArenA
+4001903,Amsterdam Bijlmer ArenA
+4001907,Amsterdam Holendrecht
+4001908,Amsterdam Holendrecht
+4001913,Eindhoven Centraal
+4001916,Eindhoven Centraal
+4001919,Eindhoven Centraal
+4001922,Eindhoven Centraal
+4001924,Eindhoven Centraal
+4001925,Eindhoven Centraal
+4001928,Gouda Goverwelle
+4001929,Gouda Goverwelle
+4001930,Gouda Goverwelle
+4001931,Gouda Goverwelle
+4001934,Hoorn
+4001935,Hoorn
+4001936,Hoorn
+4001939,Haren
+4001940,Haren
+4001943,'s-Hertogenbosch
+4001946,'s-Hertogenbosch
+4001947,'s-Hertogenbosch
+4001948,'s-Hertogenbosch
+4001950,'s-Hertogenbosch
+4001951,'s-Hertogenbosch
+4001953,'s-Hertogenbosch
+4001954,'s-Hertogenbosch
+4001955,'s-Hertogenbosch
+4001956,'s-Hertogenbosch
+4001957,'s-Hertogenbosch
+4001958,'s-Hertogenbosch
+4001961,Hilversum Media Park
+4001962,Hilversum Media Park
+4001970,Rotterdam Lombardijen
+4001971,Rotterdam Lombardijen
+4001972,Rotterdam Lombardijen
+4001973,Rotterdam Lombardijen
+4001976,Utrecht Vaartsche Rijn
+4001977,Utrecht Vaartsche Rijn
+4001978,Utrecht Vaartsche Rijn
+4001979,Utrecht Vaartsche Rijn
+4016238,Antwerpen-Noorderdokken
+4016239,Antwerpen-Noorderdokken
+4016240,Antwerpen-Centraal
+4016241,Antwerpen-Centraal
+4016242,Antwerpen-Centraal
+4016243,Antwerpen-Centraal
+4016244,Antwerpen-Centraal
+4016245,Antwerpen-Centraal
+4016246,Antwerpen-Centraal
+4016247,Antwerpen-Centraal
+4016248,Antwerpen-Luchtbal
+4016249,Antwerpen-Luchtbal
+4016250,Antwerpen-Luchtbal
+4016251,Antwerpen-Luchtbal
+4016252,Antwerpen-Berchem
+4016253,Antwerpen-Berchem
+4016254,Antwerpen-Berchem
+4016255,Ludwigslust
+4016258,Essen
+4016259,Essen
+4016260,Kalmthout
+4016261,Kalmthout
+4016262,Boom
+4016263,Boom
+4016264,Antwerpen-Zuid
+4016265,Antwerpen-Zuid
+4016266,Hoboken-Polder
+4016267,Hoboken-Polder
+4016268,Puurs
+4016269,Puurs
+4016270,Ruisbroek-Sauvegarde
+4016271,Kijkuit
+4016272,Kijkuit
+4016273,Wildert
+4016274,Wildert
+4016277,Hemiksem
+4016278,Hemiksem
+4016279,Kapellen
+4016280,Kapellen
+4016281,Ekeren
+4016282,Ekeren
+4016283,Niel
+4016284,Niel
+4016285,Sint-Mariaburg
+4016286,Sint-Mariaburg
+4016287,Heide (B)
+4016288,Heide (B)
+4016291,Schelle
+4016292,Schelle
+4026655,Antwerpen-Centraal
+4026656,Antwerpen-Luchtbal
+4026657,Antwerpen-Berchem
+4026658,Antwerpen-Berchem
+4053493,Vught
+4053494,Vught
+4118574,Hamburg-Bergedorf
+4118575,Hamburg-Bergedorf
+4118576,Hamburg-Harburg
+4118577,Hamburg-Harburg
+4118578,Antwerpen-Luchtbal
+4118579,Ludwigslust
+4132923,Vise

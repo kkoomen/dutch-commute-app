@@ -207,19 +207,47 @@ final class GTFSStaticDataServiceTests: XCTestCase {
         XCTAssertFalse(minutes["2860212"]?.isEmpty ?? true)
     }
 
-    func testUsesNSAPIByMode() {
+    func testUsesNSAPIRequiresBothTrainStations() {
         let train = Station(code: "UT", name: "Utrecht Centraal")
         let bus = Station(code: "BUS1", name: "Busplein")
         let choices = [
             StationChoice(id: "UT", name: "Utrecht Centraal", mode: .train),
             StationChoice(id: "BUS1", name: "Busplein", mode: .bus),
         ]
-        // Routing is based on the leg's departure stop only.
-        XCTAssertTrue(AppState.usesNSAPI(departureStop: train, choices: choices))
-        XCTAssertFalse(AppState.usesNSAPI(departureStop: bus, choices: choices))
+        // The NS API rejects unknown station names (HTTP 400), so both
+        // endpoints must be train stations.
+        XCTAssertTrue(AppState.usesNSAPI(from: train, to: train, choices: choices))
+        XCTAssertFalse(AppState.usesNSAPI(from: train, to: bus, choices: choices))
+        XCTAssertFalse(AppState.usesNSAPI(from: bus, to: train, choices: choices))
+        XCTAssertFalse(AppState.usesNSAPI(from: bus, to: bus, choices: choices))
         // Unknown stops fall back to the NS API.
-        XCTAssertTrue(AppState.usesNSAPI(departureStop: Station(code: "ZZZ", name: "X"), choices: choices))
+        XCTAssertTrue(AppState.usesNSAPI(from: Station(code: "ZZZ", name: "X"), to: train, choices: choices))
         // No choices loaded yet → NS API (historical default).
-        XCTAssertTrue(AppState.usesNSAPI(departureStop: train, choices: []))
+        XCTAssertTrue(AppState.usesNSAPI(from: train, to: train, choices: []))
+    }
+
+    func testRailStopNameLookup() throws {
+        let railCSV = """
+        stop_id,stop_name
+        2993985,Utrecht Centraal
+        2993986,Amsterdam Centraal
+        """
+        let url = try FileManager.default.temporaryDirectory.appendingPathComponent("rail_stops-\(UUID().uuidString).txt")
+        try railCSV.write(to: url, atomically: true, encoding: .utf8)
+        defer { try? FileManager.default.removeItem(at: url) }
+        let index = GTFSStaticDataService.loadRailStops(from: url)
+        XCTAssertEqual(index["Utrecht Centraal"], "2993985")
+        XCTAssertEqual(index["Amsterdam Centraal"], "2993986")
+        XCTAssertNil(index["Busplein"])
+    }
+
+    /// The real bundled rail-stop index resolves train station names.
+    func testBundledRailStopIndex() throws {
+        guard let url = Bundle(for: GTFSStaticDataServiceTests.self).url(forResource: "gtfs", withExtension: nil) else {
+            return XCTFail("bundled gtfs folder missing")
+        }
+        let index = GTFSStaticDataService.loadRailStops(from: url.appendingPathComponent("rail_stops.txt"))
+        XCTAssertGreaterThan(index.count, 500)
+        XCTAssertNotNil(index["Utrecht Centraal"])
     }
 }

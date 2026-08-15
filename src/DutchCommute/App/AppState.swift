@@ -28,6 +28,9 @@ final class AppState {
     /// lazily when the time picker needs them.
     private(set) var gtfsDepartureMinutes: [String: [Int]] = [:]
     private var gtfsDeparturesLoaded = false
+    /// Rail-stop index: exact GTFS stop name → stop id (for mixed legs
+    /// that depart from a train station).
+    private var railStopIDsByName: [String: String] = [:]
     /// Recently picked stations, shared between the From and To pickers.
     var stationHistory: [Station] = []
 
@@ -127,33 +130,41 @@ final class AppState {
         }
     }
 
-    /// Whether the time picker should use the NS API for a leg — based on
-    /// the leg's **departure stop** only (the from stop for the outbound
-    /// leg, the to stop for the return leg). Unknown stops fall back to
-    /// the NS API (historical behavior).
-    static func usesNSAPI(departureStop: Station, choices: [StationChoice]) -> Bool {
-        let mode = choices.first { $0.id == departureStop.code }?.mode ?? .train
-        return mode == .train
+    /// Whether the time picker should use the NS API for this leg: the NS
+    /// API rejects unknown station names with HTTP 400, so **both** stops
+    /// must be train stations. Unknown stops fall back to the NS API
+    /// (historical behavior).
+    static func usesNSAPI(from: Station, to: Station, choices: [StationChoice]) -> Bool {
+        let fromMode = choices.first { $0.id == from.code }?.mode ?? .train
+        let toMode = choices.first { $0.id == to.code }?.mode ?? .train
+        return fromMode == .train && toMode == .train
     }
 
-    /// Departure minutes for the time picker: NS API when the leg departs
-    /// from a train station; bundled GTFS stop departures otherwise
-    /// (bus/metro/tram). The departure stop is `from` for the outbound
-    /// leg and the journey's `to` for the return leg.
-    /// GTFS departures are direction-agnostic — NL stops are per-direction.
+    /// Departure minutes for the time picker. The leg's departure stop is
+    /// `from` for the outbound leg and the journey's `to` for the return
+    /// leg:
+    /// - both stops train stations → NS API (live);
+    /// - otherwise → bundled GTFS departures of the departure stop (by
+    ///   stop id; for a train station in a mixed leg, matched by exact
+    ///   name against the rail-stop index). Never sends GTFS stop names to
+    ///   the NS API.
     func departureMinutes(from: Station, to: Station, at preferred: Date) async throws -> [Int] {
-        if Self.usesNSAPI(departureStop: from, choices: stationChoices) {
+        if Self.usesNSAPI(from: from, to: to, choices: stationChoices) {
             return try await client.departureMinutes(from: from, to: to, at: preferred)
         }
         await ensureGTFSDeparturesLoaded()
-        return GTFSStaticDataService.departureMinutes(from: from.code, data: gtfsDepartureMinutes, at: preferred)
+        let stopMinutes = gtfsDepartureMinutes[from.code]
+            ?? railStopIDsByName[from.name].flatMap { gtfsDepartureMinutes[$0] }
+        return GTFSStaticDataService.departureMinutes(minutes: stopMinutes, at: preferred)
     }
 
-    /// Loads the bundled GTFS stop departures once (first GTFS time search).
+    /// Loads the bundled GTFS stop departures and the rail-stop index once
+    /// (first GTFS time search).
     private func ensureGTFSDeparturesLoaded() async {
         guard !gtfsDeparturesLoaded else { return }
         if let url = Bundle.main.url(forResource: "gtfs", withExtension: nil) {
             gtfsDepartureMinutes = GTFSStaticDataService.loadDepartureMinutes(from: url.appendingPathComponent("departures.bin.gz"))
+            railStopIDsByName = GTFSStaticDataService.loadRailStops(from: url.appendingPathComponent("rail_stops.txt"))
         }
         gtfsDeparturesLoaded = true
     }
