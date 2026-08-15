@@ -11,6 +11,19 @@
 4. Editing a journey keeps its `id` and `createdAt`; only route/times/days
    change.
 
+## Journey detail page
+
+Tapping a journey card opens the detail page ("My journey"), which shows
+**only what the user configured** — it makes no NS API request on open:
+
+- Outbound and return cards with the saved departure times (no live status
+  shown).
+- The configured days.
+- The "Show on lockscreen", "Show live activity", and "Show near departure"
+  toggles.
+
+Live status remains the job of the widget and the Live Activity.
+
 ## Configuration flow (app)
 
 1. User taps "+" on My journeys.

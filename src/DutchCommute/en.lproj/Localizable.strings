@@ -62,7 +62,7 @@
 "Delete journey?" = "Delete journey?";
 "This journey will be permanently removed." = "This journey will be permanently removed.";
 "Delete" = "Delete";
-"Swipe right on a journey to make it active, swipe left to delete it, or tap a journey for its live status. The active journey will be visible on the lock screen widget." = "Swipe right on a journey to make it active, swipe left to delete it, or tap a journey for its live status. The active journey will be visible on the lock screen widget.";
+"Swipe right on a journey to make it active, swipe left to delete it, or tap a journey to view or edit it. The active journey will be visible on the lock screen widget." = "Swipe right on a journey to make it active, swipe left to delete it, or tap a journey to view or edit it. The active journey will be visible on the lock screen widget.";
 "No days" = "No days";
 "Active" = "Active";
 

@@ -1,13 +1,11 @@
 import SwiftUI
 
-/// Shows the active journey: date, both legs, and live status.
+/// Shows the journey as configured: both legs with the saved times, the
+/// days, and the lock screen / live activity toggles. No live data.
 struct JourneyView: View {
     @Environment(AppState.self) private var state
     let config: JourneyConfig
 
-    @State private var journeyDate: Date?
-    @State private var legs: [LegKind: TrainLeg] = [:]
-    @State private var errorMessage: String?
     @State private var showLockScreenHelp = false
     @State private var showNearDepartureHelp = false
     @State private var showLiveActivityHelp = false
@@ -23,7 +21,10 @@ struct JourneyView: View {
         state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false
     }
 
-    private let autoRefresh = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    /// The journey date to show; nil when no days are configured.
+    private var journeyDate: Date? {
+        JourneySchedule.nextJourneyDate(now: Date(), config: config)
+    }
 
     var body: some View {
         List {
@@ -32,8 +33,7 @@ struct JourneyView: View {
                         LegCard(
                             fromName: config.from.name,
                             toName: config.to.name,
-                            defaultTime: NSDateParser.timeString(minutes: config.departMinutes),
-                            leg: legs[.outbound]
+                            departureTime: NSDateParser.timeString(minutes: config.departMinutes)
                         )
                     }
 
@@ -41,8 +41,7 @@ struct JourneyView: View {
                         LegCard(
                             fromName: config.to.name,
                             toName: config.from.name,
-                            defaultTime: NSDateParser.timeString(minutes: config.returnMinutes),
-                            leg: legs[.returnLeg]
+                            departureTime: NSDateParser.timeString(minutes: config.returnMinutes)
                         )
                     }
                 } else {
@@ -59,18 +58,6 @@ struct JourneyView: View {
                     .padding(.vertical, 4)
                 }
 
-                if let errorMessage {
-                    Section {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Label(errorMessage, systemImage: "exclamationmark.triangle")
-                                .font(.caption)
-                                .foregroundStyle(.orange)
-                            Text("Showing scheduled times only when available.")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
                 Section {
                     Toggle("Show on lockscreen", isOn: Binding(
                         get: { state.journeys.first(where: { $0.id == config.id })?.isActive ?? false },
@@ -144,68 +131,24 @@ struct JourneyView: View {
                     }
                 }
             }
-            .refreshable { await reload() }
-            .task {
-                await state.loadStationChoices()
-                await reload()
-            }
-            .onReceive(autoRefresh) { _ in
-                Task { await reload() }
-            }
-    }
-
-    private func reload() async {
-        guard let date = JourneySchedule.nextJourneyDate(now: Date(), config: config) else {
-            journeyDate = nil
-            legs = [:]
-            return
-        }
-        journeyDate = date
-
-        let times = JourneySchedule.legTimes(on: date, config: config)
-        do {
-            async let outboundTrip = state.client.fetchTrip(from: config.from, to: config.to, at: times.outbound)
-            async let returnTrip = state.client.fetchTrip(from: config.to, to: config.from, at: times.return)
-            let (outbound, returnLeg) = try await (outboundTrip, returnTrip)
-            legs[.outbound] = outbound.firstLeg.flatMap(TrainLeg.init)
-            legs[.returnLeg] = returnLeg.firstLeg.flatMap(TrainLeg.init)
-            errorMessage = nil
-        } catch {
-            errorMessage = error.localizedDescription
-        }
     }
 }
 
-/// One train leg card: route diagram (stations with tracks), time, status.
-/// Before the live leg arrives it shows the saved departure time with an
-/// "On time" chip; the live time/status replace it in place.
+/// One train leg card: route diagram (stations with tracks) and the saved
+/// departure time.
 private struct LegCard: View {
     let fromName: String
     let toName: String
-    /// Locally saved departure time, shown until live data arrives.
-    let defaultTime: String
-    let leg: TrainLeg?
+    /// Locally saved departure time.
+    let departureTime: String
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             StationRouteView(stations: stationNames)
             Spacer()
-            if let leg {
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text(NSDateParser.timeString(leg.displayedDeparture))
-                        .font(.title3.monospacedDigit())
-                        .foregroundStyle(leg.status == .cancelled ? Palette.textTertiary : Palette.textPrimary)
-                        .strikethrough(leg.status == .cancelled)
-                    StatusChip(status: leg.status)
-                }
-            } else {
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text(defaultTime)
-                        .font(.title3.monospacedDigit())
-                        .foregroundStyle(Palette.textPrimary)
-                    StatusChip(status: .onTime)
-                }
-            }
+            Text(departureTime)
+                .font(.title3.monospacedDigit())
+                .foregroundStyle(Palette.textPrimary)
         }
         .padding(.vertical, 4)
     }
@@ -247,28 +190,6 @@ private struct LockScreenHelpView: View {
             Text(text)
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(Palette.textPrimary)
-        }
-    }
-}
-
-private struct StatusChip: View {
-    let status: TrainStatus
-
-    var body: some View {
-        Text(status.label)
-            .font(.caption.weight(.semibold))
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(color.opacity(0.15), in: Capsule())
-            .foregroundStyle(color)
-    }
-
-    private var color: Color {
-        switch status {
-        case .onTime: Palette.statusOnTime
-        case .delayed: .orange
-        case .cancelled: .red
-        case .unknown: .gray
         }
     }
 }
