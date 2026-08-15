@@ -82,7 +82,7 @@ struct JourneyListView: View {
         .scrollContentBackground(.hidden)
         .background(Palette.background)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .topBarLeading) {
                 Menu {
                     Picker("Appearance", selection: $appearance) {
                         ForEach(Appearance.allCases) { mode in
