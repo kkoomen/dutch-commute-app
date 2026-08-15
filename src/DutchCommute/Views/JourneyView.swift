@@ -88,9 +88,6 @@ struct JourneyView: View {
                         isSwitchDisabled: !isLiveActivityEligible,
                         helpAction: { showLiveActivityHelp = true }
                     )
-                    Text("Only available for journeys between two train stations.")
-                        .font(.caption2)
-                        .foregroundStyle(Palette.textSecondary)
                     ToggleRow(
                         title: String(localized: "Show near departure"),
                         isOn: showsNearDepartureBinding,
