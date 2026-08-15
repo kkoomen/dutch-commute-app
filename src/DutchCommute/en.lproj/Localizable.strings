@@ -45,7 +45,7 @@
 "Show live activity" = "Show live activity";
 "Only available for journeys between two train stations." = "Only available for journeys between two train stations.";
 "Show near departure" = "Show near departure";
-"By default, the Live Activity stays visible for the journey. Enable this to show it only from 1 hour before departure until the journey ends." = "By default, the Live Activity stays visible for the journey. Enable this to show it only from 1 hour before departure until the journey ends.";
+"Turn this on to start the Live Activity 1 hour before departure." = "Turn this on to start the Live Activity 1 hour before departure.";
 "Unavailable" = "Unavailable";
 "Read here how to add this widget to your lockscreen." = "Read here how to add this widget to your lockscreen.";
 "Add widget" = "Add widget";

@@ -75,6 +75,16 @@ struct JourneyView: View {
                         get: { state.journeys.first(where: { $0.id == config.id })?.isActive ?? false },
                         set: { state.setJourneyActive(config.id, active: $0) }
                     ))
+                    Button {
+                        showLockScreenHelp = true
+                    } label: {
+                        Text("Read here how to add this widget to your lockscreen.")
+                            .font(.caption)
+                            .foregroundStyle(Palette.primary)
+                    }
+                }
+
+                Section {
                     Toggle("Show live activity", isOn: Binding(
                         get: { state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity ?? false },
                         set: { state.setShowsLiveActivity(config.id, shows: $0) }
@@ -98,18 +108,11 @@ struct JourneyView: View {
                         }
                     }
                     .disabled(!showsLiveActivity)
-                    Button {
-                        showLockScreenHelp = true
-                    } label: {
-                        Text("Read here how to add this widget to your lockscreen.")
-                            .font(.caption)
-                            .foregroundStyle(Palette.primary)
-                    }
                 }
                 .alert("Show near departure", isPresented: $showNearDepartureHelp) {
                     Button("Done", role: .cancel) {}
                 } message: {
-                    Text("By default, the Live Activity stays visible for the journey. Enable this to show it only from 1 hour before departure until the journey ends.")
+                    Text("Turn this on to start the Live Activity 1 hour before departure.")
                 }
             }
             .sheet(isPresented: $showLockScreenHelp) {

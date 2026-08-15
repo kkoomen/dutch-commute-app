@@ -45,7 +45,7 @@
 "Show live activity" = "Toon live activiteit";
 "Only available for journeys between two train stations." = "Alleen beschikbaar voor reizen tussen twee treinstations.";
 "Show near departure" = "Toon vlak voor vertrek";
-"By default, the Live Activity stays visible for the journey. Enable this to show it only from 1 hour before departure until the journey ends." = "Standaard blijft de Live Activiteit zichtbaar voor de hele reis. Schakel dit in om deze alleen te tonen vanaf 1 uur voor vertrek tot het einde van de reis.";
+"Turn this on to start the Live Activity 1 hour before departure." = "Zet dit aan om de Live Activiteit 1 uur voor vertrek te starten.";
 "Unavailable" = "Niet beschikbaar";
 "Read here how to add this widget to your lockscreen." = "Lees hier hoe je dit widget aan je vergrendelscherm toevoegt.";
 "Add widget" = "Widget toevoegen";
