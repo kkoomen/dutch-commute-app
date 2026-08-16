@@ -178,6 +178,13 @@ final class LiveActivityTests: XCTestCase {
         XCTAssertFalse(LiveActivityManager.statusDisplay(for: .delayed(minutes: 5)).isCancelled)
     }
 
+    func testStatusKindMapsTrainStatus() {
+        XCTAssertEqual(LiveActivityManager.kind(for: .onTime), .onTime)
+        XCTAssertEqual(LiveActivityManager.kind(for: .delayed(minutes: 5)), .delayed)
+        XCTAssertEqual(LiveActivityManager.kind(for: .cancelled), .cancelled)
+        XCTAssertEqual(LiveActivityManager.kind(for: .unknown), .unknown)
+    }
+
     func testStaleDateIsFiveMinutesAfterRefresh() {
         let now = Date(timeIntervalSince1970: 1_000)
         XCTAssertEqual(LiveActivityManager.staleDate(now: now), now.addingTimeInterval(5 * 60))
@@ -198,6 +205,7 @@ final class LiveActivityTests: XCTestCase {
             departureTime: Date(timeIntervalSince1970: 1_720_000_000),
             status: "+5 min",
             isCancelled: false,
+            statusKind: .delayed,
             lastUpdate: Date(timeIntervalSince1970: 1_720_000_000),
             isStale: false
         )
@@ -215,6 +223,8 @@ final class LiveActivityTests: XCTestCase {
         """
         let decoded = try JSONDecoder().decode(JourneyActivityAttributes.ContentState.self, from: Data(json.utf8))
         XCTAssertNil(decoded.track)
+        // Payloads that predate statusKind decode with nil (unknown).
+        XCTAssertNil(decoded.statusKind)
         XCTAssertEqual(decoded.fromName, "Utrecht Centraal")
         XCTAssertEqual(decoded.toName, "Amsterdam Centraal")
     }

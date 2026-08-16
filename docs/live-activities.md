@@ -95,6 +95,7 @@ topic = the app's bundle id). Register the APNs entitlement and a
       "departureTime": 1723651200,
       "status": "+5 min",
       "isCancelled": false,
+      "statusKind": "delayed",  // "onTime" | "delayed" | "cancelled" | "unknown"
       "lastUpdate": 1723651199,
       "isStale": false
     },
@@ -106,7 +107,9 @@ topic = the app's bundle id). Register the APNs entitlement and a
 - `event: "update"` refreshes the content; `event: "end"` ends the
   activity (with optional `content-state` as the final state).
 - `content-state` fields must match `JourneyActivityAttributes.ContentState`
-  (Codable, exact keys).
+  (Codable, exact keys). `statusKind` is machine-readable for coloring
+  (the `status` string is localized); payloads may omit it — it decodes
+  as nil and renders neutral.
 - `stale-date` lets the system flag the activity as stale if pushes stop.
 - Sending a push before the system budget allows it (frequent pushes are
   rejected) is handled by `stale-date`: the activity degrades visibly

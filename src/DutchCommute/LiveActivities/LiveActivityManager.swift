@@ -64,8 +64,18 @@ enum LiveActivityManager {
     }
 
     /// The activity's status text and cancellation flag for a leg.
-    static func statusDisplay(for status: TrainStatus) -> (label: String, isCancelled: Bool) {
-        (status.label, status == .cancelled)
+    static func statusDisplay(for status: TrainStatus) -> (label: String, isCancelled: Bool, kind: StatusKind) {
+        (status.label, status == .cancelled, kind(for: status))
+    }
+
+    /// Machine-readable status kind for coloring.
+    static func kind(for status: TrainStatus) -> StatusKind {
+        switch status {
+        case .onTime: .onTime
+        case .delayed: .delayed
+        case .cancelled: .cancelled
+        case .unknown: .unknown
+        }
     }
 
     /// Stale date for activity content: shortly after the refresh, so the
@@ -240,6 +250,7 @@ enum LiveActivityManager {
             departureTime: departure,
             status: String(localized: "Unknown"),
             isCancelled: false,
+            statusKind: .unknown,
             lastUpdate: now,
             isStale: true
         )
@@ -280,6 +291,7 @@ enum LiveActivityManager {
             departureTime: legInfo.displayedDeparture,
             status: legInfo.status,
             isCancelled: legInfo.isCancelled,
+            statusKind: legInfo.statusKind,
             lastUpdate: now,
             isStale: legInfo.isStale
         )
@@ -358,21 +370,23 @@ enum LiveActivityManager {
             guard let leg = trip.firstLeg.flatMap(TrainLeg.init) else {
                 return LegInfo(routeName: String(localized: "Train"), destination: to.name,
                                displayedDeparture: date, status: String(localized: "Unknown"),
-                               isCancelled: false, isStale: true, track: nil)
+                               isCancelled: false, statusKind: .unknown, isStale: true, track: nil)
             }
+            let display = statusDisplay(for: leg.status)
             return LegInfo(
                 routeName: leg.name,
                 destination: leg.direction.isEmpty ? to.name : leg.direction,
                 displayedDeparture: leg.displayedDeparture,
-                status: statusDisplay(for: leg.status).label,
-                isCancelled: statusDisplay(for: leg.status).isCancelled,
+                status: display.label,
+                isCancelled: display.isCancelled,
+                statusKind: display.kind,
                 isStale: false,
                 track: leg.departureTrack
             )
         } catch {
             return LegInfo(routeName: String(localized: "Train"), destination: to.name,
                            displayedDeparture: date, status: String(localized: "Unknown"),
-                           isCancelled: false, isStale: true, track: nil)
+                           isCancelled: false, statusKind: .unknown, isStale: true, track: nil)
         }
     }
 
@@ -382,6 +396,7 @@ enum LiveActivityManager {
         let displayedDeparture: Date
         let status: String
         let isCancelled: Bool
+        let statusKind: StatusKind
         let isStale: Bool
         let track: String?
     }

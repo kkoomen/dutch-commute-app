@@ -74,6 +74,18 @@ struct JourneyLiveActivityView: View {
     }
 }
 
+/// Semantic status color for the Dynamic Island: the island is always
+/// black, so fixed colors work regardless of the device scheme.
+/// Unknown/missing kind renders neutral (white).
+private func statusColor(for kind: StatusKind?) -> Color {
+    switch kind ?? .unknown {
+    case .onTime: .green
+    case .delayed: .orange
+    case .cancelled: .red
+    case .unknown: .white
+    }
+}
+
 /// The Live Activity for a journey. Registered in the widget bundle.
 struct JourneyLiveActivity: Widget {
     var body: some WidgetConfiguration {
@@ -81,36 +93,57 @@ struct JourneyLiveActivity: Widget {
             JourneyLiveActivityView(context: context)
         } dynamicIsland: { context in
             DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) {
-                    HStack(spacing: 4) {
-                        AppLogo(height: 14)
-                        Text(context.state.routeName)
-                    }
-                }
-                DynamicIslandExpandedRegion(.trailing) {
-                    Text(context.state.departureTime, style: .time)
-                        .monospacedDigit()
-                }
                 DynamicIslandExpandedRegion(.bottom) {
-                    HStack {
-                        Text(context.state.status)
-                        if let track = context.state.track {
-                            Text("· \(String(localized: "Track \(track)"))")
+                    VStack(spacing: 4) {
+                        HStack(alignment: .firstTextBaseline) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: TransportMode.train.icon)
+                                            .font(.subheadline)
+                                        HStack(spacing: 3) {
+                                            Text(context.state.routeName)
+                                            if let track = context.state.track {
+                                                Text("· \(String(localized: "Track \(track)"))")
+                                            }
+                                        }
+                                        .font(.caption)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.7)
+                                    }
+                                    Text(context.state.toName)
+                                        .font(.subheadline.weight(.semibold))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
+                                        .allowsTightening(true)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                                VStack(alignment: .trailing, spacing: 4) {
+                                    Text(context.state.departureTime, style: .time)
+                                        .font(.title3.monospacedDigit())
+                                    Text(context.state.status)
+                                        .font(.caption.weight(.semibold))
+                                        .foregroundStyle(statusColor(for: context.state.statusKind))
+                                }
                         }
-                        Spacer()
+
                         if context.state.isStale {
                             Label(String(localized: "Unavailable"), systemImage: "exclamationmark.triangle")
+                                .font(.caption2)
+                                .foregroundStyle(.orange)
                         }
                     }
-                    .font(.caption)
+                    .padding(.vertical, 16)
                 }
             } compactLeading: {
-                AppLogo(height: 12)
+                Image(systemName: TransportMode.train.icon)
+                    .font(.caption)
             } compactTrailing: {
                 Text(context.state.departureTime, style: .time)
                     .monospacedDigit()
             } minimal: {
-                AppLogo(height: 12)
+                Image(systemName: TransportMode.train.icon)
+                    .font(.caption)
             }
         }
     }
