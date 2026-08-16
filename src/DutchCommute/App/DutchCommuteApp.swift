@@ -4,7 +4,10 @@ import SwiftUI
 struct DutchCommuteApp: App {
     @State private var state = AppState()
     @State private var showLoading = true
-    @AppStorage("appearance") private var appearance = Appearance.system.rawValue
+    /// Shared with the widget extension so the Live Activity can follow
+    /// the app's theme.
+    @AppStorage("appearance", store: UserDefaults(suiteName: AppGroup.identifier) ?? .standard)
+    private var appearance = Appearance.system.rawValue
 
     var body: some Scene {
         WindowGroup {

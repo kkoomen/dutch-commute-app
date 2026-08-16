@@ -188,6 +188,9 @@ final class LiveActivityTests: XCTestCase {
     func testContentStateRoundTripsWithRouteName() throws {
         let state = JourneyActivityAttributes.ContentState(
             routeName: "IC 1234",
+            fromName: "Utrecht Centraal",
+            toName: "Amsterdam Centraal",
+            track: "4",
             departureTime: Date(timeIntervalSince1970: 1_720_000_000),
             status: "+5 min",
             isCancelled: false,
@@ -197,5 +200,18 @@ final class LiveActivityTests: XCTestCase {
         let data = try JSONEncoder().encode(state)
         let decoded = try JSONDecoder().decode(JourneyActivityAttributes.ContentState.self, from: data)
         XCTAssertEqual(decoded, state)
+    }
+
+    func testContentStateDecodesWithoutTrack() throws {
+        // States pushed before a track was known (or from a backend that
+        // omits it) must decode: track stays nil, route still renders.
+        let json = """
+        {\"routeName\":\"IC 1234\",\"fromName\":\"Utrecht Centraal\",\"toName\":\"Amsterdam Centraal\",
+         \"departureTime\":1720000000,\"status\":\"On time\",\"isCancelled\":false,\"isStale\":false}
+        """
+        let decoded = try JSONDecoder().decode(JourneyActivityAttributes.ContentState.self, from: Data(json.utf8))
+        XCTAssertNil(decoded.track)
+        XCTAssertEqual(decoded.fromName, "Utrecht Centraal")
+        XCTAssertEqual(decoded.toName, "Amsterdam Centraal")
     }
 }

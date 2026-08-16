@@ -43,6 +43,14 @@ final class AppState {
     init(client: NSAPIClient = NSAPIClient(apiKey: APIKey.ns), store: ConfigStore = ConfigStore()) {
         self.client = client
         self.store = store
+        // The appearance setting moved to the shared App Group suite so
+        // the widget extension can follow it; migrate a value stored in
+        // the old (standard) defaults once.
+        let shared = UserDefaults(suiteName: AppGroup.identifier) ?? .standard
+        if shared.string(forKey: "appearance") == nil,
+           let legacy = UserDefaults.standard.string(forKey: "appearance") {
+            shared.set(legacy, forKey: "appearance")
+        }
         self.journeys = store.load()
         if let data = UserDefaults.standard.data(forKey: stationHistoryKey),
            let decoded = try? JSONDecoder().decode([Station].self, from: data) {

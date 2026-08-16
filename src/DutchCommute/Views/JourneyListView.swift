@@ -5,7 +5,10 @@ import SwiftUI
 struct JourneyListView: View {
     @Environment(AppState.self) private var state
     @Environment(\.colorScheme) private var colorScheme
-    @AppStorage("appearance") private var appearance = Appearance.system.rawValue
+    /// Shared with the widget extension so the Live Activity can follow
+    /// the app's theme.
+    @AppStorage("appearance", store: UserDefaults(suiteName: AppGroup.identifier) ?? .standard)
+    private var appearance = Appearance.system.rawValue
     /// Set when the user swipes to delete; shown in a confirmation dialog.
     @State private var journeyPendingDeletion: JourneyConfig?
 

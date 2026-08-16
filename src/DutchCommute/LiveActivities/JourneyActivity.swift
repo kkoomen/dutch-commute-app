@@ -9,6 +9,13 @@ struct JourneyActivityAttributes: ActivityAttributes {
         /// (dynamic — the planned placeholder is replaced once the live
         /// leg info arrives, because ActivityKit attributes are immutable).
         var routeName: String
+        /// The leg's departure and destination stations, in travel
+        /// direction (dynamic — the outbound and return legs differ, and
+        /// ActivityKit attributes are immutable).
+        var fromName: String
+        var toName: String
+        /// Departure track, e.g. "4"; nil when the API didn't provide one.
+        var track: String?
         /// Shown departure time (actual when known, else planned).
         var departureTime: Date
         /// Status text, e.g. "On time", "+5 min", "Cancelled".

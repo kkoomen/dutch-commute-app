@@ -33,6 +33,16 @@ enum Palette {
     // Semantic status
     static let statusOnTime = adaptive(light: 0x5AA58B, dark: 0x6CB87A)
 
+    // MARK: - Fixed per-scheme variants
+
+    /// The same roles as above, but resolved for one specific scheme.
+    /// Use these where dynamic colors resolve against the wrong
+    /// appearance — e.g. ActivityKit's `activityBackgroundTint` ignores
+    /// dark-mode variants of dynamic colors.
+    static func surface(for scheme: ColorScheme) -> Color { fixed(light: 0xFFFFFF, dark: 0x1D2324, for: scheme) }
+    static func textPrimary(for scheme: ColorScheme) -> Color { fixed(light: 0x0C0D0F, dark: 0xE1DFDB, for: scheme) }
+    static func textSecondary(for scheme: ColorScheme) -> Color { fixed(light: 0x606569, dark: 0x8D9193, for: scheme) }
+
     // Launch screen (brand splash, always the teal gradient)
     static let splashDark = Color(hex: 0x083B4C)
     static let splashLight = Color(hex: 0x4CC9C0)
@@ -41,6 +51,11 @@ enum Palette {
         Color(uiColor: UIColor { traits in
             traits.userInterfaceStyle == .dark ? UIColor(hex: dark) : UIColor(hex: light)
         })
+    }
+
+    /// A color pinned to one scheme (no dynamic resolution).
+    private static func fixed(light: UInt32, dark: UInt32, for scheme: ColorScheme) -> Color {
+        scheme == .dark ? Color(hex: dark) : Color(hex: light)
     }
 }
 

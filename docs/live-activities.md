@@ -25,6 +25,16 @@ the widget extension's `WidgetBundle` as `JourneyLiveActivity`).
 - Content carries a **`staleDate`** (5 minutes after the last refresh) and
   an `isStale` flag; failed refreshes mark the data stale instead of
   claiming freshness.
+- The Lock Screen card follows the **app's appearance setting**
+  (System / Light / Dark), shared with the widget extension through the
+  App Group. Colors are resolved explicitly per scheme because
+  ActivityKit resolves dynamic colors passed to `activityBackgroundTint`
+  against the light appearance even on dark devices.
+- The card shows: **"From → To"** as the title, the train and its
+  **track** on the second line, and departure time + status below.
+  `fromName`/`toName`/`track` are part of `ContentState` because the
+  outbound and return legs differ and ActivityKit attributes are
+  immutable.
 - Starts that fail are reported to the user: the app checks
   `ActivityAuthorizationInfo().areActivitiesEnabled` (Live Activities
   globally disabled in Settings) and shows a friendly error in the
@@ -67,6 +77,9 @@ topic = the app's bundle id). Register the APNs entitlement and a
     "event": "update",            // "update" | "end"
     "content-state": {
       "routeName": "IC 1234",
+      "fromName": "Utrecht Centraal",
+      "toName": "Amsterdam Centraal",
+      "track": "4",
       "departureTime": 1723651200,
       "status": "+5 min",
       "isCancelled": false,

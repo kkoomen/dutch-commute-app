@@ -2,16 +2,38 @@ import ActivityKit
 import SwiftUI
 import WidgetKit
 
-/// Live Activity UI: route, stations, departure time, status, and stale
-/// state. Rendered by the system from this configuration.
+/// Live Activity UI: route title, train + track, departure time and
+/// status. Rendered by the system from this configuration.
+///
+/// Follows the app's appearance setting (System / Light / Dark), shared
+/// through the App Group. Colors are resolved explicitly per scheme:
+/// ActivityKit resolves dynamic colors passed to `activityBackgroundTint`
+/// against the wrong (light) appearance on dark devices, so adaptive
+/// colors like `Palette.surface` must not be used here.
 struct JourneyLiveActivityView: View {
     let context: ActivityViewContext<JourneyActivityAttributes>
 
+    @AppStorage("appearance", store: UserDefaults(suiteName: AppGroup.identifier) ?? .standard)
+    private var appearanceRaw = Appearance.system.rawValue
+
+    /// The scheme to render: the app's explicit choice, or the device's
+    /// current scheme when set to System.
+    private var scheme: ColorScheme {
+        switch Appearance(rawValue: appearanceRaw) ?? .system {
+        case .light: .light
+        case .dark: .dark
+        case .system:
+            UITraitCollection.current.userInterfaceStyle == .dark ? .dark : .light
+        }
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Text("🚆 \(context.state.routeName)")
+            HStack(alignment: .firstTextBaseline) {
+                Text("\(context.state.fromName) → \(context.state.toName)")
                     .font(.headline)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
                 Spacer()
                 if context.state.isStale {
                     Label(String(localized: "Unavailable"), systemImage: "exclamationmark.triangle")
@@ -19,13 +41,16 @@ struct JourneyLiveActivityView: View {
                         .foregroundStyle(.orange)
                 }
             }
-            HStack(spacing: 4) {
-                Text(context.attributes.fromName)
-                Text("→")
-                Text(context.attributes.destination)
+            HStack(spacing: 5) {
+                AppLogo(height: 15)
+                Text(context.state.routeName)
+                if let track = context.state.track {
+                    Text("·")
+                    Text(String(localized: "Track \(track)"))
+                }
             }
             .font(.subheadline)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Palette.textSecondary(for: scheme))
             HStack {
                 Text(context.state.departureTime, style: .time)
                     .font(.title3.monospacedDigit())
@@ -33,12 +58,13 @@ struct JourneyLiveActivityView: View {
                 Spacer()
                 Text(context.state.status)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(context.state.isCancelled ? .red : .primary)
+                    .foregroundStyle(context.state.isCancelled ? .red : Palette.textPrimary(for: scheme))
             }
         }
         .padding()
-        .activityBackgroundTint(.secondary)
-        .activitySystemActionForegroundColor(.primary)
+        .foregroundStyle(Palette.textPrimary(for: scheme))
+        .activityBackgroundTint(Palette.surface(for: scheme))
+        .activitySystemActionForegroundColor(Palette.textPrimary(for: scheme))
     }
 }
 
@@ -50,7 +76,10 @@ struct JourneyLiveActivity: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("🚆 \(context.state.routeName)")
+                    HStack(spacing: 4) {
+                        AppLogo(height: 14)
+                        Text(context.state.routeName)
+                    }
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Text(context.state.departureTime, style: .time)
@@ -59,6 +88,9 @@ struct JourneyLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.bottom) {
                     HStack {
                         Text(context.state.status)
+                        if let track = context.state.track {
+                            Text("· \(String(localized: "Track \(track)"))")
+                        }
                         Spacer()
                         if context.state.isStale {
                             Label(String(localized: "Unavailable"), systemImage: "exclamationmark.triangle")
@@ -67,12 +99,12 @@ struct JourneyLiveActivity: Widget {
                     .font(.caption)
                 }
             } compactLeading: {
-                Text("🚆")
+                AppLogo(height: 12)
             } compactTrailing: {
                 Text(context.state.departureTime, style: .time)
                     .monospacedDigit()
             } minimal: {
-                Text("🚆")
+                AppLogo(height: 12)
             }
         }
     }

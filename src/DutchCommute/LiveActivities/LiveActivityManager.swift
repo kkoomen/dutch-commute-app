@@ -202,6 +202,9 @@ enum LiveActivityManager {
         )
         let initialState = JourneyActivityAttributes.ContentState(
             routeName: String(localized: "Train"),
+            fromName: from.name,
+            toName: to.name,
+            track: nil,
             departureTime: departure,
             status: String(localized: "Unknown"),
             isCancelled: false,
@@ -239,6 +242,9 @@ enum LiveActivityManager {
 
         let state = JourneyActivityAttributes.ContentState(
             routeName: legInfo.routeName,
+            fromName: from.name,
+            toName: to.name,
+            track: legInfo.track,
             departureTime: legInfo.displayedDeparture,
             status: legInfo.status,
             isCancelled: legInfo.isCancelled,
@@ -320,7 +326,7 @@ enum LiveActivityManager {
             guard let leg = trip.firstLeg.flatMap(TrainLeg.init) else {
                 return LegInfo(routeName: String(localized: "Train"), destination: to.name,
                                displayedDeparture: date, status: String(localized: "Unknown"),
-                               isCancelled: false, isStale: true)
+                               isCancelled: false, isStale: true, track: nil)
             }
             return LegInfo(
                 routeName: leg.name,
@@ -328,12 +334,13 @@ enum LiveActivityManager {
                 displayedDeparture: leg.displayedDeparture,
                 status: statusDisplay(for: leg.status).label,
                 isCancelled: statusDisplay(for: leg.status).isCancelled,
-                isStale: false
+                isStale: false,
+                track: leg.departureTrack
             )
         } catch {
             return LegInfo(routeName: String(localized: "Train"), destination: to.name,
                            displayedDeparture: date, status: String(localized: "Unknown"),
-                           isCancelled: false, isStale: true)
+                           isCancelled: false, isStale: true, track: nil)
         }
     }
 
@@ -344,5 +351,6 @@ enum LiveActivityManager {
         let status: String
         let isCancelled: Bool
         let isStale: Bool
+        let track: String?
     }
 }

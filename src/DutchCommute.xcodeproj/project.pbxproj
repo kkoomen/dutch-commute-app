@@ -79,6 +79,8 @@
 		A100000000000000000000FF /* LiveActivityUpdateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000FA /* LiveActivityUpdateClient.swift */; };
 		B10000000000000000000001 /* JourneyActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* JourneyActivity.swift */; };
 		B10000000000000000000002 /* JourneyLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000FB /* JourneyLiveActivity.swift */; };
+		B10000000000000000000007 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000D5 /* Appearance.swift */; };
+		B10000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +173,7 @@
 		A100000000000000000000F9 /* LiveActivityPushTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityPushTokenStore.swift; sourceTree = "<group>"; };
 		A100000000000000000000FA /* LiveActivityUpdateClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityUpdateClient.swift; sourceTree = "<group>"; };
 		A100000000000000000000FB /* JourneyLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyLiveActivity.swift; sourceTree = "<group>"; };
+		B10000000000000000000008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B10000000000000000000003 /* JourneyActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ../DutchCommute/LiveActivities/JourneyActivity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -386,6 +389,7 @@
 				A100000000000000000000FB /* JourneyLiveActivity.swift */,
 				A10000000000000000000048 /* Info.plist */,
 				A1000000000000000000004A /* DutchCommuteWidget.entitlements */,
+				B10000000000000000000008 /* Assets.xcassets */,
 			);
 			path = DutchCommuteWidget;
 			sourceTree = "<group>";
@@ -536,6 +540,7 @@
 			files = (
 				A100000000000000000000BF /* ../.env in Resources */,
 				A100000000000000000000C8 /* Localizable.strings in Resources */,
+				B10000000000000000000009 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +624,7 @@
 				A100000000000000000000D1 /* Palette.swift in Sources */,
 				B10000000000000000000001 /* JourneyActivity.swift in Sources */,
 				B10000000000000000000002 /* JourneyLiveActivity.swift in Sources */,
+				B10000000000000000000007 /* Appearance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
