@@ -147,11 +147,47 @@ final class GTFSStaticDataServiceTests: XCTestCase {
         XCTAssertGreaterThan(data.stops.count, 50_000)
         XCTAssertFalse(data.stopModes.isEmpty)
         let choices = GTFSStaticDataService.stationChoices(from: data)
-        XCTAssertGreaterThan(choices.count, 50_000)
+        // Deduplicated by (name, mode): ~26k unique rows (the raw dataset
+        // has per-direction stop records sharing one name).
+        XCTAssertGreaterThan(choices.count, 25_000)
+        XCTAssertLessThan(choices.count, 30_000)
+        var seen = Set<String>()
+        for choice in choices {
+            XCTAssertTrue(seen.insert("\(choice.name)|\(choice.mode)").inserted, "duplicate \(choice.name) (\(choice.mode))")
+        }
         // NL GTFS stop names use the "[Station] …" convention.
         XCTAssertTrue(choices.contains { $0.name.contains("Utrecht Centraal") })
         XCTAssertTrue(choices.contains { $0.mode == .bus })
         XCTAssertTrue(choices.contains { $0.mode == .tram })
+    }
+
+    /// NL GTFS has per-direction stop records with the same name; the
+    /// picker must show one row per (name, mode), not one per stop — the
+    /// Rokin scenario (two tram/bus platforms + two metro stops).
+    func testStationChoicesDeduplicateSameNameAndMode() throws {
+        let data = try GTFSStaticDataService.load(
+            stopsCSV: """
+            stop_id,stop_name,stop_lat,stop_lon
+            stop-1,"Amsterdam, Rokin",52.369,4.892
+            stop-2,"Amsterdam, Rokin",52.370,4.892
+            stop-3,"Amsterdam, Rokin",52.371,4.892
+            """,
+            routesCSV: "",
+            tripsCSV: "",
+            stopTimesCSV: "",
+            stopModesCSV: """
+            stop_id,route_types
+            stop-1,"0,3"
+            stop-2,"0,3"
+            stop-3,1
+            """
+        )
+        let choices = GTFSStaticDataService.stationChoices(from: data)
+        XCTAssertEqual(choices.count, 3)
+        // One row per mode; the lowest stop id represents the group.
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-1", name: "Amsterdam, Rokin", mode: .tram)))
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-1", name: "Amsterdam, Rokin", mode: .bus)))
+        XCTAssertTrue(choices.contains(StationChoice(id: "stop-3", name: "Amsterdam, Rokin", mode: .metro)))
     }
 
     // MARK: - Stop departures

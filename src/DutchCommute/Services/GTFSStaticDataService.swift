@@ -69,7 +69,6 @@ struct GTFSStaticData: Equatable {
             .filter { $0.tripID == tripID }
             .sorted { $0.stopSequence < $1.stopSequence }
     }
-
     /// The final stop of a trip (used as its destination).
     func destination(of trip: GTFSTrip) -> String {
         if let headsign = trip.headsign, !headsign.isEmpty { return headsign }
@@ -81,6 +80,14 @@ struct GTFSStaticData: Equatable {
 }
 
 // MARK: - Service
+
+/// The identity a stop choice is deduplicated by: NL GTFS has one stop
+/// record per direction/platform with a shared name, so the picker shows
+/// one row per (name, mode) instead of per stop.
+private struct StopIdentity: Hashable {
+    let name: String
+    let mode: TransportMode
+}
 
 /// Loads and parses static GTFS CSV files. Supports either the full
 /// four-file format (stops/routes/trips/stop_times) or the compact picker
@@ -267,14 +274,33 @@ enum GTFSStaticDataService {
     /// Every stop served by a known route, one choice per (stop, mode)
     /// pair, sorted by name — used by the station picker. Prefers the
     /// compact stop_modes data; derives from stop times otherwise.
+    ///
+    /// NL GTFS stops are per-direction: one location has several stop
+    /// records with the same name (one per platform/bay), so the picker
+    /// would otherwise show identical rows. Choices are deduplicated by
+    /// **(name, mode)** — one row per mode per name — and the first stop
+    /// id (sorted by name, then id) stands for the group.
     static func stationChoices(from data: GTFSStaticData) -> [StationChoice] {
         var choices: [StationChoice] = []
+        var seen = Set<StopIdentity>()
+        func add(_ stop: GTFSStop, _ mode: TransportMode) {
+            guard seen.insert(StopIdentity(name: stop.name, mode: mode)).inserted else { return }
+            choices.append(StationChoice(id: stop.id, name: stop.name, mode: mode))
+        }
         if !data.stopModes.isEmpty {
-            for (stopID, types) in data.stopModes {
+            // stopModes is a dictionary: iterate in a deterministic
+            // order so the stop id kept for a (name, mode) group does
+            // not depend on hash ordering.
+            let stopIDs = data.stopModes.keys.sorted { lhs, rhs in
+                let a = data.stops[lhs]?.name ?? ""
+                let b = data.stops[rhs]?.name ?? ""
+                return a == b ? lhs < rhs : a < b
+            }
+            for stopID in stopIDs {
                 guard let stop = data.stops[stopID] else { continue }
-                for type in types {
+                for type in data.stopModes[stopID]!.sorted() {
                     guard let mode = TransportMode(gtfsRouteType: type) else { continue }
-                    choices.append(StationChoice(id: stop.id, name: stop.name, mode: mode))
+                    add(stop, mode)
                 }
             }
         } else {
@@ -284,10 +310,7 @@ enum GTFSStaticDataService {
                       let mode = TransportMode(gtfsRouteType: route.routeType),
                       let stop = data.stops[stopTime.stopID]
                 else { continue }
-                let choice = StationChoice(id: stop.id, name: stop.name, mode: mode)
-                if !choices.contains(choice) {
-                    choices.append(choice)
-                }
+                add(stop, mode)
             }
         }
         return choices.sorted { $0.name < $1.name }

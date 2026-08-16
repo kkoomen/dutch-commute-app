@@ -1,16 +1,16 @@
 import Foundation
 
 /// A mode of public transport, shared by the NS API and GTFS providers.
-enum TransportMode: Equatable {
+enum TransportMode: Hashable {
     case train, bus, metro, tram, ferry
 
     /// Display name, e.g. "Train station".
     var label: String {
         switch self {
         case .train: String(localized: "Train station")
-        case .bus: String(localized: "Bus station")
+        case .bus: String(localized: "Bus stop")
         case .metro: String(localized: "Metro station")
-        case .tram: String(localized: "Tram station")
+        case .tram: String(localized: "Tram stop")
         case .ferry: String(localized: "Ferry station")
         }
     }

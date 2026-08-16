@@ -49,7 +49,11 @@ GTFSTransitDataService
   resource folder: `stops.txt` + `stop_modes.txt` (stop id → GTFS route
   types; rail excluded — NS covers trains) and `departures.bin.gz`
   (stop id → distinct departure minutes of day, gzip'd binary, ~5 MB).
-  ~55k stops. Regenerate with:
+  ~55k stops. NL GTFS stops are per-direction: one location has several
+  stop records sharing a name (one per platform/bay), so the picker
+  deduplicates choices by **(name, mode)** — one row per mode per name,
+  ~26k rows, with the lowest stop id standing for the group. Regenerate
+  with:
   extract `stops.txt`/`routes.txt`/`trips.txt`, stream `stop_times.txt`
   to collect (trip, stop) pairs, join trip → route → route_type,
   drop type 2, write `stop_modes.txt` (CSV-quoted) and a trimmed

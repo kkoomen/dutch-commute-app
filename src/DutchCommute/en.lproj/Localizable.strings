@@ -88,9 +88,9 @@
 "Cancelled" = "Cancelled";
 "Unknown" = "Unknown";
 "Train station" = "Train station";
-"Bus station" = "Bus station";
+"Bus stop" = "Bus stop";
 "Metro station" = "Metro station";
-"Tram station" = "Tram station";
+"Tram stop" = "Tram stop";
 "Ferry station" = "Ferry station";
 "Mon" = "Mon";
 "Tue" = "Tue";

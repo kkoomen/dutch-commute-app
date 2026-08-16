@@ -88,9 +88,9 @@
 "Cancelled" = "Rijdt niet";
 "Unknown" = "Onbekend";
 "Train station" = "Treinstation";
-"Bus station" = "Busstation";
+"Bus stop" = "Bushalte";
 "Metro station" = "Metrostation";
-"Tram station" = "Tramstation";
+"Tram stop" = "Tramhalte";
 "Ferry station" = "Veerbootstation";
 "Mon" = "Ma";
 "Tue" = "Di";
