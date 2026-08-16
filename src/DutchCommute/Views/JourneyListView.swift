@@ -9,8 +9,29 @@ struct JourneyListView: View {
     /// the app's theme.
     @AppStorage("appearance", store: UserDefaults(suiteName: AppGroup.identifier) ?? .standard)
     private var appearance = Appearance.system.rawValue
-    /// Set when the user swipes to delete; shown in a confirmation dialog.
+    /// Set when the user swipes to delete; shown in a bottom confirmation
+    /// sheet.
     @State private var journeyPendingDeletion: JourneyConfig?
+    /// Set when the user confirms deletion in the sheet; the deletion runs
+    /// in `onDismiss`, after the sheet has fully gone — removing the row
+    /// while the sheet is still dismissing (and its swipe action is
+    /// active) crashes SwiftUI's List bookkeeping.
+    @State private var journeyToDeleteAfterDismissal: JourneyConfig?
+
+    /// Opens the confirmation sheet for `journey`.
+    ///
+    /// The swipe action is still collapsing when its button action runs;
+    /// presenting the sheet right then makes SwiftUI's List drop the row
+    /// from the visible list even though the journey is not deleted (the
+    /// row only comes back after an app restart). Deferring the
+    /// presentation until the collapse animation has finished keeps the
+    /// row on screen until the user actually confirms deletion.
+    private func requestDeletion(of journey: JourneyConfig) {
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(400))
+            journeyPendingDeletion = journey
+        }
+    }
 
     /// What is shown right now (resolves `.system` against the environment).
     private var effectiveAppearance: Appearance {
@@ -43,16 +64,32 @@ struct JourneyListView: View {
                                 }
                                 .tint(Palette.primary)
                             }
+                            // Custom trailing action instead of `.onDelete`:
+                            // the system delete button removes the row the
+                            // moment it is tapped, before any confirmation.
+                            // This one only opens the confirmation sheet;
+                            // the journey is deleted there, on confirm.
+                            // `allowsFullSwipe: false` stops the swipe at
+                            // the revealed button — a full swipe must not
+                            // trigger anything by itself.
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                // Do not mark the swipe action destructive:
+                                // SwiftUI may remove the List row immediately
+                                // for destructive swipe buttons. The actual
+                                // destructive action lives in the confirmation
+                                // sheet.
+                                Button {
+                                    requestDeletion(of: journey)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                                .tint(.red)
+                            }
                     }
                     .onMove { source, destination in
                         var updated = state.journeys
                         updated.move(fromOffsets: source, toOffset: destination)
                         state.journeys = updated
-                    }
-                    .onDelete { offsets in
-                        if let index = offsets.first, state.journeys.indices.contains(index) {
-                            journeyPendingDeletion = state.journeys[index]
-                        }
                     }
                     } header: {
                         Text("Swipe right on a journey to make it active, swipe left to delete it, or tap a journey to view or edit it. The active journey will be visible on the lock screen widget.")
@@ -63,23 +100,15 @@ struct JourneyListView: View {
                 }
             }
         }
-        .confirmationDialog(
-            "Delete journey?",
-            isPresented: Binding(
-                get: { journeyPendingDeletion != nil },
-                set: { if !$0 { journeyPendingDeletion = nil } }
-            ),
-            presenting: journeyPendingDeletion
-        ) { journey in
-            Button("Delete", role: .destructive) {
-                state.deleteJourney(journey.id)
-                journeyPendingDeletion = nil
+        .sheet(item: $journeyPendingDeletion, onDismiss: {
+            if let pending = journeyToDeleteAfterDismissal {
+                journeyToDeleteAfterDismissal = nil
+                state.deleteJourney(pending.id)
             }
-            Button("Cancel", role: .cancel) {
-                journeyPendingDeletion = nil
+        }) { journey in
+            DeleteConfirmationSheet {
+                journeyToDeleteAfterDismissal = journey
             }
-        } message: { _ in
-            Text("This journey will be permanently removed.")
         }
         .navigationTitle("My journeys")
         .scrollContentBackground(.hidden)

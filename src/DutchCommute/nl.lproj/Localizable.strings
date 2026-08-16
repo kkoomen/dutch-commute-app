@@ -65,6 +65,7 @@
 "Delete journey?" = "Reis verwijderen?";
 "This journey will be permanently removed." = "Deze reis wordt permanent verwijderd.";
 "Delete" = "Verwijderen";
+"Delete journey" = "Verwijder reis";
 "Swipe right on a journey to make it active, swipe left to delete it, or tap a journey to view or edit it. The active journey will be visible on the lock screen widget." = "Veeg naar rechts op een reis om deze actief te maken, naar links om te verwijderen, of tik op een reis om deze te bekijken of te bewerken. De actieve reis is zichtbaar in de widget op het vergrendelscherm.";
 "No days" = "Geen dagen";
 "Active" = "Actief";

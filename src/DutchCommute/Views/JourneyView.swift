@@ -9,6 +9,12 @@ struct JourneyView: View {
     @State private var showLockScreenHelp = false
     @State private var showNearDepartureHelp = false
     @State private var showLiveActivityHelp = false
+    @State private var showDeleteConfirmation = false
+    /// Set when the user confirms deletion in the sheet; the deletion runs
+    /// in `onDismiss`, after the sheet has fully gone — removing the row
+    /// (and popping the navigation) while the sheet is still dismissing
+    /// crashes SwiftUI's bookkeeping.
+    @State private var journeyToDeleteAfterDismissal: JourneyConfig?
 
     /// Live Activity eligibility: both stops must be train stations.
     private var isLiveActivityEligible: Bool {
@@ -95,6 +101,15 @@ struct JourneyView: View {
                         helpAction: { showNearDepartureHelp = true }
                     )
                 }
+
+                Section {
+                    Button(role: .destructive) {
+                        showDeleteConfirmation = true
+                    } label: {
+                        Text("Delete journey")
+                            .frame(maxWidth: .infinity)
+                    }
+                }
                 .alert("Show near departure", isPresented: $showNearDepartureHelp) {
                     Button("Done", role: .cancel) {}
                 } message: {
@@ -112,6 +127,17 @@ struct JourneyView: View {
                     Button("Done", role: .cancel) {}
                 } message: {
                     Text(state.liveActivityMessage ?? "")
+                }
+            }
+            .sheet(isPresented: $showDeleteConfirmation, onDismiss: {
+                if let pending = journeyToDeleteAfterDismissal {
+                    journeyToDeleteAfterDismissal = nil
+                    state.deleteJourney(pending.id)
+                    state.path.removeLast()
+                }
+            }) {
+                DeleteConfirmationSheet {
+                    journeyToDeleteAfterDismissal = config
                 }
             }
             .sheet(isPresented: $showLockScreenHelp) {

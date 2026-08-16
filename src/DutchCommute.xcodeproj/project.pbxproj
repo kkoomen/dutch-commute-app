@@ -25,6 +25,7 @@
 		A1000000000000000000008C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002D /* SetupView.swift */; };
 		A1000000000000000000008D /* StationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002E /* StationPicker.swift */; };
 		A1000000000000000000008E /* JourneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000002F /* JourneyView.swift */; };
+		A10000000000000000000100 /* DeleteConfirmationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000101 /* DeleteConfirmationSheet.swift */; };
 		A10000000000000000000090 /* StatusMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000040 /* StatusMappingTests.swift */; };
 		A10000000000000000000091 /* JourneyScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000041 /* JourneyScheduleTests.swift */; };
 		A10000000000000000000092 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000042 /* DecodingTests.swift */; };
@@ -127,6 +128,7 @@
 		A1000000000000000000002D /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		A1000000000000000000002E /* StationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationPicker.swift; sourceTree = "<group>"; };
 		A1000000000000000000002F /* JourneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyView.swift; sourceTree = "<group>"; };
+		A10000000000000000000101 /* DeleteConfirmationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationSheet.swift; sourceTree = "<group>"; };
 		A10000000000000000000032 /* ../.env */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../.env; sourceTree = "<group>"; };
 		A10000000000000000000033 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		A10000000000000000000040 /* StatusMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMappingTests.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				A1000000000000000000002E /* StationPicker.swift */,
 				A1000000000000000000002F /* JourneyView.swift */,
 				A1000000000000000000004D /* JourneyListView.swift */,
+				A10000000000000000000101 /* DeleteConfirmationSheet.swift */,
 				A100000000000000000000D2 /* LoadingView.swift */,
 				A100000000000000000000D6 /* StationRouteView.swift */,
 			);
@@ -567,6 +570,7 @@
 				A1000000000000000000008C /* SetupView.swift in Sources */,
 				A1000000000000000000008D /* StationPicker.swift in Sources */,
 				A1000000000000000000008E /* JourneyView.swift in Sources */,
+				A10000000000000000000100 /* DeleteConfirmationSheet.swift in Sources */,
 				A1000000000000000000009C /* JourneyListView.swift in Sources */,
 				A1000000000000000000009D /* TripsSearchCache.swift in Sources */,
 				A100000000000000000000CF /* Palette.swift in Sources */,
