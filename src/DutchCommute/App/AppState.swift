@@ -33,6 +33,10 @@ final class AppState {
     private var railStopIDsByName: [String: String] = [:]
     /// Recently picked stations, shared between the From and To pickers.
     var stationHistory: [Station] = []
+    /// Transient user-facing message about the last Live Activity start
+    /// attempt (e.g. Live Activities disabled in Settings); shown as an
+    /// alert in the journey view.
+    var liveActivityMessage: String?
 
     private let stationHistoryKey = "stationHistory"
 
@@ -103,7 +107,9 @@ final class AppState {
     }
 
     /// Toggles the Live Activity for a journey (persisted; the activity is
-    /// started/ended accordingly).
+    /// started/ended accordingly). Turning it on starts the activity
+    /// immediately (even inside the near-departure wait window) and
+    /// reports start failures to the user.
     func setShowsLiveActivity(_ id: UUID, shows: Bool) {
         guard let index = journeys.firstIndex(where: { $0.id == id }) else { return }
         journeys[index].showsLiveActivity = shows
@@ -111,7 +117,11 @@ final class AppState {
             journeys[index].showsNearDeparture = false
         }
         persistAndReloadWidgets()
-        applyLiveActivities()
+        if shows {
+            applyLiveActivities(forceStart: true, reportErrors: true)
+        } else {
+            applyLiveActivities()
+        }
     }
 
     /// Toggles near-departure-only Live Activity mode.
@@ -123,10 +133,21 @@ final class AppState {
     }
 
     /// Reconciles running Live Activities with the current journeys.
-    func applyLiveActivities() {
+    /// - Parameter forceStart: start the active journey's activity right
+    ///   away, overriding the near-departure wait window.
+    /// - Parameter reportErrors: surface a failed start (e.g. Live
+    ///   Activities disabled in Settings) in `liveActivityMessage`.
+    func applyLiveActivities(forceStart: Bool = false, reportErrors: Bool = false) {
         Task { @MainActor in
             await loadStationChoices()
-            await LiveActivityManager.apply(journeys: journeys, choices: stationChoices)
+            let message = await LiveActivityManager.apply(
+                journeys: journeys,
+                choices: stationChoices,
+                forceStart: forceStart
+            )
+            if reportErrors {
+                liveActivityMessage = message
+            }
         }
     }
 

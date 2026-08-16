@@ -105,6 +105,14 @@ struct JourneyView: View {
                 } message: {
                     Text("Only available for journeys between two train stations.")
                 }
+                .alert("Show live activity", isPresented: Binding(
+                    get: { state.liveActivityMessage != nil },
+                    set: { if !$0 { state.liveActivityMessage = nil } }
+                )) {
+                    Button("Done", role: .cancel) {}
+                } message: {
+                    Text(state.liveActivityMessage ?? "")
+                }
             }
             .sheet(isPresented: $showLockScreenHelp) {
                 LockScreenHelpView()

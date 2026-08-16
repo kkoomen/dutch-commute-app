@@ -5,6 +5,10 @@ import Foundation
 struct JourneyActivityAttributes: ActivityAttributes {
     /// Dynamic, updatable state.
     public struct ContentState: Codable, Hashable {
+        /// Route/train name shown on the activity, e.g. "IC 1234"
+        /// (dynamic — the planned placeholder is replaced once the live
+        /// leg info arrives, because ActivityKit attributes are immutable).
+        var routeName: String
         /// Shown departure time (actual when known, else planned).
         var departureTime: Date
         /// Status text, e.g. "On time", "+5 min", "Cancelled".

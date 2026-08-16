@@ -47,6 +47,9 @@
 "Show near departure" = "Toon vlak voor vertrek";
 "Turn this on to start the Live Activity 1 hour before departure." = "Zet dit aan om de Live Activiteit 1 uur voor vertrek te starten.";
 "Unavailable" = "Niet beschikbaar";
+"Train" = "Trein";
+"Live Activities are turned off on this iPhone. Enable them in Settings → Face ID & Passcode → Live Activities." = "Live-activiteiten zijn uitgeschakeld op deze iPhone. Zet ze aan in Instellingen → Face ID en toegangscode → Live-activiteiten.";
+"The Live Activity could not be started right now. Please try again." = "De Live Activiteit kon nu niet worden gestart. Probeer het opnieuw.";
 "Read here how to add this widget to your lockscreen." = "Lees hier hoe je dit widget aan je vergrendelscherm toevoegt.";
 "Add widget" = "Widget toevoegen";
 "Press and hold the Lock Screen, then tap Customize." = "Houd het vergrendelscherm ingedrukt en tik op “Aanpassen”.";

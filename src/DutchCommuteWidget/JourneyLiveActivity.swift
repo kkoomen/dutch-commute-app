@@ -10,7 +10,7 @@ struct JourneyLiveActivityView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text("🚆 \(context.attributes.routeName)")
+                Text("🚆 \(context.state.routeName)")
                     .font(.headline)
                 Spacer()
                 if context.state.isStale {
@@ -50,7 +50,7 @@ struct JourneyLiveActivity: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("🚆 \(context.attributes.routeName)")
+                    Text("🚆 \(context.state.routeName)")
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Text(context.state.departureTime, style: .time)

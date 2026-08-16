@@ -47,6 +47,9 @@
 "Show near departure" = "Show near departure";
 "Turn this on to start the Live Activity 1 hour before departure." = "Turn this on to start the Live Activity 1 hour before departure.";
 "Unavailable" = "Unavailable";
+"Train" = "Train";
+"Live Activities are turned off on this iPhone. Enable them in Settings → Face ID & Passcode → Live Activities." = "Live Activities are turned off on this iPhone. Enable them in Settings → Face ID & Passcode → Live Activities.";
+"The Live Activity could not be started right now. Please try again." = "The Live Activity could not be started right now. Please try again.";
 "Read here how to add this widget to your lockscreen." = "Read here how to add this widget to your lockscreen.";
 "Add widget" = "Add widget";
 "Press and hold the Lock Screen, then tap Customize." = "Press and hold the Lock Screen, then tap Customize.";

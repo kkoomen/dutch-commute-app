@@ -182,4 +182,20 @@ final class LiveActivityTests: XCTestCase {
         let now = Date(timeIntervalSince1970: 1_000)
         XCTAssertEqual(LiveActivityManager.staleDate(now: now), now.addingTimeInterval(5 * 60))
     }
+
+    // MARK: - Content state (push contract)
+
+    func testContentStateRoundTripsWithRouteName() throws {
+        let state = JourneyActivityAttributes.ContentState(
+            routeName: "IC 1234",
+            departureTime: Date(timeIntervalSince1970: 1_720_000_000),
+            status: "+5 min",
+            isCancelled: false,
+            lastUpdate: Date(timeIntervalSince1970: 1_720_000_000),
+            isStale: false
+        )
+        let data = try JSONEncoder().encode(state)
+        let decoded = try JSONDecoder().decode(JourneyActivityAttributes.ContentState.self, from: data)
+        XCTAssertEqual(decoded, state)
+    }
 }

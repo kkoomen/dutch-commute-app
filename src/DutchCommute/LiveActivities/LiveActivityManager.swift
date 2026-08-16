@@ -7,9 +7,13 @@ import Foundation
 /// - Only the **active** journey may run an activity.
 /// - `showsLiveActivity` off → never start; any existing activity ends.
 /// - Both endpoints must be train stations (see `isEligible`).
-/// - `showsNearDeparture` on → the activity only runs from one hour
-///   before the next departure until the journey ends; off → the full
-///   journey period.
+/// - The activity is requested immediately with planned content and then
+///   refreshed with live data, so it appears on the Lock Screen as soon
+///   as the toggle is turned on.
+/// - `showsNearDeparture` on → an activity only auto-starts from one
+///   hour before the next departure until the journey ends; off → the
+///   full journey period. Turning the toggle on force-starts it right
+///   away and keeps it running.
 /// - The activity ends when the journey ends, when it is deleted,
 ///   deactivated, disabled, or when the train is cancelled.
 enum LiveActivityManager {
@@ -77,12 +81,19 @@ enum LiveActivityManager {
     private static let updateClient: LiveActivityUpdateClient = NoopLiveActivityUpdateClient()
 
     /// Reconciles running activities with the current journeys.
+    ///
+    /// - Parameter forceStart: Start the activity immediately even when
+    ///   near-departure mode would wait for the departure window (used
+    ///   when the user turns "Show live activity" on).
+    /// - Returns: A user-facing message when an attempted start failed
+    ///   (e.g. Live Activities disabled in Settings); nil otherwise.
     static func apply(
         journeys: [JourneyConfig],
         choices: [StationChoice],
         now: Date = Date(),
-        calendar: Calendar = JourneySchedule.calendar
-    ) async {
+        calendar: Calendar = JourneySchedule.calendar,
+        forceStart: Bool = false
+    ) async -> String? {
         let activeID = journeys.first(where: \.isActive)?.id
 
         // End everything that should not exist.
@@ -92,25 +103,62 @@ enum LiveActivityManager {
             }
         }
 
-        guard let active = journeys.first(where: \.isActive) else { return }
+        guard let active = journeys.first(where: \.isActive) else { return nil }
         switch decision(for: active, choices: choices, now: now, calendar: calendar) {
         case .none:
             if let activity = activity(for: active.id) {
                 await end(activity, tokenStoreDelete: true)
             }
+            return nil
         case .waitUntil(let start):
-            if let activity = activity(for: active.id) {
-                await end(activity, tokenStoreDelete: true)
+            if forceStart || activity(for: active.id) != nil {
+                // The user asked to show it now, or an activity is already
+                // running: start/keep it instead of waiting for the
+                // near-departure window.
+                return await startOrRefresh(journey: active, choices: choices, now: now, calendar: calendar)
             }
             scheduleStart(at: start, journeys: journeys, choices: choices)
+            return nil
         case .run(let startDate, let endDate, let leg):
+            let message: String?
             if let activity = activity(for: active.id) {
                 await refresh(activity, journey: active, leg: leg, at: startDate, now: now)
+                message = nil
             } else {
-                await start(activity: active, leg: leg, at: startDate, now: now)
+                message = await start(journey: active, leg: leg, at: startDate, now: now)
             }
             scheduleEnd(at: endDate, journeyID: active.id)
+            return message
         }
+    }
+
+    /// Starts (or refreshes, when already running) the activity for the
+    /// active journey's upcoming leg.
+    private static func startOrRefresh(
+        journey: JourneyConfig,
+        choices: [StationChoice],
+        now: Date,
+        calendar: Calendar
+    ) async -> String? {
+        guard let info = upcomingDeparture(for: journey, now: now, calendar: calendar) else { return nil }
+        if let activity = activity(for: journey.id) {
+            await refresh(activity, journey: journey, leg: info.leg, at: info.departure, now: now)
+            return nil
+        }
+        return await start(journey: journey, leg: info.leg, at: info.departure, now: now)
+    }
+
+    /// The upcoming leg and its departure for a journey at a given time
+    /// (nil when no journey date exists).
+    private static func upcomingDeparture(
+        for journey: JourneyConfig,
+        now: Date,
+        calendar: Calendar
+    ) -> (leg: LegKind, departure: Date)? {
+        guard let journeyDate = JourneySchedule.nextJourneyDate(now: now, config: journey, calendar: calendar) else { return nil }
+        let times = JourneySchedule.legTimes(on: journeyDate, config: journey, calendar: calendar)
+        let leg = JourneySchedule.upcomingLeg(now: now, outbound: times.outbound, returnLeg: times.return)
+        return (leg, leg == .outbound ? times.outbound : times.return)
     }
 
     /// Ends every running activity (e.g. on logout/first launch cleanup).
@@ -122,26 +170,43 @@ enum LiveActivityManager {
 
     // MARK: - Start / update / end
 
-    private static func start(activity journey: JourneyConfig, leg: LegKind, at departure: Date, now: Date) async {
-        // Fetch the leg's train so the attributes carry the route name.
+    /// Requests the activity immediately with planned content, then
+    /// upgrades it with live data as soon as the fetch completes.
+    /// Returns a user-facing message when the activity cannot be started
+    /// (e.g. Live Activities disabled in Settings).
+    private static func start(
+        journey: JourneyConfig,
+        leg: LegKind,
+        at departure: Date,
+        now: Date
+    ) async -> String? {
+        // Activity.request still succeeds when the user disabled Live
+        // Activities globally — check the authorization explicitly so the
+        // toggle can tell the user why nothing appears.
+        guard ActivityAuthorizationInfo().areActivitiesEnabled else {
+            return String(localized: "Live Activities are turned off on this iPhone. Enable them in Settings → Face ID & Passcode → Live Activities.")
+        }
         let from = leg == .outbound ? journey.from : journey.to
         let to = leg == .outbound ? journey.to : journey.from
-        let legInfo = await fetchLeg(from: from, to: to, at: departure)
 
+        // Request with the planned content first so the activity appears
+        // on the Lock Screen immediately; the live fetch below replaces
+        // the placeholder route name and status when it returns.
         let attributes = JourneyActivityAttributes(
             journeyID: journey.id,
-            routeName: legInfo.routeName,
+            routeName: String(localized: "Train"),
             fromName: journey.from.name,
             toName: journey.to.name,
-            destination: legInfo.destination,
+            destination: to.name,
             scheduledDeparture: departure
         )
         let initialState = JourneyActivityAttributes.ContentState(
-            departureTime: legInfo.displayedDeparture,
-            status: legInfo.status,
-            isCancelled: legInfo.isCancelled,
+            routeName: String(localized: "Train"),
+            departureTime: departure,
+            status: String(localized: "Unknown"),
+            isCancelled: false,
             lastUpdate: now,
-            isStale: legInfo.isStale
+            isStale: true
         )
         let content = ActivityContent(state: initialState, staleDate: Self.staleDate(now: now))
 
@@ -152,12 +217,12 @@ enum LiveActivityManager {
                 pushType: .token
             )
             observePushTokens(activity)
-            if legInfo.isCancelled {
-                // Show the cancellation briefly, then end.
-                await end(activity, tokenStoreDelete: true, after: 2 * 60)
-            }
+            // Best-effort live data; on failure the planned content stays
+            // (marked stale) and the activity remains visible.
+            await refresh(activity, journey: journey, leg: leg, at: departure, now: now)
+            return nil
         } catch {
-            // Starting failed (e.g. permission denied or budget) — nothing to do.
+            return String(localized: "The Live Activity could not be started right now. Please try again.")
         }
     }
 
@@ -173,6 +238,7 @@ enum LiveActivityManager {
         let legInfo = await fetchLeg(from: from, to: to, at: departure)
 
         let state = JourneyActivityAttributes.ContentState(
+            routeName: legInfo.routeName,
             departureTime: legInfo.displayedDeparture,
             status: legInfo.status,
             isCancelled: legInfo.isCancelled,
