@@ -33,9 +33,4 @@ enum Appearance: String, CaseIterable, Identifiable {
         case .dark: "moon.fill"
         }
     }
-
-    /// What is actually shown, resolving `.system` against the environment.
-    static func effective(_ preference: Appearance, colorScheme: ColorScheme) -> Appearance {
-        preference == .system ? (colorScheme == .dark ? .dark : .light) : preference
-    }
 }

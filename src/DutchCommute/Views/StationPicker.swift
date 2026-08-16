@@ -134,6 +134,16 @@ struct StationPickerSheet: View {
                                 mode: state.stationChoices.first { $0.id == station.code }?.mode
                             )
                         }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            // Keep this as a regular button. The row must
+                            // disappear only after the user taps Delete.
+                            Button {
+                                state.removeFromStationHistory(station)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            .tint(.red)
+                        }
                     }
                 }
             }

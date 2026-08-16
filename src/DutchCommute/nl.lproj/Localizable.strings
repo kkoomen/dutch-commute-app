@@ -69,6 +69,11 @@
 "Swipe right on a journey to make it active, swipe left to delete it, or tap a journey to view or edit it. The active journey will be visible on the lock screen widget." = "Veeg naar rechts op een reis om deze actief te maken, naar links om te verwijderen, of tik op een reis om deze te bekijken of te bewerken. De actieve reis is zichtbaar in de widget op het vergrendelscherm.";
 "No days" = "Geen dagen";
 "Active" = "Actief";
+"Live" = "Live";
+
+/* App UI — SettingsView */
+"Settings" = "Instellingen";
+"General" = "Algemeen";
 
 /* Appearance */
 "System" = "Systeem";

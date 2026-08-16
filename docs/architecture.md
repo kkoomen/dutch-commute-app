@@ -18,15 +18,18 @@ The app and widget share the App Group `group.com.dutchcommute.app`
 `JourneySchedule`, `NSDateParsing`, `NSAPIClient`, `APIKey`, `ConfigStore`,
 `Palette` (`Design/Palette.swift`).
 Widget-only: `DutchCommuteWidgetBundle`, `JourneyWidget` (TimelineProvider +
-views). App-only: app state, views, tests, `PrimaryButtonStyle`.
+views). App-only: app state, views (`RootView`, `JourneyListView`,
+`JourneyView`, `SetupView`, `SettingsView`, …), tests,
+`PrimaryButtonStyle`.
 
 GTFS-Realtime support (app target only): `Domain/Departure`,
 `Domain/ServiceAlert`, `Networking/GTFSRealtime/*` (SwiftProtobuf package
 `swift-protobuf`) and `Services/*` — see `docs/gtfs-realtime.md`.
 
 Live Activities (`LiveActivities/` in the app target, rendering config in
-`DutchCommuteWidget/JourneyLiveActivity.swift`): only the active journey
-may run one; `LiveActivityManager` decides start/update/end,
+`DutchCommuteWidget/JourneyLiveActivity.swift`): the journey with its Live
+Activity toggle enabled may run one, independently from the active journey;
+`LiveActivityManager` decides start/update/end,
 `LiveActivityPushTokenStore` keeps push tokens in the Keychain,
 `LiveActivityUpdateClient` is the (unimplemented) push backend seam —
 see `docs/live-activities.md`.

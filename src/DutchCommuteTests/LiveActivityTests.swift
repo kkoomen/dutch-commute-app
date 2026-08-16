@@ -82,9 +82,20 @@ final class LiveActivityTests: XCTestCase {
 
     // MARK: - Decision
 
-    func testInactiveJourneyNeverRuns() {
-        let config = journey(from: utrecht, to: amsterdam, isActive: false)
-        XCTAssertEqual(LiveActivityManager.decision(for: config, choices: trainChoices, now: now), .none)
+    /// `isActive` (the Lock Screen widget choice) must not influence the
+    /// Live Activity decision: the activity follows `showsLiveActivity`
+    /// alone, so the same journey decides identically whether it is the
+    /// active one or not.
+    func testLiveActivityDecisionIgnoresIsActive() {
+        let active = journey(from: utrecht, to: amsterdam, isActive: true)
+        let inactive = journey(from: utrecht, to: amsterdam, isActive: false)
+        XCTAssertEqual(
+            LiveActivityManager.decision(for: active, choices: trainChoices, now: now),
+            LiveActivityManager.decision(for: inactive, choices: trainChoices, now: now)
+        )
+        guard case .run = LiveActivityManager.decision(for: inactive, choices: trainChoices, now: now) else {
+            return XCTFail("live activity should not require lock screen activation")
+        }
     }
 
     func testDisabledLiveActivityNeverRuns() {
@@ -136,12 +147,11 @@ final class LiveActivityTests: XCTestCase {
         XCTAssertEqual(end, times.return)
     }
 
-    func testOnlyTheActiveJourneyRuns() {
-        let active = journey(from: utrecht, to: amsterdam, isActive: true)
-        let other = journey(from: utrecht, to: amsterdam, isActive: false, showsLiveActivity: true)
-        let decisions = [active, other].map { LiveActivityManager.decision(for: $0, choices: trainChoices, now: now) }
-        guard case .run = decisions[0] else { return XCTFail("active journey should run") }
-        XCTAssertEqual(decisions[1], .none)
+    func testNonActiveJourneyCanRunLiveActivity() {
+        let config = journey(from: utrecht, to: amsterdam, isActive: false, showsLiveActivity: true)
+        guard case .run = LiveActivityManager.decision(for: config, choices: trainChoices, now: now) else {
+            return XCTFail("live activity should not require lock screen activation")
+        }
     }
 
     // MARK: - Toggle state behavior (AppState)
@@ -165,6 +175,58 @@ final class LiveActivityTests: XCTestCase {
         // Persisted in the shared store.
         XCTAssertEqual(store.load().first?.showsLiveActivity, false)
         XCTAssertEqual(store.load().first?.showsNearDeparture, false)
+    }
+
+    /// Enabling "Show live activity" must not change the Lock Screen journey.
+    func testEnablingLiveActivityDoesNotChangeJourneyActiveState() throws {
+        let store = ConfigStore(defaults: UserDefaults(suiteName: "live-activity-tests-\(UUID().uuidString)")!)
+        let state = AppState(store: store)
+        var other = journey(from: utrecht, to: amsterdam, isActive: true)
+        other.showsLiveActivity = false
+        state.addJourney(other)
+        var config = journey(from: utrecht, to: amsterdam, isActive: false)
+        config.showsLiveActivity = false
+        state.addJourney(config)
+
+        state.setShowsLiveActivity(config.id, shows: true)
+
+        XCTAssertTrue(state.journeys.first(where: { $0.id == config.id })?.showsLiveActivity == true)
+        XCTAssertFalse(state.journeys.first(where: { $0.id == config.id })?.isActive == true)
+        XCTAssertTrue(state.journeys.first(where: { $0.id == other.id })?.isActive == true)
+        XCTAssertFalse(state.journeys.first(where: { $0.id == other.id })?.showsLiveActivity == true)
+
+        // Persisted in the shared store.
+        XCTAssertEqual(store.load().first(where: { $0.id == config.id })?.isActive, false)
+        XCTAssertEqual(store.load().first(where: { $0.id == other.id })?.isActive, true)
+    }
+
+    func testEnablingLiveActivityDisablesItForOtherJourneys() throws {
+        let store = ConfigStore(defaults: UserDefaults(suiteName: "live-activity-tests-\(UUID().uuidString)")!)
+        let state = AppState(store: store)
+        var first = journey(from: utrecht, to: amsterdam, isActive: true)
+        first.showsLiveActivity = true
+        state.addJourney(first)
+        let second = journey(from: utrecht, to: amsterdam, isActive: false)
+        state.addJourney(second)
+
+        state.setShowsLiveActivity(second.id, shows: true)
+
+        XCTAssertFalse(state.journeys.first(where: { $0.id == first.id })?.showsLiveActivity == true)
+        XCTAssertTrue(state.journeys.first(where: { $0.id == second.id })?.showsLiveActivity == true)
+    }
+
+    /// Turning the activity off must not change the active-journey state.
+    func testDisablingLiveActivityKeepsJourneyActive() throws {
+        let store = ConfigStore(defaults: UserDefaults(suiteName: "live-activity-tests-\(UUID().uuidString)")!)
+        let state = AppState(store: store)
+        var config = journey(from: utrecht, to: amsterdam, isActive: true)
+        config.showsLiveActivity = false
+        state.addJourney(config)
+
+        state.setShowsLiveActivity(config.id, shows: false)
+
+        XCTAssertFalse(state.journeys[0].showsLiveActivity)
+        XCTAssertTrue(state.journeys[0].isActive)
     }
 
     // MARK: - Cancellation and stale data

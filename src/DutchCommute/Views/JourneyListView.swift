@@ -4,11 +4,6 @@ import SwiftUI
 /// grip on the left of each card.
 struct JourneyListView: View {
     @Environment(AppState.self) private var state
-    @Environment(\.colorScheme) private var colorScheme
-    /// Shared with the widget extension so the Live Activity can follow
-    /// the app's theme.
-    @AppStorage("appearance", store: UserDefaults(suiteName: AppGroup.identifier) ?? .standard)
-    private var appearance = Appearance.system.rawValue
     /// Set when the user swipes to delete; shown in a bottom confirmation
     /// sheet.
     @State private var journeyPendingDeletion: JourneyConfig?
@@ -31,11 +26,6 @@ struct JourneyListView: View {
             try? await Task.sleep(for: .milliseconds(400))
             journeyPendingDeletion = journey
         }
-    }
-
-    /// What is shown right now (resolves `.system` against the environment).
-    private var effectiveAppearance: Appearance {
-        Appearance.effective(Appearance(rawValue: appearance) ?? .system, colorScheme: colorScheme)
     }
 
     var body: some View {
@@ -61,6 +51,7 @@ struct JourneyListView: View {
                                     state.setJourneyActive(journey.id, active: true)
                                 } label: {
                                     Label("Activate", systemImage: "lock.fill")
+                                        .labelStyle(.titleAndIcon)
                                 }
                                 .tint(Palette.primary)
                             }
@@ -82,6 +73,7 @@ struct JourneyListView: View {
                                     requestDeletion(of: journey)
                                 } label: {
                                     Label("Delete", systemImage: "trash")
+                                        .labelStyle(.titleAndIcon)
                                 }
                                 .tint(.red)
                             }
@@ -114,19 +106,6 @@ struct JourneyListView: View {
         .scrollContentBackground(.hidden)
         .background(Palette.background)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Menu {
-                    Picker("Appearance", selection: $appearance) {
-                        ForEach(Appearance.allCases) { mode in
-                            Label(mode.label, systemImage: mode.icon)
-                                .tag(mode.rawValue)
-                        }
-                    }
-                } label: {
-                    Image(systemName: effectiveAppearance == .dark ? "moon.fill" : "sun.max.fill")
-                }
-                .accessibilityLabel("Appearance")
-            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     state.path.append(.setup(nil))
@@ -134,6 +113,15 @@ struct JourneyListView: View {
                     Image(systemName: "plus")
                 }
                 .accessibilityLabel("Add journey")
+            }
+            // Declared after the "+" button so it sits to its left.
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    state.path.append(.settings)
+                } label: {
+                    Image(systemName: "gearshape")
+                }
+                .accessibilityLabel("Settings")
             }
         }
         .onChange(of: state.journeys) { _, _ in
@@ -165,6 +153,11 @@ private struct JourneyCard: View {
                     .foregroundStyle(Palette.textSecondary)
                 if journey.isActive {
                     Text("Active")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Palette.primary)
+                }
+                if journey.showsLiveActivity {
+                    Text("Live")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Palette.primary)
                 }

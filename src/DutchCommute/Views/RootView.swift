@@ -17,6 +17,8 @@ struct RootView: View {
                         SetupView(prefill: id.flatMap { id in
                             state.journeys.first(where: { $0.id == id })
                         })
+                    case .settings:
+                        SettingsView()
                     }
                 }
         }

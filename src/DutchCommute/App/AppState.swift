@@ -6,6 +6,7 @@ import WidgetKit
 enum JourneyRoute: Hashable {
     case journey(UUID)
     case setup(UUID?) // nil = new journey
+    case settings
 }
 
 /// Shared app state: journeys, navigation, station list, API client.
@@ -79,6 +80,14 @@ final class AppState {
         }
     }
 
+    /// Removes a station from the shared picker history and persists it.
+    func removeFromStationHistory(_ station: Station) {
+        stationHistory.removeAll { $0 == station }
+        if let data = try? JSONEncoder().encode(stationHistory) {
+            UserDefaults.standard.set(data, forKey: stationHistoryKey)
+        }
+    }
+
     func addJourney(_ journey: JourneyConfig) {
         journeys.insert(journey, at: 0)
         persistAndReloadWidgets()
@@ -122,14 +131,25 @@ final class AppState {
         applyLiveActivities()
     }
 
-    /// Toggles the Live Activity for a journey (persisted; the activity is
-    /// started/ended accordingly). Turning it on starts the activity
-    /// immediately (even inside the near-departure wait window) and
-    /// reports start failures to the user.
+    /// Toggles the Live Activity for a journey independently from the active
+    /// Lock Screen journey. Turning it on starts the activity immediately
+    /// (even inside the near-departure wait window), reporting start failures
+    /// to the user.
     func setShowsLiveActivity(_ id: UUID, shows: Bool) {
         guard let index = journeys.firstIndex(where: { $0.id == id }) else { return }
-        journeys[index].showsLiveActivity = shows
-        if !shows {
+        if shows {
+            // Only one journey can own the Live Activity. This is separate
+            // from `isActive`, which controls the Lock Screen widget.
+            journeys = journeys.map { journey in
+                var copy = journey
+                copy.showsLiveActivity = journey.id == id
+                if journey.id != id {
+                    copy.showsNearDeparture = false
+                }
+                return copy
+            }
+        } else {
+            journeys[index].showsLiveActivity = false
             journeys[index].showsNearDeparture = false
         }
         persistAndReloadWidgets()

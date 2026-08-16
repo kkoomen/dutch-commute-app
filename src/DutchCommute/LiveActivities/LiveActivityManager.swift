@@ -4,7 +4,7 @@ import Foundation
 /// Starts, updates and ends the journey Live Activity.
 ///
 /// Rules:
-/// - Only the **active** journey may run an activity.
+/// - The journey with `showsLiveActivity` enabled may run an activity.
 /// - `showsLiveActivity` off → never start; any existing activity ends.
 /// - Both endpoints must be train stations (see `isEligible`).
 /// - The activity is requested immediately with planned content and then
@@ -18,7 +18,7 @@ import Foundation
 ///   deactivated, disabled, or when the train is cancelled.
 enum LiveActivityManager {
     enum Decision: Equatable {
-        /// Inactive, disabled, ineligible, or no journey date.
+        /// Disabled, ineligible, or no journey date.
         case none
         /// Near-departure mode: start the activity at this date.
         case waitUntil(Date)
@@ -43,7 +43,7 @@ enum LiveActivityManager {
         now: Date,
         calendar: Calendar = JourneySchedule.calendar
     ) -> Decision {
-        guard journey.isActive, journey.showsLiveActivity, isEligible(journey, choices: choices) else {
+        guard journey.showsLiveActivity, isEligible(journey, choices: choices) else {
             return .none
         }
         guard let journeyDate = JourneySchedule.nextJourneyDate(now: now, config: journey, calendar: calendar) else {
@@ -136,40 +136,44 @@ enum LiveActivityManager {
         calendar: Calendar = JourneySchedule.calendar,
         forceStart: Bool = false
     ) async -> String? {
-        let activeID = journeys.first(where: \.isActive)?.id
+        // Live Activity selection is independent from the Lock Screen widget.
+        // Keep one activity, choosing the first journey with the activity
+        // toggle enabled.
+        let liveActivityJourney = journeys.first(where: \.showsLiveActivity)
+        let liveActivityID = liveActivityJourney?.id
 
         // End everything that should not exist.
         for activity in Activity<JourneyActivityAttributes>.activities {
-            if activity.attributes.journeyID != activeID {
+            if activity.attributes.journeyID != liveActivityID {
                 await end(activity, tokenStoreDelete: true)
             }
         }
 
-        guard let active = journeys.first(where: \.isActive) else { return nil }
-        switch decision(for: active, choices: choices, now: now, calendar: calendar) {
+        guard let journey = liveActivityJourney else { return nil }
+        switch decision(for: journey, choices: choices, now: now, calendar: calendar) {
         case .none:
-            if let activity = activity(for: active.id) {
+            if let activity = activity(for: journey.id) {
                 await end(activity, tokenStoreDelete: true)
             }
             return nil
         case .waitUntil(let start):
-            if forceStart || activity(for: active.id) != nil {
+            if forceStart || activity(for: journey.id) != nil {
                 // The user asked to show it now, or an activity is already
                 // running: start/keep it instead of waiting for the
                 // near-departure window.
-                return await startOrRefresh(journey: active, choices: choices, now: now, calendar: calendar)
+                return await startOrRefresh(journey: journey, choices: choices, now: now, calendar: calendar)
             }
             scheduleStart(at: start, journeys: journeys, choices: choices)
             return nil
         case .run(let startDate, let endDate, let leg):
             let message: String?
-            if let activity = activity(for: active.id) {
-                await refresh(activity, journey: active, leg: leg, at: startDate, now: now)
+            if let activity = activity(for: journey.id) {
+                await refresh(activity, journey: journey, leg: leg, at: startDate, now: now)
                 message = nil
             } else {
-                message = await start(journey: active, leg: leg, at: startDate, now: now)
+                message = await start(journey: journey, leg: leg, at: startDate, now: now)
             }
-            scheduleEnd(at: endDate, journeyID: active.id)
+            scheduleEnd(at: endDate, journeyID: journey.id)
             return message
         }
     }

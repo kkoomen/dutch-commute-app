@@ -38,11 +38,13 @@ Every role adapts to the current color scheme (light / dark):
 
 - Defaults to **System**: the app follows the device setting (dark system →
   dark app, light system → light app).
-- The home screen's top bar has a sun/moon button (sun in light appearance,
-  moon in dark) that opens a menu: System / Light / Dark. The choice is
-  persisted and applied via `preferredColorScheme` in `DutchCommuteApp`.
-- The widget extension always follows the system setting (it has no access
-  to the app's override).
+- The choice is made in the **Settings** page (gear icon, top right): an
+  Appearance picker (System / Light / Dark) in its General section.
+- The choice is persisted via `AppStorage("appearance", store: …)` in the
+  shared App Group suite and applied via `preferredColorScheme` in
+  `DutchCommuteApp`.
+- The Live Activity follows the app's explicit choice; the regular widget
+  views use adaptive `Palette` colors.
 
 ## Rules
 

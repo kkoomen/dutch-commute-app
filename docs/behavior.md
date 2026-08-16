@@ -7,9 +7,18 @@
 2. Default order: **most recently created first**. The user can reorder by
    dragging the grip on the left of each card; the manual order is persisted
    and wins over the creation-time sort.
-3. "+" adds a new journey; tapping a card opens that journey; swipe deletes.
+3. "+" adds a new journey; the gear icon next to it (to its left) opens
+   **Settings**; tapping a card opens that journey; swipe deletes.
 4. Editing a journey keeps its `id` and `createdAt`; only route/times/days
    change.
+
+## Settings
+
+The gear icon on My journeys (top right, left of "+") opens the settings
+page, which contains a single **General** section:
+
+- **Appearance** — System / Light / Dark switch, the single place to change
+the theme (see `docs/design.md`).
 
 ## Journey detail page
 
@@ -139,10 +148,11 @@ Given the config and the API response, pick the train to show:
 
 The journey detail page has two extra toggles below "Show on lockscreen":
 
-- **Show live activity** — starts a Live Activity for the journey. Only
-  available (and only enabled) when both endpoints are train stations;
-  the toggle is disabled otherwise. Only the **active** journey may run
-  an activity.
+- **Show live activity** — starts a Live Activity for the journey,
+  independently from **Show on lockscreen**. Only one journey can have this
+  enabled; enabling it disables the setting on other journeys. Only
+  available when both endpoints are train stations; the toggle is disabled
+  otherwise.
 - **Show near departure** — off by default; only enabled when "Show live
   activity" is on. On: the activity appears only from **one hour before
   the next departure** until the journey ends. Off: the activity is shown

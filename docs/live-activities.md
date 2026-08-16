@@ -6,7 +6,9 @@ the widget extension's `WidgetBundle` as `JourneyLiveActivity`).
 
 ## Behavior
 
-- Only the **active** journey may run a Live Activity.
+- Exactly one journey may have **Show live activity** enabled at a time;
+  enabling it disables the setting for other journeys. This is independent
+  from **Show on lockscreen**.
 - `showsLiveActivity` off → never started; any running activity is ended.
 - Both endpoints must be **train stations** (resolved from the picker
   data; GTFS bus/metro/tram stops are ineligible).
@@ -141,10 +143,11 @@ reasons "it doesn't show" even when the toggle is on:
 - **Simulator**: Live Activities appear in the Simulator's Dynamic
   Island, but the Simulator has no Lock Screen — verify lock-screen
   rendering on a physical iPhone.
-- **Start conditions in the app**: the journey must be active ("Show on
-  lockscreen"), both stops must be train stations, at least one travel
-  day must be configured, and (for automatic starts) the app must have
-  run inside the near-departure window when that mode is on.
+- **Start conditions in the app**: "Show live activity" must be enabled,
+  both stops must be train stations, and at least one travel day must be
+  configured. "Show on lockscreen" is independent. For automatic starts,
+  the app must have run inside the near-departure window when that mode is
+  on.
 - **Update budget**: iOS throttles frequent updates (roughly one per
   minute with regular pushes; frequent-push mode needs the
   `NSSupportsLiveActivitiesFrequentUpdates` key and capability).

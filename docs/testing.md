@@ -60,12 +60,13 @@
 - `JourneyConfig` encodes/decodes both settings; defaults are off.
 - Eligibility: exactly two train stations (GTFS stops and unknown stops
   are ineligible).
-- Decision: inactive/disabled/ineligible/no-journey-date → none; full
+- Decision: disabled/ineligible/no-journey-date → none; full
   mode runs for the whole journey period; near-departure waits until
-  1 hour before departure and runs inside the window; only the active
-  journey runs.
+  1 hour before departure and runs inside the window; a non-active journey
+  can run when Live Activity is enabled.
 - Toggle behavior through `AppState`: disabling live activity clears
-  near-departure; settings persist in the shared store.
+  near-departure; enabling it disables the setting on other journeys;
+  settings persist in the shared store.
 - Cancellation maps to the activity status; the stale date is 5 minutes
   after the last refresh.
 
