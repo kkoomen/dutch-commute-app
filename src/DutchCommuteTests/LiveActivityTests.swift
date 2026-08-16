@@ -183,6 +183,10 @@ final class LiveActivityTests: XCTestCase {
         XCTAssertEqual(LiveActivityManager.staleDate(now: now), now.addingTimeInterval(5 * 60))
     }
 
+    func testRefreshIntervalIsOneMinute() {
+        XCTAssertEqual(LiveActivityManager.refreshInterval, 60)
+    }
+
     // MARK: - Content state (push contract)
 
     func testContentStateRoundTripsWithRouteName() throws {

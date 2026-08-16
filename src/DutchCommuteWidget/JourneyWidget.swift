@@ -242,11 +242,17 @@ private struct StatusLine: View {
 
 /// The app's train logo (asset `logo`), scaled to fit the given height.
 /// Shared by the widget and the Live Activity views.
+///
+/// The asset is a white logo on transparency, so it is rendered as a
+/// template and tinted with the surrounding text color — otherwise it
+/// would be invisible on light backgrounds (e.g. the Live Activity's
+/// white banner surface in light mode).
 struct AppLogo: View {
     var height: CGFloat = 16
 
     var body: some View {
         Image("logo")
+            .renderingMode(.template)
             .resizable()
             .scaledToFit()
             .frame(height: height)

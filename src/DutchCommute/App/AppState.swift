@@ -56,6 +56,14 @@ final class AppState {
            let decoded = try? JSONDecoder().decode([Station].self, from: data) {
             stationHistory = decoded
         }
+        // Refresh the running Live Activity with fresh data while the app
+        // is alive (every `LiveActivityManager.refreshInterval` minutes);
+        // the loop idles without API calls when no activity is running.
+        LiveActivityManager.startPeriodicRefresh { [weak self] in
+            self?.journeys ?? []
+        } choices: { [weak self] in
+            self?.stationChoices ?? []
+        }
     }
 
     /// Records a picked station at the top of the shared history (capped

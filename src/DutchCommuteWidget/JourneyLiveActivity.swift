@@ -9,9 +9,14 @@ import WidgetKit
 /// through the App Group. Colors are resolved explicitly per scheme:
 /// ActivityKit resolves dynamic colors passed to `activityBackgroundTint`
 /// against the wrong (light) appearance on dark devices, so adaptive
-/// colors like `Palette.surface` must not be used here.
+/// colors like `Palette.surface` must not be used here. The device scheme
+/// is read from SwiftUI's `colorScheme` environment — global trait
+/// collections (`UITraitCollection.current`) are not updated reliably in
+/// the Live Activity render context and report light on dark devices.
 struct JourneyLiveActivityView: View {
     let context: ActivityViewContext<JourneyActivityAttributes>
+
+    @Environment(\.colorScheme) private var systemScheme
 
     @AppStorage("appearance", store: UserDefaults(suiteName: AppGroup.identifier) ?? .standard)
     private var appearanceRaw = Appearance.system.rawValue
@@ -22,14 +27,16 @@ struct JourneyLiveActivityView: View {
         switch Appearance(rawValue: appearanceRaw) ?? .system {
         case .light: .light
         case .dark: .dark
-        case .system:
-            UITraitCollection.current.userInterfaceStyle == .dark ? .dark : .light
+        case .system: systemScheme
         }
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(alignment: .firstTextBaseline) {
+                // Same train glyph as the station picker (`TransportMode.train`).
+                Image(systemName: TransportMode.train.icon)
+                    .font(.headline)
                 Text("\(context.state.fromName) → \(context.state.toName)")
                     .font(.headline)
                     .lineLimit(1)
@@ -42,7 +49,6 @@ struct JourneyLiveActivityView: View {
                 }
             }
             HStack(spacing: 5) {
-                AppLogo(height: 15)
                 Text(context.state.routeName)
                 if let track = context.state.track {
                     Text("·")

@@ -25,11 +25,23 @@ the widget extension's `WidgetBundle` as `JourneyLiveActivity`).
 - Content carries a **`staleDate`** (5 minutes after the last refresh) and
   an `isStale` flag; failed refreshes mark the data stale instead of
   claiming freshness.
+- While the **app process is alive**, the running activity is refreshed
+  with live data every **1 minute** (`LiveActivityManager.refreshInterval`:
+  a periodic loop that calls `apply`, fetching the trip from the NS API and
+  updating the activity; it sleeps without API calls when no activity is
+  running). iOS suspends backgrounded apps, so this cadence is only
+  guaranteed while the app runs — an around-the-clock cadence also needs
+  the backend push client (see below). The 5-minute `staleDate` is longer
+  than the refresh interval, so content is only flagged stale when updates
+  actually stop.
 - The Lock Screen card follows the **app's appearance setting**
   (System / Light / Dark), shared with the widget extension through the
   App Group. Colors are resolved explicitly per scheme because
   ActivityKit resolves dynamic colors passed to `activityBackgroundTint`
-  against the light appearance even on dark devices.
+  against the light appearance even on dark devices; the device scheme
+  is read from SwiftUI's `colorScheme` environment (`UITraitCollection
+  .current` reports light on dark devices in the Live Activity render
+  context).
 - The card shows: **"From → To"** as the title, the train and its
   **track** on the second line, and departure time + status below.
   `fromName`/`toName`/`track` are part of `ContentState` because the

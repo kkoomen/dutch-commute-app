@@ -74,6 +74,38 @@ enum LiveActivityManager {
         now.addingTimeInterval(5 * 60)
     }
 
+    // MARK: - Periodic refresh
+
+    /// How often the running Live Activity is refreshed with live data
+    /// while the app process is alive (1 minute). iOS suspends
+    /// backgrounded apps, so an around-the-clock cadence also needs the
+    /// backend push client (`LiveActivityUpdateClient`); in-app, this is
+    /// the refresh interval whenever the app is running. One minute is
+    /// the effective regular-update budget — the system may throttle
+    /// updates that arrive faster (frequent-push mode requires
+    /// `NSSupportsLiveActivitiesFrequentUpdates`).
+    static let refreshInterval: TimeInterval = 60
+
+    private static var refreshTask: Task<Void, Never>?
+
+    /// Starts the periodic refresh loop (idempotent; calling it again
+    /// restarts the loop). While no activity is running the loop sleeps
+    /// without doing any work, so an idle app makes no API calls.
+    static func startPeriodicRefresh(
+        journeys: @escaping () -> [JourneyConfig],
+        choices: @escaping () -> [StationChoice]
+    ) {
+        refreshTask?.cancel()
+        refreshTask = Task { @MainActor in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(refreshInterval))
+                guard !Task.isCancelled else { return }
+                guard !Activity<JourneyActivityAttributes>.activities.isEmpty else { continue }
+                _ = await apply(journeys: journeys(), choices: choices(), now: Date())
+            }
+        }
+    }
+
     // MARK: - ActivityKit
 
     private static var pushTokenTasks: [String: Task<Void, Never>] = [:]
@@ -281,7 +313,7 @@ enum LiveActivityManager {
         Task {
             try? await Task.sleep(for: .seconds(max(0, date.timeIntervalSinceNow)))
             guard !Task.isCancelled else { return }
-            await apply(journeys: journeys, choices: choices, now: Date())
+            _ = await apply(journeys: journeys, choices: choices, now: Date())
         }
     }
 
