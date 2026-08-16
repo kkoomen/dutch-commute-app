@@ -141,8 +141,11 @@ struct JourneyWidgetEntryView: View {
     private var system: some View {
         VStack(alignment: .leading, spacing: 6) {
             if let leg = entry.leg {
-                Text("🚆 \(destinationName)")
-                    .font(.headline)
+                HStack(spacing: 6) {
+                    AppLogo(height: 17)
+                    Text(destinationName)
+                }
+                .font(.headline)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                     .foregroundStyle(Palette.textPrimary)
@@ -192,9 +195,15 @@ struct JourneyWidgetEntryView: View {
 
     private var inline: some View {
         if let leg = entry.leg {
-            Text("🚆 \(destinationName) · \(legKindLabel) \(NSDateParser.timeString(leg.displayedDeparture)) · \(widgetStatusText(leg.status))")
+            HStack(spacing: 4) {
+                AppLogo(height: 12)
+                Text("\(destinationName) · \(legKindLabel) \(NSDateParser.timeString(leg.displayedDeparture)) · \(widgetStatusText(leg.status))")
+            }
         } else {
-            Text("🚆 Dutch Commute")
+            HStack(spacing: 4) {
+                AppLogo(height: 12)
+                Text("Dutch Commute")
+            }
         }
     }
 
@@ -228,6 +237,19 @@ private struct StatusLine: View {
     var body: some View {
         Text(widgetStatusText(status))
             .font(font)
+    }
+}
+
+/// The app's train logo (asset `logo`), scaled to fit the given height.
+/// Shared by the widget and the Live Activity views.
+struct AppLogo: View {
+    var height: CGFloat = 16
+
+    var body: some View {
+        Image("logo")
+            .resizable()
+            .scaledToFit()
+            .frame(height: height)
     }
 }
 
